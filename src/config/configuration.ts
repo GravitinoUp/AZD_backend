@@ -1,0 +1,17 @@
+export default () => ({
+  refresh_secret: process.env.REFRESH_SECRET,
+  access_secret: process.env.ACCESS_SECRET,
+  port: process.env.PORT,
+  dialect: process.env.DIALECT,
+  db_host: process.env.DB_HOST,
+  db_port: process.env.DB_PORT,
+  db_username: process.env.DB_USERNAME,
+  db_password: process.env.DB_PASSWORD,
+  db_name: process.env.DB_NAME,
+  redis_host: process.env.REDIS_HOST,
+  redis_port: process.env.REDIS_PORT,
+  cache_ttl: process.env.CACHE_TTL,
+  throttle_ttl: process.env.THROTTLE_TTL,
+  throttle_limit: process.env.THROTTLE_LIMIT,
+  disable_ssl: process.env.DISABLE_SSL,
+});
