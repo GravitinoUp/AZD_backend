@@ -7,12 +7,43 @@ import { ThrottlerModule } from '@nestjs/throttler'
 import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { AppController } from './app.controller'
+import { AuthModule } from '../auth/auth.module'
+import { LegalBasis } from '../legal-basis/entities/legal-basis.entity'
+import { PersonModule } from '../person/person.module'
+import { RoleModule } from '../role/role.module'
+import { UserModule } from '../user/user.module'
+import { join } from 'path'
+import { AcceptLanguageResolver, I18nModule } from 'nestjs-i18n'
+import { CacheModule } from '@nestjs/cache-manager'
+import { redisStore } from 'cache-manager-redis-yet'
 
 @Module({
   imports: [
+    I18nModule.forRoot({
+      fallbackLanguage: 'ru',
+      fallbacks: {
+        'ru-*': 'ru',
+      },
+      loaderOptions: {
+        path: join(__dirname.split('dist')[0], 'dist/i18n/'),
+        watch: true,
+      },
+      resolvers: [AcceptLanguageResolver],
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [configuration],
+    }),
+    CacheModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      isGlobal: true,
+      useFactory: async (configService: ConfigService) => ({
+        store: redisStore,
+        host: configService.get('redis_host'),
+        port: configService.get('redis_port'),
+        ttl: configService.get('cache_ttl'),
+      }),
     }),
     ScheduleModule.forRoot(),
     ThrottlerModule.forRootAsync({
@@ -38,13 +69,18 @@ import { AppController } from './app.controller'
         username: config.get('db_username'),
         password: config.get('db_password'),
         database: config.get('db_name'),
-        entities: ['dist/src/modules/**/entities/*.entity{.ts,.js}'],
+        entities: ['dist/modules/**/entities/*.entity{.ts,.js}'],
         autoLoadEntities: false,
         synchronize: false,
         migrationsRun: false,
         logging: true,
       }),
     }),
+    AuthModule,
+    LegalBasis,
+    PersonModule,
+    RoleModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

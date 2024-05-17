@@ -1,0 +1,82 @@
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
+import { Role } from './entities/role.entity'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository } from 'typeorm'
+import { ArrayRoleResponse, StatusRoleResponse } from './response'
+import { CreateRoleDto, UpdateRoleDto } from './dto'
+import { RoleFilter } from './filters'
+
+@Injectable()
+export class RoleService {
+  constructor(
+    @InjectRepository(Role)
+    private roleRepository: Repository<Role>,
+  ) {}
+
+  async create(role: CreateRoleDto): Promise<StatusRoleResponse> {
+    try {
+      const newRole = await this.roleRepository
+        .createQueryBuilder()
+        .insert()
+        .values({
+          ...role,
+        })
+        .returning('*')
+        .execute()
+
+      return { status: true, data: newRole.raw[0] }
+    } catch (error) {
+      throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
+
+  async findAll(roleFilter: RoleFilter): Promise<ArrayRoleResponse> {
+    try {
+      const roles = await this.roleRepository
+        .createQueryBuilder()
+        .select()
+        .where(roleFilter.filter)
+        .orderBy({ ...roleFilter.sorts })
+        .offset(roleFilter.offset.count * (roleFilter.offset.page - 1))
+        .limit(roleFilter.offset.count)
+        .getManyAndCount()
+
+      return { count: roles[1], data: roles[0] }
+    } catch (error) {
+      console.log(error)
+      throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
+
+  async isExists(role_uuid: string): Promise<boolean> {
+    try {
+      const isRoleExists = await this.roleRepository
+        .createQueryBuilder()
+        .select()
+        .where('role_uuid = :role_uuid', { role_uuid })
+        .getExists()
+
+      return isRoleExists
+    } catch (error) {
+      console.log(error)
+      throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
+
+  async update(role: UpdateRoleDto): Promise<StatusRoleResponse> {
+    try {
+      const updateRole = await this.roleRepository
+        .createQueryBuilder()
+        .update()
+        .where('role_uuid = :role_uuid', { role_uuid: role.role_uuid })
+        .set({
+          ...role,
+        })
+        .execute()
+
+      return { status: updateRole.affected !== 0 }
+    } catch (error) {
+      throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
+}

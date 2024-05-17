@@ -1,7 +1,7 @@
-import { DataSource } from 'typeorm';
-import { config as dotenvConfig } from 'dotenv';
+import { DataSource } from 'typeorm'
+import { config as dotenvConfig } from 'dotenv'
 
-dotenvConfig({ path: '.env' });
+dotenvConfig({ path: '.env' })
 
 export const SeedsDataSource = new DataSource({
   type: 'postgres',
@@ -10,8 +10,8 @@ export const SeedsDataSource = new DataSource({
   username: `${process.env.DB_USERNAME}`,
   password: `${process.env.DB_PASSWORD}`,
   database: `${process.env.DB_NAME}`,
-  entities: ['dist/src/modules/**/entities/*.entity{.ts,.js}'],
-  migrations: ['dist/src/db/migrations/*{.ts,.js}'],
+  entities: ['dist/modules/**/entities/*.entity{.ts,.js}'],
+  migrations: ['dist/db/migrations/*{.ts,.js}'],
   migrationsTableName: 'migrations',
   synchronize: true,
-});
+})
