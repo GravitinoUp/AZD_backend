@@ -5,6 +5,15 @@ export const AppStrings = {
 
   ASC: 'ASC',
 
+  PERMISSION_CREATE_RESPONSE: 'Разрешение создано',
+  PERMISSION_CREATE_OPERATION: 'Создание разрешения',
+  PERMISSION_ALL_RESPONSE: 'Список разрешений получен',
+  PERMISSION_ALL_OPERATION: 'Получение списка всех разрешений',
+  PERMISSION_UPDATE_RESPONSE: 'Разрешение изменено',
+  PERMISSION_UPDATE_OPERATION: 'Изменение разрешения',
+  PERMISSION_DELETE_RESPONSE: 'Разрешение удалено',
+  PERMISSION_DELETE_OPERATION: 'Удаление разрешения',
+
   ROLE_CREATE_RESPONSE: 'Роль создана',
   ROLE_CREATE_OPERATION: 'Создание роли',
   ROLE_ALL_RESPONSE: 'Список ролей получен',
@@ -13,6 +22,19 @@ export const AppStrings = {
   ROLE_UPDATE_OPERATION: 'Изменение роли',
   ROLE_DELETE_RESPONSE: 'Роль удалена',
   ROLE_DELETE_OPERATION: 'Удаление роли',
+
+  ROLE_PERMISSION_CREATED_RESPONSE: 'Разрешение добавлено',
+  ROLE_PERMISSION_CREATE_OPERATION: 'Добавление разрешения',
+  ROLE_PERMISSIONS_CREATED_RESPONSE: 'Разрешения добавлены',
+  ROLE_PERMISSIONS_CREATE_OPERATION: 'Добавление разрешений',
+  ROLE_PERMISSION_ALL_RESPONSE: 'Список разрешений получен',
+  ROLE_PERMISSION_ALL_OPERATION: 'Получение списка всех разрешений',
+  ROLE_PERMISSION_MY_RESPONSE: 'Список разрешений пользователя получен',
+  ROLE_PERMISSION_MY_OPERATION: 'Получение списка всех разрешений пользователя',
+  ROLE_PERMISSION_UPDATE_RESPONSE: 'Разрешение изменено',
+  ROLE_PERMISSION_UPDATE_OPERATION: 'Изменение разрешения',
+  ROLE_PERMISSION_DELETE_RESPONSE: 'Разрешение удалено',
+  ROLE_PERMISSION_DELETE_OPERATION: 'Удаление разрешения',
 
   USERS_CREATE_OPERATION: 'Регистрация пользователя',
   USERS_CREATE_RESPONSE: 'Пользователь успешно зарегистрирован',

@@ -4,5 +4,7 @@ export const RolesEnum = {
 }
 
 export const CacheRoutes = {
+  PERMISSIONS: 'permission',
   ROLES: 'role',
+  ROLES_PERMISSIONS: 'role-permission',
 }
