@@ -35,7 +35,7 @@ export class RoleService {
       const roles = await this.roleRepository
         .createQueryBuilder()
         .select()
-        .where(roleFilter.filter)
+        .where({ ...roleFilter.filter })
         .orderBy({ ...roleFilter.sorts })
         .offset(roleFilter.offset.count * (roleFilter.offset.page - 1))
         .limit(roleFilter.offset.count)

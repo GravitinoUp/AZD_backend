@@ -5,6 +5,26 @@ export const AppStrings = {
 
   ASC: 'ASC',
 
+  ORGANIZATION_CREATED_RESPONSE: 'Организация создана',
+  ORGANIZATION_CREATE_OPERATION: 'Создание организации',
+  ORGANIZATION_ALL_RESPONSE: 'Список организаций получен',
+  ORGANIZATION_ALL_OPERATION: 'Получение списка всех организаций',
+  ORGANIZATION_MY_RESPONSE: 'Список организаций пользователя получен',
+  ORGANIZATION_MY_OPERATION: 'Получение списка всех организаций пользователя',
+  ORGANIZATION_ALL_BY_CHECKPOINT_RESPONSE: 'Список организаций получен',
+  ORGANIZATION_ALL_BY_CHECKPOINT_OPERATION: 'Получение списка всех организаций по пункту пропуска',
+  ORGANIZATION_UPDATE_RESPONSE: 'Организация изменена',
+  ORGANIZATION_UPDATE_OPERATION: 'Изменение организации',
+  ORGANIZATION_DELETE_RESPONSE: 'Организация удалена',
+  ORGANIZATION_DELETE_OPERATION: 'Удаление организации',
+  ORGANIZATION_IMPORT_RESPONSE: 'Организации импортированы',
+  ORGANIZATION_IMPORT_OPERATION: 'Импорт организаций',
+  ORGANIZATION_IMPORT_UPLOAD_RESPONSE: 'Файл импорта загружен',
+  ORGANIZATION_IMPORT_UPLOAD_OPERATION: 'Предпросмотр импорта организаций',
+
+  ORGANIZATION_TYPE_ALL_RESPONSE: 'Список типов организаций получен',
+  ORGANIZATION_TYPE_ALL_OPERATION: 'Получение списка всех типов организаций',
+
   PERMISSION_CREATE_RESPONSE: 'Разрешение создано',
   PERMISSION_CREATE_OPERATION: 'Создание разрешения',
   PERMISSION_ALL_RESPONSE: 'Список разрешений получен',

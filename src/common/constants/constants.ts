@@ -4,7 +4,14 @@ export const RolesEnum = {
 }
 
 export const CacheRoutes = {
+  ORGANIZATIONS: 'organization',
+  ORGANIZATION_TYPES: 'organization_type',
   PERMISSIONS: 'permission',
   ROLES: 'role',
   ROLES_PERMISSIONS: 'role-permission',
+}
+
+export const DefaultPagination = {
+  COUNT: 50,
+  PAGE: 1,
 }

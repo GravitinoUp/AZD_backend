@@ -18,6 +18,8 @@ import { CacheModule } from '@nestjs/cache-manager'
 import { redisStore } from 'cache-manager-redis-yet'
 import { PermissionModule } from '../permission/permission.module'
 import { RolePermissionModule } from '../role-permission/role-permission.module'
+import { OrganizationModule } from '../organization/organization.module'
+import { OrganizationTypeModule } from '../organization-type/organization-type.module'
 
 @Module({
   imports: [
@@ -80,6 +82,8 @@ import { RolePermissionModule } from '../role-permission/role-permission.module'
     }),
     AuthModule,
     LegalBasis,
+    OrganizationModule,
+    OrganizationTypeModule,
     PermissionModule,
     PersonModule,
     RoleModule,
