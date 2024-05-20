@@ -1,10 +1,22 @@
-import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common'
+import {
+  ExecutionContext,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common'
+import { GqlExecutionContext } from '@nestjs/graphql'
 import { AuthGuard } from '@nestjs/passport'
 import { JsonWebTokenError } from 'jsonwebtoken'
 import { AppErrors } from 'src/common/constants/errors'
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
+  getRequest(context: ExecutionContext) {
+    const ctx = GqlExecutionContext.create(context)
+    return ctx.getContext().req
+  }
+
   handleRequest(err: any, user: any, info: any, context: any, status: any) {
     try {
       if (info instanceof JsonWebTokenError) {

@@ -18,6 +18,8 @@ import { CacheModule } from '@nestjs/cache-manager'
 import { redisStore } from 'cache-manager-redis-yet'
 import { PermissionModule } from '../permission/permission.module'
 import { RolePermissionModule } from '../role-permission/role-permission.module'
+import { GraphQLModule } from '@nestjs/graphql'
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 
 @Module({
   imports: [
@@ -60,6 +62,13 @@ import { RolePermissionModule } from '../role-permission/role-permission.module'
           },
         ],
       }),
+    }),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      playground: true,
+      autoSchemaFile: true,
+      sortSchema: true,
+      include: [RoleModule],
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],

@@ -6,6 +6,7 @@ import { ValidationPipe } from '@nestjs/common'
 import { AppStrings } from './common/constants/strings'
 
 async function bootstrap() {
+  //TYPEORM NEST
   const app = await NestFactory.create(AppModule, {})
   const configService = app.get(ConfigService)
 
@@ -48,6 +49,8 @@ async function bootstrap() {
   })
 
   app.useGlobalPipes(new ValidationPipe())
+
+  // APP START
   await app.listen(port)
 }
 bootstrap()

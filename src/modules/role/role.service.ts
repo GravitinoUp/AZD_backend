@@ -5,6 +5,7 @@ import { Repository } from 'typeorm'
 import { ArrayRoleResponse, StatusRoleResponse } from './response'
 import { CreateRoleDto, UpdateRoleDto } from './dto'
 import { RoleFilter } from './filters'
+import { DefaultPagination } from 'src/common/constants/constants'
 
 @Injectable()
 export class RoleService {
@@ -32,13 +33,16 @@ export class RoleService {
 
   async findAll(roleFilter: RoleFilter): Promise<ArrayRoleResponse> {
     try {
+      const count = roleFilter?.offset?.count ?? DefaultPagination.COUNT
+      const page = roleFilter?.offset?.page ?? DefaultPagination.PAGE
+
       const roles = await this.roleRepository
         .createQueryBuilder()
         .select()
-        .where(roleFilter.filter)
+        .where(roleFilter?.filter ?? '')
         .orderBy({ ...roleFilter.sorts })
-        .offset(roleFilter.offset.count * (roleFilter.offset.page - 1))
-        .limit(roleFilter.offset.count)
+        .offset(count * (page - 1))
+        .limit(count)
         .getManyAndCount()
 
       return { count: roles[1], data: roles[0] }

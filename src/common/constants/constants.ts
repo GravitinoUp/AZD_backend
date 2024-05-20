@@ -8,3 +8,8 @@ export const CacheRoutes = {
   ROLES: 'role',
   ROLES_PERMISSIONS: 'role-permission',
 }
+
+export const DefaultPagination = {
+  COUNT: 50,
+  PAGE: 1,
+}

@@ -5,6 +5,7 @@ import {
   UnauthorizedException,
   ForbiddenException,
 } from '@nestjs/common'
+import { GqlExecutionContext } from '@nestjs/graphql'
 import { I18nService } from 'nestjs-i18n'
 import { UserService } from 'src/modules/user/user.service'
 
@@ -16,7 +17,15 @@ export class ActiveGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const { user } = context.switchToHttp().getRequest()
+    let user
+    if (context.getType().toString() === 'graphql') {
+      const ctx = GqlExecutionContext.create(context)
+      const req = ctx.getContext().req
+
+      user = req.user
+    } else {
+      user = context.switchToHttp().getRequest()
+    }
 
     if (!user) {
       throw new UnauthorizedException(this.i18n.t('errors.user_deactivated'))

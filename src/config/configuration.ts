@@ -1,7 +1,8 @@
 export default () => ({
   refresh_secret: process.env.REFRESH_SECRET,
   access_secret: process.env.ACCESS_SECRET,
-  port: process.env.PORT,
+  graphql_port: process.env.PORT,
+  port: process.env.GRAPHQL_PORT,
   dialect: process.env.DIALECT,
   db_host: process.env.DB_HOST,
   db_port: process.env.DB_PORT,
@@ -14,4 +15,4 @@ export default () => ({
   throttle_ttl: process.env.THROTTLE_TTL,
   throttle_limit: process.env.THROTTLE_LIMIT,
   disable_ssl: process.env.DISABLE_SSL,
-});
+})
