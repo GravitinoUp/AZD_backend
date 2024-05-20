@@ -16,6 +16,10 @@ import { join } from 'path'
 import { AcceptLanguageResolver, I18nModule } from 'nestjs-i18n'
 import { CacheModule } from '@nestjs/cache-manager'
 import { redisStore } from 'cache-manager-redis-yet'
+import { PermissionModule } from '../permission/permission.module'
+import { RolePermissionModule } from '../role-permission/role-permission.module'
+import { OrganizationModule } from '../organization/organization.module'
+import { OrganizationTypeModule } from '../organization-type/organization-type.module'
 
 @Module({
   imports: [
@@ -78,8 +82,12 @@ import { redisStore } from 'cache-manager-redis-yet'
     }),
     AuthModule,
     LegalBasis,
+    OrganizationModule,
+    OrganizationTypeModule,
+    PermissionModule,
     PersonModule,
     RoleModule,
+    RolePermissionModule,
     UserModule,
   ],
   controllers: [AppController],

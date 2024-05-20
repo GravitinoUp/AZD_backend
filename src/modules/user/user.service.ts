@@ -76,7 +76,7 @@ export class UserService {
           .leftJoinAndSelect('user.role', 'role')
           .leftJoinAndSelect('user.person', 'person')
       }
-      query = query.where('user.user_uuid = :user_uuid', { user_uuid })
+      query = query.where({ user_uuid })
 
       const user = await query.getOne()
       delete user['password']
@@ -155,7 +155,7 @@ export class UserService {
         .useTransaction(true)
         .update()
         .set({ ...user })
-        .where('person_uuid = :person_uuid', { person_uuid: user_uuid })
+        .where({ person_uuid: user_uuid })
         .execute()
 
       if (updatePerson.affected != 0) {
@@ -182,7 +182,7 @@ export class UserService {
       const user = await this.usersRepository
         .createQueryBuilder('user')
         .select(['user.password'])
-        .where('user.user_uuid = :user_uuid', { user_uuid })
+        .where({ user_uuid })
         .getOne()
 
       if (await bcrypt.compare(updateUserPasswordDto.old_password, user.password)) {
@@ -191,7 +191,7 @@ export class UserService {
           .createQueryBuilder()
           .update()
           .set({ password: newPassword })
-          .where('user_uuid = :user_uuid', { user_uuid })
+          .where({ user_uuid })
           .execute()
 
         if (updateUserPassword.affected > 0) {
@@ -255,7 +255,7 @@ export class UserService {
         .createQueryBuilder()
         .update()
         .set({ is_active: false })
-        .where('user_uuid = :user_uuid', { user_uuid })
+        .where({ user_uuid })
         .execute()
 
       if (deleteUser.affected != 0) {

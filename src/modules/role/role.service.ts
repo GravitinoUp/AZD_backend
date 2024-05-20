@@ -35,7 +35,7 @@ export class RoleService {
       const roles = await this.roleRepository
         .createQueryBuilder()
         .select()
-        .where(roleFilter.filter)
+        .where({ ...roleFilter.filter })
         .orderBy({ ...roleFilter.sorts })
         .offset(roleFilter.offset.count * (roleFilter.offset.page - 1))
         .limit(roleFilter.offset.count)
@@ -48,12 +48,12 @@ export class RoleService {
     }
   }
 
-  async isExists(role_uuid: string): Promise<boolean> {
+  async isExists(role_id: number): Promise<boolean> {
     try {
       const isRoleExists = await this.roleRepository
         .createQueryBuilder()
         .select()
-        .where('role_uuid = :role_uuid', { role_uuid })
+        .where({ role_id })
         .getExists()
 
       return isRoleExists
@@ -68,7 +68,7 @@ export class RoleService {
       const updateRole = await this.roleRepository
         .createQueryBuilder()
         .update()
-        .where('role_uuid = :role_uuid', { role_uuid: role.role_uuid })
+        .where({ role_id: role.role_id })
         .set({
           ...role,
         })

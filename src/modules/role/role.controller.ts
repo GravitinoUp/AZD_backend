@@ -99,7 +99,7 @@ export class RoleController {
   })
   @Patch()
   async update(@Body() updateRoleDto: UpdateRoleDto) {
-    const isExists = await this.roleService.isExists(updateRoleDto.role_uuid)
+    const isExists = await this.roleService.isExists(updateRoleDto.role_id)
 
     if (!isExists) {
       throw new NotFoundException(this.i18n.t('errors.role_not_found'))

@@ -1,8 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger'
 import BaseModel from 'src/common/model'
+import { Auth } from 'src/modules/auth/entities/auth.entity'
 import { Person } from 'src/modules/person/entities/person.entity'
+import { RolePermission } from 'src/modules/role-permission/entities/role-permission.entity'
 import { Role } from 'src/modules/role/entities/role.entity'
-import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn } from 'typeorm'
+import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn, OneToMany } from 'typeorm'
 
 @Entity({ name: 'Users' })
 export class User extends BaseModel {
@@ -44,6 +46,12 @@ export class User extends BaseModel {
   @ApiProperty()
   password: string
 
-  // @OneToMany(() => Auth, (auth) => auth.user, { cascade: true, eager: true })
-  // auths: Auth[]
+  @OneToMany(() => Auth, (auth) => auth.user, { cascade: true, eager: true })
+  auths: Auth[]
+
+  @OneToMany(() => RolePermission, (rolePermission) => rolePermission.role_permission_id, {
+    cascade: true,
+    eager: true,
+  })
+  role_permissions: RolePermission[]
 }
