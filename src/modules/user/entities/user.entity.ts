@@ -16,7 +16,7 @@ export class User extends BaseModel {
   @ApiProperty()
   person_uuid: string
 
-  @ManyToOne(() => Person, (person) => person.person_uuid)
+  @ManyToOne(() => Person, (person) => person.users)
   @JoinColumn({ name: 'person_uuid', referencedColumnName: 'person_uuid' })
   @ApiProperty()
   person: Person
@@ -25,7 +25,7 @@ export class User extends BaseModel {
   @ApiProperty()
   role_id: number
 
-  @ManyToOne(() => Role, (role) => role.role_id)
+  @ManyToOne(() => Role, (role) => role.users)
   @JoinColumn({ name: 'role_id', referencedColumnName: 'role_id' })
   @ApiProperty()
   role: Role
@@ -49,7 +49,7 @@ export class User extends BaseModel {
   @OneToMany(() => Auth, (auth) => auth.user, { cascade: true, eager: true })
   auths: Auth[]
 
-  @OneToMany(() => RolePermission, (rolePermission) => rolePermission.role_permission_id, {
+  @OneToMany(() => RolePermission, (rolePermission) => rolePermission.user, {
     cascade: true,
     eager: true,
   })

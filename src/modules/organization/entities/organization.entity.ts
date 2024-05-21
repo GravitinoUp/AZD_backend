@@ -14,7 +14,7 @@ export class Organization extends BaseModel {
   @ApiProperty()
   organization_type_id: number
 
-  @ManyToOne(() => OrganizationType, (type) => type.organization_type_id)
+  @ManyToOne(() => OrganizationType, (type) => type.organizations)
   @JoinColumn({ name: 'organization_type_id', referencedColumnName: 'organization_type_id' })
   @ApiProperty()
   organization_type: OrganizationType
@@ -23,7 +23,7 @@ export class Organization extends BaseModel {
   @ApiProperty()
   contact_person_uuid: string
 
-  @ManyToOne(() => Person, (person) => person.person_uuid)
+  @ManyToOne(() => Person, (person) => person.organizations)
   @JoinColumn({ name: 'contact_person_uuid', referencedColumnName: 'person_uuid' })
   @ApiProperty()
   contact_person: Person

@@ -13,7 +13,7 @@ export class OrganizationType extends BaseModel {
   @ApiProperty()
   organization_type_name: string
 
-  @OneToMany(() => Organization, (organization) => organization.organization_uuid, {
+  @OneToMany(() => Organization, (organization) => organization.organization_type, {
     cascade: true,
     eager: true,
   })

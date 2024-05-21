@@ -13,7 +13,7 @@ export class Auth extends BaseModel {
   @ApiProperty()
   user_uuid: string
 
-  @ManyToOne(() => User, (user) => user.user_uuid)
+  @ManyToOne(() => User, (user) => user.auths)
   @JoinColumn({ name: 'user_uuid', referencedColumnName: 'user_uuid' })
   @ApiProperty()
   user: User

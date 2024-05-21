@@ -28,7 +28,7 @@ export class SeedUsers1714212775058 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.clearTable('People')
     await queryRunner.clearTable('Users')
+    await queryRunner.clearTable('People')
   }
 }
