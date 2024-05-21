@@ -34,6 +34,15 @@ export const AppStrings = {
   PERMISSION_DELETE_RESPONSE: 'Разрешение удалено',
   PERMISSION_DELETE_OPERATION: 'Удаление разрешения',
 
+  PROPERTY_CREATE_RESPONSE: 'Характеристика создана',
+  PROPERTY_CREATE_OPERATION: 'Создание характеристики',
+  PROPERTY_ALL_RESPONSE: 'Список характеристик получен',
+  PROPERTY_ALL_OPERATION: 'Получение списка всех характеристик',
+  PROPERTY_UPDATE_RESPONSE: 'Характеристика изменена',
+  PROPERTY_UPDATE_OPERATION: 'Изменение характеристики',
+  PROPERTY_DELETE_RESPONSE: 'Характеристика удалена',
+  PROPERTY_DELETE_OPERATION: 'Удаление характеристики',
+
   ROLE_CREATE_RESPONSE: 'Роль создана',
   ROLE_CREATE_OPERATION: 'Создание роли',
   ROLE_ALL_RESPONSE: 'Список ролей получен',

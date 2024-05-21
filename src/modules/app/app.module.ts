@@ -20,6 +20,7 @@ import { PermissionModule } from '../permission/permission.module'
 import { RolePermissionModule } from '../role-permission/role-permission.module'
 import { OrganizationModule } from '../organization/organization.module'
 import { OrganizationTypeModule } from '../organization-type/organization-type.module'
+import { PropertiesModule } from '../properties/properties.module'
 
 @Module({
   imports: [
@@ -86,6 +87,7 @@ import { OrganizationTypeModule } from '../organization-type/organization-type.m
     OrganizationTypeModule,
     PermissionModule,
     PersonModule,
+    PropertiesModule,
     RoleModule,
     RolePermissionModule,
     UserModule,
