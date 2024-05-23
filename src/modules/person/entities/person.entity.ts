@@ -36,9 +36,9 @@ export class Person extends BaseModel {
   @ApiProperty()
   legal_basis: LegalBasis
 
-  @OneToMany(() => User, (user) => user.person, { cascade: true, eager: true })
+  @OneToMany(() => User, (user) => user.person, { cascade: true })
   users: User[]
 
-  @OneToMany(() => Organization, (organization) => organization.contact_person, { cascade: true, eager: true })
+  @OneToMany(() => Organization, (organization) => organization.contact_person, { cascade: true })
   organizations: Organization[]
 }

@@ -21,6 +21,8 @@ import { RolePermissionModule } from '../role-permission/role-permission.module'
 import { OrganizationModule } from '../organization/organization.module'
 import { OrganizationTypeModule } from '../organization-type/organization-type.module'
 import { PropertiesModule } from '../properties/properties.module'
+import { PlanWayModule } from '../plan-way/plan-way.module'
+import { PlanModule } from '../plan/plan.module'
 
 @Module({
   imports: [
@@ -87,6 +89,8 @@ import { PropertiesModule } from '../properties/properties.module'
     OrganizationTypeModule,
     PermissionModule,
     PersonModule,
+    PlanModule,
+    PlanWayModule,
     PropertiesModule,
     RoleModule,
     RolePermissionModule,

@@ -34,6 +34,18 @@ export const AppStrings = {
   PERMISSION_DELETE_RESPONSE: 'Разрешение удалено',
   PERMISSION_DELETE_OPERATION: 'Удаление разрешения',
 
+  PLAN_CREATE_RESPONSE: 'План-график создан',
+  PLAN_CREATE_OPERATION: 'Создание плана-графика',
+  PLAN_ALL_RESPONSE: 'Список планов-графиков получен',
+  PLAN_ALL_OPERATION: 'Получение списка всех планов-графиков',
+  PLAN_UPDATE_RESPONSE: 'План-график изменен',
+  PLAN_UPDATE_OPERATION: 'Изменение плана-графика',
+  PLAN_DELETE_RESPONSE: 'План-график удалено',
+  PLAN_DELETE_OPERATION: 'Удаление плана-графика',
+
+  PLAN_WAY_ALL_RESPONSE: 'Список способов получен',
+  PLAN_WAY_ALL_OPERATION: 'Получение списка всех способов',
+
   PROPERTY_CREATE_RESPONSE: 'Характеристика создана',
   PROPERTY_CREATE_OPERATION: 'Создание характеристики',
   PROPERTY_ALL_RESPONSE: 'Список характеристик получен',

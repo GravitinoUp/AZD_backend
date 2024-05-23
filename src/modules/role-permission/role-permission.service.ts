@@ -23,9 +23,7 @@ export class RolePermissionService {
     private dataSource: DataSource,
   ) {}
 
-  async create(
-    rolePermissionDto: CreateRolesPermissionDto,
-  ): Promise<StatusArrayRolePermissionResponse> {
+  async create(rolePermissionDto: CreateRolesPermissionDto): Promise<StatusArrayRolePermissionResponse> {
     const queryRunner = this.dataSource.createQueryRunner()
     await queryRunner.connect()
 
@@ -55,10 +53,7 @@ export class RolePermissionService {
 
   async findAll(): Promise<ArrayRolePermissionResponse> {
     try {
-      const rolePermissions = await this.rolePermissionRepository
-        .createQueryBuilder()
-        .select()
-        .getManyAndCount()
+      const rolePermissions = await this.rolePermissionRepository.createQueryBuilder().select().getManyAndCount()
 
       return { count: rolePermissions[1], data: rolePermissions[0] }
     } catch (error) {
@@ -136,15 +131,11 @@ export class RolePermissionService {
   }
 
   async checkPermission(permission_id: string, user_uuid: string): Promise<boolean> {
-    const user = await this.userRepository
-      .createQueryBuilder()
-      .select()
-      .where({ user_uuid })
-      .getOne()
+    const user = await this.userRepository.createQueryBuilder().select().where({ user_uuid }).getOne()
 
     if (!user) {
       return false
-    } else if (user.role.role_id == RolesEnum.ADMIN) {
+    } else if (user.role_id == RolesEnum.ADMIN) {
       return true
     } else {
       const permission = await this.permissionService.isExists(permission_id)
@@ -155,7 +146,7 @@ export class RolePermissionService {
       const rolePermission = await this.rolePermissionRepository
         .createQueryBuilder()
         .select()
-        .where({ permission_id, role_id: user.role.role_id })
+        .where({ permission_id, role_id: user.role_id })
         .getOne()
 
       const userPermission = await this.rolePermissionRepository
