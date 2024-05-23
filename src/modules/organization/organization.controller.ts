@@ -50,10 +50,10 @@ export class OrganizationController {
   @Post()
   async create(@Body() organization: CreateOrganizationDto) {
     const isOrganizationTypeExists = await this.organizationTypeService.isExists(organization.organization_type_id)
-    if (isOrganizationTypeExists) throw new NotFoundException(this.i18n.t('errors.organization_type_not_found'))
+    if (!isOrganizationTypeExists) throw new NotFoundException(this.i18n.t('errors.organization_type_not_found'))
 
     const isPersonExists = await this.personService.isExists(organization.contact_person_uuid)
-    if (isPersonExists) throw new NotFoundException(this.i18n.t('errors.person_not_found'))
+    if (!isPersonExists) throw new NotFoundException(this.i18n.t('errors.person_not_found'))
 
     const result = await this.organizationService.create(organization)
     await this.clearCache()
@@ -80,9 +80,9 @@ export class OrganizationController {
     }
   }
 
-  @ApiOperation({ summary: AppStrings.ORGANIZATION_TYPE_ALL_OPERATION })
+  @ApiOperation({ summary: AppStrings.ORGANIZATION_ALL_OPERATION })
   @ApiOkResponse({
-    description: AppStrings.ORGANIZATION_TYPE_ALL_RESPONSE,
+    description: AppStrings.ORGANIZATION_ALL_RESPONSE,
     type: ArrayOrganizationTypeResponse,
   })
   @Get('all')

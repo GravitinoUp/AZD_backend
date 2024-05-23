@@ -2,7 +2,8 @@ import { ApiProperty } from '@nestjs/swagger'
 import BaseModel from 'src/common/model'
 import { OrganizationType } from 'src/modules/organization-type/entities/organization-type.entity'
 import { Person } from 'src/modules/person/entities/person.entity'
-import { Entity, Column, PrimaryColumn, JoinColumn, ManyToOne } from 'typeorm'
+import { Plan } from 'src/modules/plan/entities/plan.entity'
+import { Entity, Column, PrimaryColumn, JoinColumn, ManyToOne, OneToMany } from 'typeorm'
 
 @Entity({ name: 'Organizations' })
 export class Organization extends BaseModel {
@@ -91,4 +92,7 @@ export class Organization extends BaseModel {
   @Column({ nullable: true })
   @ApiProperty({ required: false })
   web_site?: string
+
+  @OneToMany(() => Plan, (plan) => plan.branch, { cascade: true })
+  plans: Plan[]
 }

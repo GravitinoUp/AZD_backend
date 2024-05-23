@@ -17,6 +17,6 @@ export class PropertyName extends BaseModel {
   @ApiProperty()
   entity_name: string
 
-  @OneToMany(() => PropertyValue, (value) => value.property_name, { cascade: true, eager: true })
+  @OneToMany(() => PropertyValue, (value) => value.property_name, { cascade: true })
   values: PropertyValue[]
 }

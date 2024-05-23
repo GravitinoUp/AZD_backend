@@ -21,6 +21,6 @@ export class LegalBasis extends BaseModel {
   @ApiProperty()
   legal_basis_date: Date
 
-  @OneToMany(() => Person, (person) => person.legal_basis, { cascade: true, eager: true })
+  @OneToMany(() => Person, (person) => person.legal_basis, { cascade: true })
   people: Person[]
 }

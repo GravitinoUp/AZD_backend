@@ -13,6 +13,6 @@ export class Role extends BaseModel {
   @ApiProperty()
   role_name: string
 
-  @OneToMany(() => User, (user) => user.role, { cascade: true, eager: true })
+  @OneToMany(() => User, (user) => user.role, { cascade: true })
   users: User[]
 }
