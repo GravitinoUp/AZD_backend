@@ -1,18 +1,22 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
+import { ForbiddenException, HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { Plan } from './entities/plan.entity'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { CreatePlanDto } from './dto'
+import { CreatePlanDto, UpdatePlanDto } from './dto'
 import { ArrayPlanResponse, StatusPlanResponse } from './response'
 import { DefaultPagination } from 'src/common/constants/constants'
 import { PlanFilter } from './filter'
 import { formatFilter } from 'src/utils/format-filter'
+import { RolePermissionService } from '../role-permission/role-permission.service'
+import { I18nService } from 'nestjs-i18n'
 
 @Injectable()
 export class PlanService {
   constructor(
     @InjectRepository(Plan)
     private planRepository: Repository<Plan>,
+    private readonly rolesPermissionsService: RolePermissionService,
+    private readonly i18n: I18nService,
   ) {}
 
   async create(plan: CreatePlanDto): Promise<StatusPlanResponse> {
@@ -60,6 +64,32 @@ export class PlanService {
       return isExists
     } catch (error) {
       console.log(error)
+      throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
+
+  async update(plan: UpdatePlanDto, user_uuid: string): Promise<StatusPlanResponse> {
+    try {
+      for (const key of Object.keys(plan)) {
+        if (key == 'plan_uuid') continue
+
+        const isHasPermission = await this.rolesPermissionsService.checkPermission(`plan.${key}`, user_uuid)
+        if (!isHasPermission) {
+          throw new ForbiddenException(`${this.i18n.t('errors.cannot_change_field')} (${key})`)
+        }
+      }
+
+      const updatePlan = await this.planRepository
+        .createQueryBuilder()
+        .update()
+        .where({ plan_uuid: plan.plan_uuid })
+        .set({
+          ...plan,
+        })
+        .execute()
+
+      return { status: updatePlan.affected !== 0 }
+    } catch (error) {
       throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
     }
   }

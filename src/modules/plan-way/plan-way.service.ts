@@ -32,4 +32,15 @@ export class PlanWayService {
       throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
     }
   }
+
+  async isExists(way_id: number): Promise<boolean> {
+    try {
+      const isExists = await this.planWayRepository.createQueryBuilder().select().where({ way_id }).getExists()
+
+      return isExists
+    } catch (error) {
+      console.log(error)
+      throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
 }

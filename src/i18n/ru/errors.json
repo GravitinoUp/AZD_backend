@@ -9,5 +9,8 @@
   "page_not_found": "Страница не найдена!",
   "data_not_found": "Ошибка получения данных (404)!",
   "organization_type_not_found": "Тип огранизации не найден!",
-  "person_not_found": "Ответственное лицо не найдено!"
+  "organization_not_found": "Огранизация не найдена!",
+  "person_not_found": "Ответственное лицо не найдено!",
+  "plan_not_found": "План не найден!",
+  "cannot_change_field": "Вы не можете изменить данное поле"
 }
