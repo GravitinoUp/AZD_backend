@@ -72,9 +72,7 @@ export class UserService {
     try {
       let query = this.usersRepository.createQueryBuilder('user').select()
       if (includeJoins) {
-        query = query
-          .leftJoinAndSelect('user.role', 'role')
-          .leftJoinAndSelect('user.person', 'person')
+        query = query.leftJoinAndSelect('user.role', 'role').leftJoinAndSelect('user.person', 'person')
       }
       query = query.where({ user_uuid })
 
@@ -88,7 +86,7 @@ export class UserService {
     }
   }
 
-  async isUserExists({
+  async isExists({
     phone,
     email,
     user_uuid,
@@ -174,10 +172,7 @@ export class UserService {
     }
   }
 
-  async updatePassword(
-    updateUserPasswordDto: UpdateUserPasswordDto,
-    user_uuid: string,
-  ): Promise<StatusUserResponse> {
+  async updatePassword(updateUserPasswordDto: UpdateUserPasswordDto, user_uuid: string): Promise<StatusUserResponse> {
     try {
       const user = await this.usersRepository
         .createQueryBuilder('user')
@@ -200,10 +195,7 @@ export class UserService {
           return { status: false }
         }
       } else {
-        throw new HttpException(
-          await this.i18n.t('errors.password_mismatch'),
-          HttpStatus.BAD_REQUEST,
-        )
+        throw new HttpException(await this.i18n.t('errors.password_mismatch'), HttpStatus.BAD_REQUEST)
       }
     } catch (error) {
       console.log(error)

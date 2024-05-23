@@ -39,7 +39,7 @@ export class RoleService {
       const roles = await this.roleRepository
         .createQueryBuilder()
         .select()
-        .where(roleFilter?.filter ?? '')
+        .where({ ...roleFilter.filter })
         .orderBy({ ...roleFilter.sorts })
         .offset(count * (page - 1))
         .limit(count)
@@ -54,11 +54,7 @@ export class RoleService {
 
   async isExists(role_id: number): Promise<boolean> {
     try {
-      const isRoleExists = await this.roleRepository
-        .createQueryBuilder()
-        .select()
-        .where({ role_id })
-        .getExists()
+      const isRoleExists = await this.roleRepository.createQueryBuilder().select().where({ role_id }).getExists()
 
       return isRoleExists
     } catch (error) {

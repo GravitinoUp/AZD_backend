@@ -23,7 +23,8 @@
     "seed:run": "typeorm-ts-node-commonjs migration:run -d ./src/config/seeds-data-source.ts",
     "seed:revert": "typeorm-ts-node-commonjs migration:revert -d ./src/config/seeds-data-source.ts",
     "migration:run:all": "npm run migration:run && npm run seed:run",
-    "migration:revert:last": "npm run seed:revert && npm run migration:revert"
+    "migration:revert:last": "npm run migration:revert",
+    "seed:revert:last": "npm run seed:revert "
   },
   "dependencies": {
     "@apollo/server": "^4.10.4",

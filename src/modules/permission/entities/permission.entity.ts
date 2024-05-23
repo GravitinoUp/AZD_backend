@@ -21,7 +21,7 @@ export class Permission extends BaseModel {
   @ApiProperty()
   entity_name: string
 
-  @OneToMany(() => RolePermission, (rolePermission) => rolePermission.role_permission_id, {
+  @OneToMany(() => RolePermission, (rolePermission) => rolePermission.permission, {
     cascade: true,
     eager: true,
   })

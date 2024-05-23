@@ -41,7 +41,7 @@ export class UserController {
   @Throttle({ default: { limit: 1, ttl: 1000 } })
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
-    const isUserExists = await this.userService.isUserExists({
+    const isUserExists = await this.userService.isExists({
       phone: createUserDto.phone,
       email: createUserDto.email,
     })
@@ -77,7 +77,7 @@ export class UserController {
   @UseGuards(JwtAuthGuard, ActiveGuard)
   @Patch('my')
   async updateCurrent(@Body() user: UpdateCurrentUserDto, @Req() request) {
-    const isUserExists = await this.userService.isUserExists({ user_uuid: request.user.user_uuid })
+    const isUserExists = await this.userService.isExists({ user_uuid: request.user.user_uuid })
     if (!isUserExists) {
       throw new HttpException(await this.i18n.t('errors.user_not_found'), HttpStatus.NOT_FOUND)
     }
@@ -95,10 +95,7 @@ export class UserController {
   @UseGuards(JwtAuthGuard, ActiveGuard)
   @Patch('password')
   async updatePassword(@Body() updateUserPasswordDto: UpdateUserPasswordDto, @Req() request) {
-    const result = await this.userService.updatePassword(
-      updateUserPasswordDto,
-      request.user.user_uuid,
-    )
+    const result = await this.userService.updatePassword(updateUserPasswordDto, request.user.user_uuid)
     return result
   }
 

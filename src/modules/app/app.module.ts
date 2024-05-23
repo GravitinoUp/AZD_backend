@@ -20,6 +20,11 @@ import { PermissionModule } from '../permission/permission.module'
 import { RolePermissionModule } from '../role-permission/role-permission.module'
 import { GraphQLModule } from '@nestjs/graphql'
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
+import { OrganizationModule } from '../organization/organization.module'
+import { OrganizationTypeModule } from '../organization-type/organization-type.module'
+import { PropertiesModule } from '../properties/properties.module'
+import { PlanWayModule } from '../plan-way/plan-way.module'
+import { PlanModule } from '../plan/plan.module'
 
 @Module({
   imports: [
@@ -89,8 +94,13 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
     }),
     AuthModule,
     LegalBasis,
+    OrganizationModule,
+    OrganizationTypeModule,
     PermissionModule,
     PersonModule,
+    PlanModule,
+    PlanWayModule,
+    PropertiesModule,
     RoleModule,
     RolePermissionModule,
     UserModule,

@@ -4,7 +4,12 @@ export const RolesEnum = {
 }
 
 export const CacheRoutes = {
+  ORGANIZATIONS: 'organization',
+  ORGANIZATION_TYPES: 'organization_type',
   PERMISSIONS: 'permission',
+  PLANS: 'plan',
+  PLAN_WAYS: 'plan-way',
+  PROPERTIES: 'property',
   ROLES: 'role',
   ROLES_PERMISSIONS: 'role-permission',
 }

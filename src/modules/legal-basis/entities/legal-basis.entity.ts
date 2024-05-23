@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import BaseModel from 'src/common/model'
-import { Entity, Column, PrimaryColumn } from 'typeorm'
+import { Person } from 'src/modules/person/entities/person.entity'
+import { Entity, Column, PrimaryColumn, OneToMany } from 'typeorm'
 
 @Entity({ name: 'LegalBasis' })
 export class LegalBasis extends BaseModel {
@@ -20,6 +21,6 @@ export class LegalBasis extends BaseModel {
   @ApiProperty()
   legal_basis_date: Date
 
-  // @OneToMany(() => User, (user) => user.role, { cascade: true, eager: true })
-  // users: User[]
+  @OneToMany(() => Person, (person) => person.legal_basis, { cascade: true })
+  people: Person[]
 }

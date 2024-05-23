@@ -24,7 +24,7 @@ export class RolePermission extends BaseModel {
   @ApiProperty()
   user_uuid: string
 
-  @ManyToOne(() => User, (user) => user.user_uuid)
+  @ManyToOne(() => User, (user) => user.role_permissions)
   @JoinColumn({ name: 'user_uuid', referencedColumnName: 'user_uuid' })
   @ApiProperty()
   user: User
@@ -33,7 +33,7 @@ export class RolePermission extends BaseModel {
   @ApiProperty()
   permission_id: string
 
-  @ManyToOne(() => Permission, (permission) => permission.permission_id)
+  @ManyToOne(() => Permission, (permission) => permission.role_permissions)
   @JoinColumn({ name: 'permission_id', referencedColumnName: 'permission_id' })
   @ApiProperty()
   permission: Permission

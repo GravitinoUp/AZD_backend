@@ -20,11 +20,7 @@ import { CacheRoutes } from 'src/common/constants/constants'
 import { AppStrings } from 'src/common/constants/strings'
 import { ActiveGuard } from '../auth/guards/active.guard'
 import { JwtAuthGuard } from '../auth/guards/auth.guard'
-import {
-  ArrayRolePermissionResponse,
-  RolePermissionResponse,
-  StatusRolePermissionResponse,
-} from './response'
+import { ArrayRolePermissionResponse, RolePermissionResponse, StatusRolePermissionResponse } from './response'
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager'
 import { CreateRolesPermissionDto, UpdateRolePermissionDto } from './dto'
 import { I18nService } from 'nestjs-i18n'
@@ -67,7 +63,7 @@ export class RolePermissionController {
     }
 
     if (rolePermission.user_uuid) {
-      const isUserExists = await this.userService.isUserExists({
+      const isUserExists = await this.userService.isExists({
         user_uuid: rolePermission.user_uuid,
       })
       if (!isUserExists) {
@@ -78,10 +74,7 @@ export class RolePermissionController {
     for (const id of rolePermission.permission_ids) {
       const isPermissionExists = await this.permissionService.isExists(id)
       if (!isPermissionExists) {
-        throw new HttpException(
-          `${this.i18n.t('errors.permission_not_found')} (ID: ${id})`,
-          HttpStatus.NOT_FOUND,
-        )
+        throw new HttpException(`${this.i18n.t('errors.permission_not_found')} (ID: ${id})`, HttpStatus.NOT_FOUND)
       }
     }
 
