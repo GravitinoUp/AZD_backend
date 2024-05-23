@@ -1,4 +1,15 @@
-import { Body, Controller, Inject, Post, UseFilters, UseGuards } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Delete,
+  HttpException,
+  HttpStatus,
+  Inject,
+  Param,
+  Post,
+  UseFilters,
+  UseGuards,
+} from '@nestjs/common'
 import { PlanService } from './plan.service'
 import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger'
 import { AllExceptionsFilter } from 'src/common/exception.filter'
@@ -54,6 +65,24 @@ export class PlanController {
       await this.cacheManager.set(key, result)
       return result
     }
+  }
+
+  @UseGuards(JwtAuthGuard, ActiveGuard)
+  @ApiOperation({ summary: AppStrings.PLAN_DELETE_OPERATION })
+  @ApiOkResponse({
+    description: AppStrings.PLAN_DELETE_RESPONSE,
+    type: StatusPlanResponse,
+  })
+  @Delete(':uuid')
+  async delete(@Param('uuid') id: string) {
+    const isExists = await this.planService.isExists(id)
+    if (!isExists) {
+      throw new HttpException(this.i18n.t('errors.property_not_found'), HttpStatus.NOT_FOUND)
+    }
+
+    const result = await this.planService.delete(id)
+    await this.clearCache()
+    return result
   }
 
   async clearCache() {

@@ -52,4 +52,25 @@ export class PlanService {
       throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
     }
   }
+
+  async isExists(plan_uuid: string): Promise<boolean> {
+    try {
+      const isExists = await this.planRepository.createQueryBuilder().select().where({ plan_uuid }).getExists()
+
+      return isExists
+    } catch (error) {
+      console.log(error)
+      throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
+
+  async delete(plan_uuid: string): Promise<StatusPlanResponse> {
+    try {
+      const deletePlan = await this.planRepository.createQueryBuilder().delete().where({ plan_uuid }).execute()
+
+      return { status: deletePlan.affected !== 0 }
+    } catch (error) {
+      throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
 }
