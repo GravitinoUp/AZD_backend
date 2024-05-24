@@ -1,95 +1,78 @@
-import { ApiProperty } from '@nestjs/swagger'
-import { IsString, IsOptional, IsInt, IsUUID } from 'class-validator'
+import { Field, InputType } from '@nestjs/graphql'
+import { IsString, IsOptional, IsUUID } from 'class-validator'
 
+@InputType()
 export class CreateUserDto {
   @IsString()
-  @ApiProperty()
+  @Field()
   last_name: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   first_name: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   patronymic?: string
 
   @IsString()
-  @ApiProperty()
-  post: string
+  @Field({ nullable: true })
+  post?: string
 
   @IsUUID()
-  @ApiProperty()
-  legal_basis_uuid: string
+  @Field({ nullable: true })
+  legal_basis_uuid?: string
+
+  @IsString()
+  @Field()
+  email: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty()
-  email?: string
+  @Field({ nullable: true })
+  phone?: string
 
   @IsString()
-  @ApiProperty()
-  phone: string
-
-  @IsString()
-  @ApiProperty()
+  @Field()
   password: string
-
-  @IsInt()
-  @ApiProperty()
-  code: number
 }
 
-export class CheckUserExistsDto {
-  @IsString()
-  @ApiProperty()
-  phone: string
-}
-
+@InputType()
 export class UpdateCurrentUserDto {
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   last_name?: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   first_name?: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   patronymic?: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty()
+  @Field({ nullable: true })
   post?: string
 
   @IsUUID()
   @IsOptional()
-  @ApiProperty()
+  @Field({ nullable: true })
   legal_basis_uuid?: string
 }
 
+@InputType()
 export class UpdateUserPasswordDto {
   @IsString()
-  @ApiProperty()
+  @Field()
   old_password: string
 
   @IsString()
-  @ApiProperty()
-  password: string
-}
-
-export class ResetUserPasswordDto {
-  @IsInt()
-  @ApiProperty()
-  code: number
-
-  @IsString()
-  @ApiProperty()
+  @Field()
   password: string
 }

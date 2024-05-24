@@ -20,7 +20,7 @@ export class User extends BaseModel {
 
   @ManyToOne(() => Person, (person) => person.users)
   @JoinColumn({ name: 'person_uuid', referencedColumnName: 'person_uuid' })
-  @Field()
+  @Field(() => Person)
   person: Person
 
   @Column()
@@ -29,7 +29,7 @@ export class User extends BaseModel {
 
   @ManyToOne(() => Role, (role) => role.users)
   @JoinColumn({ name: 'role_id', referencedColumnName: 'role_id' })
-  @Field()
+  @Field(() => Role)
   role: Role
 
   @Column({ default: true })
