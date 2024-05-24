@@ -1,6 +1,5 @@
 import { Inject, UseGuards } from '@nestjs/common'
 import { OrganizationTypeService } from './organization-type.service'
-import { ApiBearerAuth } from '@nestjs/swagger'
 import { CacheRoutes } from 'src/common/constants/constants'
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager'
 import { I18nService } from 'nestjs-i18n'
@@ -10,7 +9,6 @@ import { Args, Query, Resolver } from '@nestjs/graphql'
 import { JwtAuthGuard } from '../auth/guards/auth.guard'
 import { ActiveGuard } from '../auth/guards/active.guard'
 
-@ApiBearerAuth()
 @Resolver('organization_type')
 export class OrganizationTypeResolver {
   constructor(

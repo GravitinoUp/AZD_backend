@@ -1,14 +1,12 @@
 import { Inject } from '@nestjs/common'
 import { PermissionService } from './permission.service'
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager'
-import { ApiBearerAuth } from '@nestjs/swagger'
 import { I18nService } from 'nestjs-i18n'
 import { CacheRoutes } from 'src/common/constants/constants'
 import { AppStrings } from 'src/common/constants/strings'
 import { ArrayPermissionResponse } from './response'
 import { Query, Resolver } from '@nestjs/graphql'
 
-@ApiBearerAuth()
 @Resolver('permission')
 export class PermissionResolver {
   constructor(

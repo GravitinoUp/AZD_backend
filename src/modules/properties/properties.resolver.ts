@@ -2,7 +2,6 @@ import { HttpException, HttpStatus, Inject, UseGuards } from '@nestjs/common'
 import { PropertiesService } from './properties.service'
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager'
 import { I18nService } from 'nestjs-i18n'
-import { ApiBearerAuth } from '@nestjs/swagger'
 import { CacheRoutes } from 'src/common/constants/constants'
 import { AppStrings } from 'src/common/constants/strings'
 import { ActiveGuard } from '../auth/guards/active.guard'
@@ -12,7 +11,6 @@ import { ArrayPropertyResponse, StatusPropertyResponse } from './response'
 import { PropertyFilter } from './filter'
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 
-@ApiBearerAuth()
 @Resolver('property')
 export class PropertiesResolver {
   constructor(

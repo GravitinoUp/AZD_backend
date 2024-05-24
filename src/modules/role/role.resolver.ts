@@ -1,7 +1,6 @@
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager'
 import { Inject, NotFoundException, UseGuards } from '@nestjs/common'
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
-import { ApiBearerAuth } from '@nestjs/swagger'
 import { I18nService } from 'nestjs-i18n'
 import { RoleService } from './role.service'
 import { CacheRoutes } from 'src/common/constants/constants'
@@ -13,7 +12,6 @@ import { JwtAuthGuard } from '../auth/guards/auth.guard'
 import { CreateRoleDto, UpdateRoleDto } from './dto'
 import { Role } from './entities/role.entity'
 
-@ApiBearerAuth()
 @Resolver(() => Role)
 export class RolesResolver {
   constructor(

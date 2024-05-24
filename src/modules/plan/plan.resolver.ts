@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Inject, Req, UseGuards } from '@nestjs/common'
 import { PlanService } from './plan.service'
-import { ApiBearerAuth } from '@nestjs/swagger'
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager'
 import { I18nService } from 'nestjs-i18n'
 import { AppStrings } from 'src/common/constants/strings'
@@ -16,7 +15,6 @@ import { OrganizationService } from '../organization/organization.service'
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { Plan } from './entities/plan.entity'
 
-@ApiBearerAuth()
 @Resolver(() => Plan)
 export class PlanResolver {
   constructor(

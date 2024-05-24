@@ -1,7 +1,6 @@
 import { Body, HttpStatus, HttpException, UseGuards } from '@nestjs/common'
 import { UserService } from './user.service'
 import { CreateUserDto, UpdateCurrentUserDto, UpdateUserPasswordDto } from './dto'
-import { ApiBearerAuth } from '@nestjs/swagger'
 import { I18nService } from 'nestjs-i18n'
 import { StatusUserResponse, UserResponse } from './response'
 import { AppStrings } from 'src/common/constants/strings'
@@ -9,7 +8,6 @@ import { ActiveGuard } from '../auth/guards/active.guard'
 import { JwtAuthGuard } from '../auth/guards/auth.guard'
 import { Context, Mutation, Query, Resolver } from '@nestjs/graphql'
 
-@ApiBearerAuth()
 @Resolver('users')
 export class UserResolver {
   constructor(

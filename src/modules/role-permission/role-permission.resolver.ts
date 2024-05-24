@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Inject, NotFoundException, UseGuards } from '@nestjs/common'
 import { RolePermissionService } from './role-permission.service'
-import { ApiBearerAuth } from '@nestjs/swagger'
 import { CacheRoutes } from 'src/common/constants/constants'
 import { AppStrings } from 'src/common/constants/strings'
 import { ActiveGuard } from '../auth/guards/active.guard'
@@ -15,7 +14,6 @@ import { PermissionService } from '../permission/permission.service'
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { RolePermission } from './entities/role-permission.entity'
 
-@ApiBearerAuth()
 @Resolver(() => RolePermission)
 export class RolePermissionResolver {
   constructor(

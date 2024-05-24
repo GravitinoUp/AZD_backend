@@ -1,7 +1,6 @@
 import { Inject, NotFoundException, UseGuards } from '@nestjs/common'
 import { OrganizationService } from './organization.service'
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager'
-import { ApiBearerAuth } from '@nestjs/swagger'
 import { I18nService } from 'nestjs-i18n'
 import { AppStrings } from 'src/common/constants/strings'
 import { ActiveGuard } from '../auth/guards/active.guard'
@@ -15,7 +14,6 @@ import { OrganizationFilter } from './filters'
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { Organization } from './entities/organization.entity'
 
-@ApiBearerAuth()
 @Resolver(() => Organization)
 export class OrganizationResolver {
   constructor(

@@ -1,6 +1,5 @@
 import { Inject, UseGuards } from '@nestjs/common'
 import { PlanWayService } from './plan-way.service'
-import { ApiBearerAuth } from '@nestjs/swagger'
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager'
 import { I18nService } from 'nestjs-i18n'
 import { ArrayWayResponse } from './response'
@@ -11,7 +10,6 @@ import { Args, Query, Resolver } from '@nestjs/graphql'
 import { JwtAuthGuard } from '../auth/guards/auth.guard'
 import { ActiveGuard } from '../auth/guards/active.guard'
 
-@ApiBearerAuth()
 @Resolver('plan-way')
 export class PlanWayResolver {
   constructor(
