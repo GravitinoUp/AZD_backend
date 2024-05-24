@@ -1,30 +1,32 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { Field, InputType, Int } from '@nestjs/graphql'
 import { FilterOffset } from 'src/common/classes/filter_offset'
-import { AppStrings } from 'src/common/constants/strings'
 
+@InputType()
 export class PlanWaySorts {
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   way_id?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   way_name?: 'ASC' | 'DESC'
 }
 
+@InputType()
 export class PlanWayFilters {
-  @ApiProperty({ required: false })
+  @Field(() => Int, { nullable: true })
   way_id?: number
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   way_name?: string
 }
 
+@InputType()
 export class PlanWayFilter {
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   offset?: FilterOffset
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   filter?: PlanWayFilters
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   sorts?: PlanWaySorts
 }

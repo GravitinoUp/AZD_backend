@@ -1,176 +1,179 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { Field, Int, ObjectType } from '@nestjs/graphql'
 import { IsArray, IsBoolean, IsDateString, IsDecimal, IsInt, IsOptional, IsString, IsUUID } from 'class-validator'
 
+@ObjectType()
 export class PlanResponse {
   @IsUUID()
-  @ApiProperty()
+  @Field()
   plan_uuid: string
 
   @IsUUID()
-  @ApiProperty()
+  @Field()
   user_uuid: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   purchase_offer_number?: string
 
   @IsUUID()
-  @ApiProperty()
+  @Field()
   okpd_uuid: string // TODO UUID
 
   @IsString()
-  @ApiProperty()
+  @Field()
   object_name: string
 
   @IsUUID()
-  @ApiProperty()
+  @Field()
   okei_uuid: string // TODO UUID
 
   @IsString()
-  @ApiProperty()
+  @Field()
   result_name: string
 
   @IsDateString()
-  @ApiProperty()
+  @Field()
   npa_date: Date
 
   @IsString()
-  @ApiProperty()
+  @Field()
   npa_number: string
 
   @IsInt()
-  @ApiProperty()
+  @Field(() => Int)
   current_year_plan_count: number
 
   @IsDecimal()
-  @ApiProperty()
+  @Field()
   current_year_plan_avg_price: number
 
   @IsInt()
-  @ApiProperty()
+  @Field(() => Int)
   first_year_plan_count: number
 
   @IsDecimal()
-  @ApiProperty()
+  @Field()
   first_year_plan_avg_price: number
 
   @IsInt()
-  @ApiProperty()
+  @Field(() => Int)
   second_year_plan_count: number
 
   @IsDecimal()
-  @ApiProperty()
+  @Field()
   second_year_plan_avg_price: number
 
   @IsInt()
-  @ApiProperty()
+  @Field(() => Int)
   next_years_plan_count: number
 
   @IsDecimal()
-  @ApiProperty()
+  @Field()
   next_years_plan_avg_price: number
 
   @IsDecimal()
-  @ApiProperty()
+  @Field()
   current_year_limit: number
 
   @IsDecimal()
-  @ApiProperty()
+  @Field()
   first_year_limit: number
 
   @IsDecimal()
-  @ApiProperty()
+  @Field()
   second_year_limit: number
 
   @IsDecimal()
-  @ApiProperty()
+  @Field()
   next_years_limit: number
 
   @IsDecimal()
-  @ApiProperty()
+  @Field()
   start_max_price: number
 
   @IsBoolean()
-  @ApiProperty()
+  @Field()
   public_purchase_discussion: boolean
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   authorized_institution?: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   organizer_name?: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   placement_month: string
 
   @IsInt()
-  @ApiProperty()
+  @Field()
   way_id: number
 
   @IsBoolean()
-  @ApiProperty()
+  @Field()
   small_business: boolean
 
   @IsString()
-  @ApiProperty()
+  @Field()
   initiator: string
 
   @IsUUID()
-  @ApiProperty()
+  @Field()
   branch_uuid: string // TODO UUID
 
   @IsDecimal()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   price_value?: number
 
   @IsDecimal()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   savings?: number
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   contract_number?: string
 
   @IsDateString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   contract_date?: Date
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   contragent?: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   approval_letter: string
 }
 
+@ObjectType()
 export class ArrayPlanResponse {
   @IsInt()
-  @ApiProperty()
+  @Field(() => Int)
   count: number
 
   @IsArray()
-  @ApiProperty({ required: false, type: PlanResponse, isArray: true })
-  data: PlanResponse[]
+  @Field(() => [PlanResponse], { nullable: true })
+  data?: PlanResponse[]
 }
 
+@ObjectType()
 export class StatusPlanResponse {
   @IsBoolean()
-  @ApiProperty()
+  @Field()
   status: boolean
 
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   data?: PlanResponse
 }

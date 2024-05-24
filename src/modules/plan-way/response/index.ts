@@ -1,32 +1,35 @@
-import { ApiProperty } from "@nestjs/swagger"
-import { IsString, IsInt, IsArray, IsBoolean, IsOptional } from "class-validator"
+import { Field, ObjectType } from '@nestjs/graphql'
+import { IsString, IsInt, IsArray, IsBoolean, IsOptional } from 'class-validator'
 
+@ObjectType()
 export class WayResponse {
-    @IsInt()
-    @ApiProperty()
-    way_id: number
+  @IsInt()
+  @Field()
+  way_id: number
 
-    @IsString()
-    @ApiProperty()
-    way_name: string
+  @IsString()
+  @Field()
+  way_name: string
 }
 
+@ObjectType()
 export class ArrayWayResponse {
-    @IsInt()
-    @ApiProperty()
-    count: number
+  @IsInt()
+  @Field()
+  count: number
 
-    @IsArray()
-    @ApiProperty({ required: false, type: WayResponse, isArray: true })
-    data: WayResponse[]
+  @IsArray()
+  @Field(() => [WayResponse], { nullable: true })
+  data: WayResponse[]
 }
 
+@ObjectType()
 export class StatusWayResponse {
-    @IsBoolean()
-    @ApiProperty()
-    status: boolean
+  @IsBoolean()
+  @Field()
+  status: boolean
 
-    @IsOptional()
-    @ApiProperty({ required: false })
-    data?: WayResponse
+  @IsOptional()
+  @Field({ nullable: true })
+  data?: WayResponse
 }

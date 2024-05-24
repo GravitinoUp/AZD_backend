@@ -1,313 +1,315 @@
-import { ApiProperty } from '@nestjs/swagger'
-import { IsUUID, IsString, IsInt, IsBoolean, IsDateString, IsOptional } from 'class-validator'
+import { Field, InputType, Int } from '@nestjs/graphql'
+import { IsUUID, IsString, IsInt, IsBoolean, IsDateString, IsOptional, IsDecimal } from 'class-validator'
 
+@InputType()
 export class CreatePlanDto {
   @IsUUID()
-  @ApiProperty()
+  @Field()
   user_uuid: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   purchase_offer_number?: string
 
   @IsUUID()
-  @ApiProperty()
+  @Field()
   okpd_uuid: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   object_name: string
 
   @IsUUID()
-  @ApiProperty()
+  @Field()
   okei_uuid: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   result_name: string
 
   @IsDateString()
-  @ApiProperty()
+  @Field()
   npa_date: Date
 
   @IsString()
-  @ApiProperty()
+  @Field()
   npa_number: string
 
   @IsInt()
-  @ApiProperty()
+  @Field(() => Int)
   current_year_plan_count: number
 
-  // @IsDecimal()
-  @ApiProperty()
+  @IsDecimal()
+  @Field()
   current_year_plan_avg_price: number
 
   @IsInt()
-  @ApiProperty()
+  @Field(() => Int)
   first_year_plan_count: number
 
-  // @IsDecimal()
-  @ApiProperty()
+  @IsDecimal()
+  @Field()
   first_year_plan_avg_price: number
 
   @IsInt()
-  @ApiProperty()
+  @Field(() => Int)
   second_year_plan_count: number
 
-  // @IsDecimal()
-  @ApiProperty()
+  @IsDecimal()
+  @Field()
   second_year_plan_avg_price: number
 
   @IsInt()
-  @ApiProperty()
+  @Field(() => Int)
   next_years_plan_count: number
 
-  // @IsDecimal()
-  @ApiProperty()
+  @IsDecimal()
+  @Field()
   next_years_plan_avg_price: number
 
-  // @IsDecimal()
-  @ApiProperty()
+  @IsDecimal()
+  @Field()
   current_year_limit: number
 
-  // @IsDecimal()
-  @ApiProperty()
+  @IsDecimal()
+  @Field()
   first_year_limit: number
 
-  // @IsDecimal()
-  @ApiProperty()
+  @IsDecimal()
+  @Field()
   second_year_limit: number
 
-  // @IsDecimal()
-  @ApiProperty()
+  @IsDecimal()
+  @Field()
   next_years_limit: number
 
-  // @IsDecimal()
-  @ApiProperty()
+  @IsDecimal()
+  @Field()
   start_max_price: number
 
   @IsBoolean()
-  @ApiProperty()
+  @Field()
   public_purchase_discussion: boolean
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   authorized_institution?: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   organizer_name?: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   placement_month: string
 
   @IsInt()
-  @ApiProperty()
+  @Field(() => Int)
   way_id: number
 
   @IsBoolean()
-  @ApiProperty()
+  @Field()
   small_business: boolean
 
   @IsString()
-  @ApiProperty()
+  @Field()
   initiator: string
 
   @IsUUID()
-  @ApiProperty()
+  @Field()
   branch_uuid: string
 
-  // // @IsDecimal()
+  @IsDecimal()
   @IsOptional()
-  @ApiProperty()
+  @Field()
   price_value?: number
 
-  // // @IsDecimal()
+  @IsDecimal()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   savings?: number
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
-  contract_number?: string
-
-  // @IsDateString()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  contract_date?: Date
-
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  contragent?: string
-
-  @IsString()
-  @ApiProperty()
-  approval_letter: string
-}
-
-export class UpdatePlanDto {
-  @IsUUID()
-  @ApiProperty()
-  plan_uuid: string
-
-  @IsUUID()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  user_uuid?: string
-
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  purchase_offer_number?: string
-
-  @IsUUID()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  okpd_uuid?: string
-
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  object_name?: string
-
-  @IsUUID()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  okei_uuid?: string
-
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  result_name?: string
-
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  npa_date?: string
-
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  npa_number?: string
-
-  @IsInt()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  current_year_plan_count?: number
-
-  // @IsDecimal()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  current_year_plan_avg_price?: number
-
-  @IsInt()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  first_year_plan_count?: number
-
-  // @IsDecimal()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  first_year_plan_avg_price?: number
-
-  @IsInt()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  second_year_plan_count?: number
-
-  // @IsDecimal()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  second_year_plan_avg_price?: number
-
-  @IsInt()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  next_years_plan_count?: number
-
-  // @IsDecimal()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  next_years_plan_avg_price?: number
-
-  // @IsDecimal()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  start_max_price?: number
-
-  @IsBoolean()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  public_purchase_discussion?: boolean
-
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  authorized_institution?: string
-
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  organizer_name?: string
-
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  placement_month?: string
-
-  @IsInt()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  way_id?: number
-
-  @IsBoolean()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  small_business?: boolean
-
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  initiator?: string
-
-  @IsUUID()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  branch_uuid?: string
-
-  // @IsDecimal()
-  @IsOptional()
-  @ApiProperty()
-  price_value?: number
-
-  // @IsDecimal()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  savings?: number
-
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   contract_number?: string
 
   @IsDateString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   contract_date?: Date
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
+  contragent?: string
+
+  @IsString()
+  @Field()
+  approval_letter: string
+}
+
+@InputType()
+export class UpdatePlanDto {
+  @IsUUID()
+  @Field()
+  plan_uuid: string
+
+  @IsUUID()
+  @IsOptional()
+  @Field({ nullable: true })
+  user_uuid?: string
+
+  @IsString()
+  @IsOptional()
+  @Field({ nullable: true })
+  purchase_offer_number?: string
+
+  @IsUUID()
+  @IsOptional()
+  @Field({ nullable: true })
+  okpd_uuid?: string
+
+  @IsString()
+  @IsOptional()
+  @Field({ nullable: true })
+  object_name?: string
+
+  @IsUUID()
+  @IsOptional()
+  @Field({ nullable: true })
+  okei_uuid?: string
+
+  @IsString()
+  @IsOptional()
+  @Field({ nullable: true })
+  result_name?: string
+
+  @IsString()
+  @IsOptional()
+  @Field({ nullable: true })
+  npa_date?: string
+
+  @IsString()
+  @IsOptional()
+  @Field({ nullable: true })
+  npa_number?: string
+
+  @IsInt()
+  @IsOptional()
+  @Field(() => Int, { nullable: true })
+  current_year_plan_count?: number
+
+  @IsDecimal()
+  @IsOptional()
+  @Field({ nullable: true })
+  current_year_plan_avg_price?: number
+
+  @IsInt()
+  @IsOptional()
+  @Field(() => Int, { nullable: true })
+  first_year_plan_count?: number
+
+  @IsDecimal()
+  @IsOptional()
+  @Field({ nullable: true })
+  first_year_plan_avg_price?: number
+
+  @IsInt()
+  @IsOptional()
+  @Field(() => Int, { nullable: true })
+  second_year_plan_count?: number
+
+  @IsDecimal()
+  @IsOptional()
+  @Field({ nullable: true })
+  second_year_plan_avg_price?: number
+
+  @IsInt()
+  @IsOptional()
+  @Field(() => Int, { nullable: true })
+  next_years_plan_count?: number
+
+  @IsDecimal()
+  @IsOptional()
+  @Field({ nullable: true })
+  next_years_plan_avg_price?: number
+
+  @IsDecimal()
+  @IsOptional()
+  @Field({ nullable: true })
+  start_max_price?: number
+
+  @IsBoolean()
+  @IsOptional()
+  @Field({ nullable: true })
+  public_purchase_discussion?: boolean
+
+  @IsString()
+  @IsOptional()
+  @Field({ nullable: true })
+  authorized_institution?: string
+
+  @IsString()
+  @IsOptional()
+  @Field({ nullable: true })
+  organizer_name?: string
+
+  @IsString()
+  @IsOptional()
+  @Field({ nullable: true })
+  placement_month?: string
+
+  @IsInt()
+  @IsOptional()
+  @Field(() => Int, { nullable: true })
+  way_id?: number
+
+  @IsBoolean()
+  @IsOptional()
+  @Field({ nullable: true })
+  small_business?: boolean
+
+  @IsString()
+  @IsOptional()
+  @Field({ nullable: true })
+  initiator?: string
+
+  @IsUUID()
+  @IsOptional()
+  @Field({ nullable: true })
+  branch_uuid?: string
+
+  @IsDecimal()
+  @IsOptional()
+  @Field()
+  price_value?: number
+
+  @IsDecimal()
+  @IsOptional()
+  @Field({ nullable: true })
+  savings?: number
+
+  @IsString()
+  @IsOptional()
+  @Field({ nullable: true })
+  contract_number?: string
+
+  @IsDateString()
+  @IsOptional()
+  @Field({ nullable: true })
+  contract_date?: Date
+
+  @IsString()
+  @IsOptional()
+  @Field({ nullable: true })
   contragent?: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   approval_letter?: string
 }

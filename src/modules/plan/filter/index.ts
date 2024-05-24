@@ -1,235 +1,238 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { Field, InputType } from '@nestjs/graphql'
 import { FilterOffset } from 'src/common/classes/filter_offset'
-import { AppStrings } from 'src/common/constants/strings'
 import { OrganizationFilters, OrganizationSorts } from 'src/modules/organization/filters'
+import { PlanWayFilters, PlanWaySorts } from 'src/modules/plan-way/filter'
 
+@InputType()
 export class PlanSorts {
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   plan_uuid?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
-  user_uuid?: 'ASC' | 'DESC'
+  @Field({ nullable: true })
+  user_uuid?: 'ASC' | 'DESC' // TODO SORTS FILTER
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   purchase_offer_number?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   okpd_uuid?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   object_name?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   okei_uuid?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   result_name?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   npa_date?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   npa_number?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   current_year_plan_count?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   current_year_plan_avg_price?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   first_year_plan_count?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   first_year_plan_avg_price?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   second_year_plan_count?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   second_year_plan_avg_price?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   next_years_plan_count?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   next_years_plan_avg_price?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   current_year_limit?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   first_year_limit?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   second_year_limit?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   next_years_limit?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   start_max_price?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   public_purchase_discussion?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   authorized_institution?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   organizer_name?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   placement_month?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
-  way_id?: 'ASC' | 'DESC'
+  @Field(() => PlanWaySorts, { nullable: true })
+  way?: PlanWaySorts
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   small_business?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   initiator?: 'ASC' | 'DESC'
 
-  @ApiProperty({ required: false })
+  @Field(() => OrganizationSorts, { nullable: true })
   branch?: OrganizationSorts
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   price_value?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   savings?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   contract_number?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   contract_date?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   contragent?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   approval_letter?: 'ASC' | 'DESC'
 }
 
+@InputType()
 export class PlanFilters {
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   plan_uuid?: string
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   user_uuid?: string
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   purchase_offer_number?: string
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   okpd_uuid?: string // TODO UUID
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   object_name?: string
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   okei_uuid?: string // TODO UUID
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   result_name?: string
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   npa_date?: Date
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   npa_number?: string
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   current_year_plan_count?: number
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   current_year_plan_avg_price?: number
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   first_year_plan_count?: number
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   first_year_plan_avg_price?: number
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   second_year_plan_count?: number
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   second_year_plan_avg_price?: number
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   next_years_plan_count?: number
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   next_years_plan_avg_price?: number
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   current_year_limit?: number
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   first_year_limit?: number
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   second_year_limit?: number
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   next_years_limit?: number
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   start_max_price?: number
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   public_purchase_discussion?: boolean
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   authorized_institution?: string
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   organizer_name?: string
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   placement_month?: string
 
-  @ApiProperty({ required: false })
-  way_id?: number
+  @Field({ nullable: true })
+  way?: PlanWayFilters
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   small_business?: boolean
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   initiator?: string
 
-  @ApiProperty({ required: false })
+  @Field(() => OrganizationFilters, { nullable: true })
   branch?: OrganizationFilters
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   price_value?: number
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   savings?: number
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   contract_number?: string
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   contract_date?: Date
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   contragent?: string
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   approval_letter?: string
 }
 
+@InputType()
 export class PlanFilter {
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   offset?: FilterOffset
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   filter?: PlanFilters
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   sorts?: PlanSorts
 }
