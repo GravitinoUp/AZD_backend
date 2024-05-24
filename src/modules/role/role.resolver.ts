@@ -47,6 +47,7 @@ export class RolesResolver {
     }
   }
 
+  @UseGuards(JwtAuthGuard, ActiveGuard)
   @Mutation(() => StatusRoleResponse, { name: 'update_role', description: AppStrings.ROLE_UPDATE_OPERATION })
   async update(@Args('role') updateRoleDto: UpdateRoleDto) {
     const isExists = await this.roleService.isExists(updateRoleDto.role_id)

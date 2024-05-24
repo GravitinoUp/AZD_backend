@@ -1,38 +1,23 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Inject,
-  NotFoundException,
-  Param,
-  Patch,
-  Post,
-  UseFilters,
-  UseGuards,
-} from '@nestjs/common'
+import { Inject, NotFoundException, UseGuards } from '@nestjs/common'
 import { OrganizationService } from './organization.service'
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager'
-import { ApiOperation, ApiCreatedResponse, ApiBearerAuth, ApiTags, ApiBody, ApiOkResponse } from '@nestjs/swagger'
+import { ApiBearerAuth } from '@nestjs/swagger'
 import { I18nService } from 'nestjs-i18n'
 import { AppStrings } from 'src/common/constants/strings'
 import { ActiveGuard } from '../auth/guards/active.guard'
 import { JwtAuthGuard } from '../auth/guards/auth.guard'
-import { StatusRoleResponse } from '../role/response'
 import { CacheRoutes } from 'src/common/constants/constants'
 import { CreateOrganizationDto, UpdateOrganizationDto } from './dto'
-import { AllExceptionsFilter } from 'src/common/exception.filter'
 import { PersonService } from '../person/person.service'
 import { OrganizationTypeService } from '../organization-type/organization-type.service'
-import { ArrayOrganizationResponse } from './response'
+import { ArrayOrganizationResponse, StatusOrganizationResponse } from './response'
 import { OrganizationFilter } from './filters'
-import { ArrayOrganizationTypeResponse } from '../organization-type/response'
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
+import { Organization } from './entities/organization.entity'
 
 @ApiBearerAuth()
-@ApiTags('Organizations')
-@Controller('organization')
-@UseFilters(AllExceptionsFilter)
-export class OrganizationController {
+@Resolver(() => Organization)
+export class OrganizationResolver {
   constructor(
     private readonly organizationService: OrganizationService,
     private readonly organizationTypeService: OrganizationTypeService,
@@ -42,13 +27,11 @@ export class OrganizationController {
   ) {}
 
   @UseGuards(JwtAuthGuard, ActiveGuard)
-  @ApiOperation({ summary: AppStrings.ORGANIZATION_CREATE_OPERATION })
-  @ApiCreatedResponse({
-    description: AppStrings.ORGANIZATION_CREATED_RESPONSE,
-    type: StatusRoleResponse,
+  @Mutation(() => StatusOrganizationResponse, {
+    name: 'create_organization',
+    description: AppStrings.ORGANIZATION_CREATE_OPERATION,
   })
-  @Post()
-  async create(@Body() organization: CreateOrganizationDto) {
+  async create(@Args('organization') organization: CreateOrganizationDto) {
     const isOrganizationTypeExists = await this.organizationTypeService.isExists(organization.organization_type_id)
     if (!isOrganizationTypeExists) throw new NotFoundException(this.i18n.t('errors.organization_type_not_found'))
 
@@ -60,14 +43,9 @@ export class OrganizationController {
     return result
   }
 
-  @ApiOperation({ summary: AppStrings.ORGANIZATION_ALL_OPERATION })
-  @ApiOkResponse({
-    description: AppStrings.ORGANIZATION_ALL_RESPONSE,
-    type: ArrayOrganizationResponse,
-  })
-  @ApiBody({ required: false, type: OrganizationFilter })
-  @Post('all')
-  async findAll(@Body() organizationFilter: OrganizationFilter) {
+  @UseGuards(JwtAuthGuard, ActiveGuard)
+  @Query(() => ArrayOrganizationResponse, { name: 'organizations', description: AppStrings.ORGANIZATION_ALL_OPERATION })
+  async findAll(@Args('filter') organizationFilter: OrganizationFilter) {
     const key = `${CacheRoutes.ORGANIZATIONS}/all-${JSON.stringify(organizationFilter)}`
     let organizations: ArrayOrganizationResponse = await this.cacheManager.get(key)
 
@@ -80,33 +58,12 @@ export class OrganizationController {
     }
   }
 
-  @ApiOperation({ summary: AppStrings.ORGANIZATION_ALL_OPERATION })
-  @ApiOkResponse({
-    description: AppStrings.ORGANIZATION_ALL_RESPONSE,
-    type: ArrayOrganizationTypeResponse,
-  })
-  @Get('all')
-  async getAll() {
-    const key = `${CacheRoutes.ORGANIZATIONS}/all-{}`
-    let organizations: ArrayOrganizationResponse = await this.cacheManager.get(key)
-
-    if (organizations) {
-      return organizations
-    } else {
-      organizations = await this.organizationService.findAll({})
-      await this.cacheManager.set(key, organizations)
-      return organizations
-    }
-  }
-
   @UseGuards(JwtAuthGuard, ActiveGuard)
-  @ApiOperation({ summary: AppStrings.ORGANIZATION_UPDATE_OPERATION })
-  @ApiOkResponse({
-    description: AppStrings.ORGANIZATION_UPDATE_RESPONSE,
-    type: StatusRoleResponse,
+  @Mutation(() => StatusOrganizationResponse, {
+    name: 'update_organization',
+    description: AppStrings.ORGANIZATION_UPDATE_OPERATION,
   })
-  @Patch()
-  async update(@Body() organization: UpdateOrganizationDto) {
+  async update(@Args('organization') organization: UpdateOrganizationDto) {
     const isExists = await this.organizationService.isExists(organization.organization_uuid)
     if (!isExists) throw new NotFoundException(this.i18n.t('errors.organization_not_found'))
 
@@ -126,13 +83,11 @@ export class OrganizationController {
   }
 
   @UseGuards(JwtAuthGuard, ActiveGuard)
-  @ApiOperation({ summary: AppStrings.ORGANIZATION_DELETE_OPERATION })
-  @ApiOkResponse({
-    description: AppStrings.ORGANIZATION_DELETE_RESPONSE,
-    type: StatusRoleResponse,
+  @Mutation(() => StatusOrganizationResponse, {
+    name: 'delete_organization',
+    description: AppStrings.ORGANIZATION_DELETE_OPERATION,
   })
-  @Delete(':uuid')
-  async delete(@Param('uuid') organization_uuid: string) {
+  async delete(@Args('uuid') organization_uuid: string) {
     const isExists = await this.organizationService.isExists(organization_uuid)
     if (!isExists) throw new NotFoundException(this.i18n.t('errors.organization_not_found'))
 

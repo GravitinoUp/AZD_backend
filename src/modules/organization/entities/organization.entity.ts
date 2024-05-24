@@ -1,96 +1,95 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { Field, ObjectType } from '@nestjs/graphql'
 import BaseModel from 'src/common/model'
 import { OrganizationType } from 'src/modules/organization-type/entities/organization-type.entity'
 import { Person } from 'src/modules/person/entities/person.entity'
 import { Plan } from 'src/modules/plan/entities/plan.entity'
 import { Entity, Column, PrimaryColumn, JoinColumn, ManyToOne, OneToMany } from 'typeorm'
 
+@ObjectType()
 @Entity({ name: 'Organizations' })
 export class Organization extends BaseModel {
   @PrimaryColumn()
-  @ApiProperty()
+  @Field()
   organization_uuid: string
 
   @Column()
-  @ApiProperty()
+  @Field()
   organization_type_id: number
 
   @ManyToOne(() => OrganizationType, (type) => type.organizations)
   @JoinColumn({ name: 'organization_type_id', referencedColumnName: 'organization_type_id' })
-  @ApiProperty()
   organization_type: OrganizationType
 
   @Column()
-  @ApiProperty()
+  @Field()
   contact_person_uuid: string
 
   @ManyToOne(() => Person, (person) => person.organizations)
   @JoinColumn({ name: 'contact_person_uuid', referencedColumnName: 'person_uuid' })
-  @ApiProperty()
   contact_person: Person
 
   @Column()
-  @ApiProperty()
+  @Field()
   full_name: string
 
   @Column()
-  @ApiProperty()
+  @Field()
   short_name: string
 
   @Column()
-  @ApiProperty()
+  @Field()
   register_number: string
 
   @Column()
-  @ApiProperty()
+  @Field()
   bic: string
 
   @Column()
-  @ApiProperty()
+  @Field()
   address: string
 
   @Column()
-  @ApiProperty()
+  @Field()
   mail_address: string
 
   @Column()
-  @ApiProperty()
+  @Field()
   phone: string
 
   @Column({ nullable: true })
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   fax?: string
 
   @Column({ nullable: true })
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   email?: string
 
   @Column()
-  @ApiProperty()
+  @Field()
   ogrn: string
 
   @Column()
-  @ApiProperty()
+  @Field()
   inn: string
 
   @Column()
-  @ApiProperty()
+  @Field()
   kpp: string
 
   @Column()
-  @ApiProperty()
+  @Field()
   okpo: string
 
   @Column()
-  @ApiProperty()
+  @Field()
   region: string
 
   @Column({ type: 'text', nullable: true })
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   additional_info?: string
 
   @Column({ nullable: true })
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   web_site?: string
 
   @OneToMany(() => Plan, (plan) => plan.branch, { cascade: true })

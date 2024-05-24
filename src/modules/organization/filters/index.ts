@@ -1,132 +1,134 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { Field, InputType, Int } from '@nestjs/graphql'
 import { FilterOffset } from 'src/common/classes/filter_offset'
-import { AppStrings } from 'src/common/constants/strings'
 
+@InputType()
 export class OrganizationSorts {
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   organization_uuid?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   organization_type_id?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   contact_person_uuid?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   full_name?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   short_name?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   register_number?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   bic?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   address?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   mail_address?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   phone?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   fax?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   email?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   ogrn?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   inn?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   kpp?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   okpo?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   region?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   additional_info?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   web_site?: 'ASC' | 'DESC'
 }
 
+@InputType()
 export class OrganizationFilters {
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   organization_uuid?: string
 
-  @ApiProperty({ required: false })
+  @Field(() => Int, { nullable: true })
   organization_type_id?: number
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   contact_person_uuid?: string
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   full_name?: string
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   short_name?: string
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   register_number?: string
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   bic?: string
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   address?: string
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   mail_address?: string
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   phone?: string
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   fax?: string
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   email?: string
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   ogrn?: string
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   inn?: string
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   kpp?: string
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   okpo?: string
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   region?: string
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   additional_info?: string
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   web_site?: string
 }
 
+@InputType()
 export class OrganizationFilter {
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   offset?: FilterOffset
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   filter?: OrganizationFilters
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   sorts?: OrganizationSorts
 }

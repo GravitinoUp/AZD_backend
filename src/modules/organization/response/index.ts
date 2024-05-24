@@ -1,112 +1,115 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { Field, Int, ObjectType } from '@nestjs/graphql'
 import { IsString, IsBoolean, IsInt, IsOptional, IsArray, IsUUID } from 'class-validator'
 import { OrganizationType } from 'src/modules/organization-type/entities/organization-type.entity'
 import { Person } from 'src/modules/person/entities/person.entity'
 
+@ObjectType()
 export class OrganizationResponse {
   @IsUUID()
-  @ApiProperty()
+  @Field()
   organization_uuid: string
 
   @IsInt()
-  @ApiProperty()
+  @Field(() => Int)
   organization_type_id: number
 
-  @ApiProperty({ required: false })
-  organization_type: OrganizationType
+  @Field({ nullable: true })
+  organization_type?: OrganizationType
 
   @IsUUID()
-  @ApiProperty()
+  @Field()
   contact_person_uuid: string
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   contact_person: Person
 
   @IsString()
-  @ApiProperty()
+  @Field()
   full_name: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   short_name: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   register_number: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   bic: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   address: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   mail_address: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   phone: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   fax?: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   email?: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   ogrn: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   inn: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   kpp: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   okpo: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   region: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   additional_info?: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   web_site?: string
 }
 
+@ObjectType()
 export class ArrayOrganizationResponse {
   @IsInt()
-  @ApiProperty()
+  @Field(() => Int)
   count: number
 
   @IsArray()
-  @ApiProperty({ required: false, type: OrganizationResponse, isArray: true })
+  @Field(() => [OrganizationResponse], { nullable: true })
   data: OrganizationResponse[]
 }
 
+@ObjectType()
 export class StatusOrganizationResponse {
   @IsBoolean()
-  @ApiProperty()
+  @Field()
   status: boolean
 
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   data?: OrganizationResponse
 }

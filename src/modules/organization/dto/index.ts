@@ -1,176 +1,178 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { Field, InputType, Int } from '@nestjs/graphql'
 import { IsString, IsInt, IsOptional, IsUUID } from 'class-validator'
 
+@InputType()
 export class CreateOrganizationDto {
   @IsInt()
-  @ApiProperty()
+  @Field(() => Int)
   organization_type_id: number
 
   @IsUUID()
-  @ApiProperty()
+  @Field()
   contact_person_uuid: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   full_name: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   short_name: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   register_number: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   bic: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   address: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   mail_address: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   phone: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   fax?: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   email?: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   ogrn: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   inn: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   kpp: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   okpo: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   region: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   additional_info?: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   web_site?: string
 }
 
+@InputType()
 export class UpdateOrganizationDto {
   @IsUUID()
-  @ApiProperty()
+  @Field()
   organization_uuid: string
 
   @IsInt()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field(() => Int, { nullable: true })
   organization_type_id?: number
 
   @IsUUID()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   contact_person_uuid?: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   full_name?: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   short_name?: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   register_number?: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   bic?: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   address?: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   mail_address?: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   phone?: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   fax?: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   email?: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   ogrn?: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   inn?: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   kpp?: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   okpo?: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   region?: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   additional_info?: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   web_site?: string
 }
