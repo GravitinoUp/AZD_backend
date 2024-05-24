@@ -5,6 +5,9 @@ export const AppStrings = {
 
   ASC: 'ASC',
 
+  AUTH_LOGIN_OPERATION: 'Авторизация пользователя',
+  AUTH_LOGOUT_OPERATION: 'Выход из аккаунта',
+
   ORGANIZATION_CREATED_RESPONSE: 'Организация создана',
   ORGANIZATION_CREATE_OPERATION: 'Создание организации',
   ORGANIZATION_ALL_RESPONSE: 'Список организаций получен',

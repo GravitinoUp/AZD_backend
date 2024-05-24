@@ -1,27 +1,17 @@
-import {
-  Controller,
-  Post,
-  Body,
-  Delete,
-  HttpException,
-  HttpStatus,
-  Ip,
-  Req,
-  UseFilters,
-} from '@nestjs/common'
+import { HttpException, HttpStatus } from '@nestjs/common'
 import { AuthService } from './auth.service'
-import { ApiTags } from '@nestjs/swagger'
-import { AllExceptionsFilter } from 'src/common/exception.filter'
 import { UserService } from '../user/user.service'
 import { AuthDto } from './dto/auth.dto'
 import { I18nService } from 'nestjs-i18n'
 import { RefreshTokenDto } from './dto/refresh-token.dto'
 import { Throttle } from '@nestjs/throttler'
+import { Args, Context, Mutation, Resolver } from '@nestjs/graphql'
+import { Auth } from './entities/auth.entity'
+import { AuthResponse } from './response'
+import { AppStrings } from 'src/common/constants/strings'
 
-@ApiTags('Auth')
-@Controller('auth')
-@UseFilters(AllExceptionsFilter)
-export class AuthController {
+@Resolver(() => Auth)
+export class AuthResolver {
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UserService,
@@ -29,8 +19,8 @@ export class AuthController {
   ) {}
 
   @Throttle({ default: { limit: 1, ttl: 1000 } })
-  @Post()
-  async login(@Body() authDto: AuthDto, @Ip() ipAddress, @Req() request) {
+  @Mutation(() => AuthResponse, { name: 'login', description: AppStrings.AUTH_LOGIN_OPERATION })
+  async login(@Args('auth') authDto: AuthDto, @Context() context) {
     const user = await this.userService.authByEmail(authDto.email)
     if (!user) {
       throw new HttpException(await this.i18n.t('errors.user_not_found'), HttpStatus.NOT_FOUND)
@@ -39,20 +29,20 @@ export class AuthController {
     }
 
     return this.authService.login(authDto, {
-      userAgent: request.headers['user-agent'],
-      ipAddress: ipAddress,
+      userAgent: context.req.headers['user-agent'],
+      ipAddress: context.req.ip,
     })
   }
 
   @Throttle({ default: { limit: 1, ttl: 1000 } })
-  @Post('refresh')
-  async refreshToken(@Body() body: RefreshTokenDto) {
+  @Mutation(() => String, { name: 'refresh' })
+  async refreshToken(@Args('data') body: RefreshTokenDto) {
     return this.authService.refresh(body.refresh_token)
   }
 
   @Throttle({ default: { limit: 1, ttl: 1000 } })
-  @Delete('logout')
-  async logout(@Body() body: RefreshTokenDto) {
+  @Mutation(() => String, { name: 'logout', description: AppStrings.AUTH_LOGOUT_OPERATION })
+  async logout(@Args('data') body: RefreshTokenDto) {
     return this.authService.logout(body.refresh_token)
   }
 }

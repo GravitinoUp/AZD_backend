@@ -26,6 +26,21 @@ import { PropertiesModule } from '../properties/properties.module'
 import { PlanWayModule } from '../plan-way/plan-way.module'
 import { PlanModule } from '../plan/plan.module'
 
+const modules = [
+  AuthModule,
+  LegalBasis,
+  OrganizationModule,
+  OrganizationTypeModule,
+  PermissionModule,
+  PersonModule,
+  PlanModule,
+  PlanWayModule,
+  PropertiesModule,
+  RoleModule,
+  RolePermissionModule,
+  UserModule,
+]
+
 @Module({
   imports: [
     I18nModule.forRoot({
@@ -72,8 +87,7 @@ import { PlanModule } from '../plan/plan.module'
       driver: ApolloDriver,
       playground: true,
       autoSchemaFile: true,
-      sortSchema: true,
-      include: [RoleModule],
+      include: modules,
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -92,18 +106,7 @@ import { PlanModule } from '../plan/plan.module'
         logging: true,
       }),
     }),
-    AuthModule,
-    LegalBasis,
-    OrganizationModule,
-    OrganizationTypeModule,
-    PermissionModule,
-    PersonModule,
-    PlanModule,
-    PlanWayModule,
-    PropertiesModule,
-    RoleModule,
-    RolePermissionModule,
-    UserModule,
+    ...modules,
   ],
   controllers: [AppController],
   providers: [AppService],
