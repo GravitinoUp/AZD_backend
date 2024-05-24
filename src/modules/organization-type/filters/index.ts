@@ -1,30 +1,32 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { Field, InputType } from '@nestjs/graphql'
 import { FilterOffset } from 'src/common/classes/filter_offset'
-import { AppStrings } from 'src/common/constants/strings'
 
+@InputType()
 export class OrganizationTypeSorts {
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   organization_type_id?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @Field({ nullable: true })
   organization_type_name?: 'ASC' | 'DESC'
 }
 
+@InputType()
 export class OrganizationTypeFilters {
-  @ApiProperty({ default: 1, required: false })
+  @Field({ nullable: true })
   organization_type_id?: number
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   organization_type_name?: string
 }
 
+@InputType()
 export class OrganizationTypeFilter {
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   offset?: FilterOffset
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   filter?: OrganizationTypeFilters
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   sorts?: OrganizationTypeSorts
 }

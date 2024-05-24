@@ -6,6 +6,7 @@ import { CreateOrganizationDto, UpdateOrganizationDto } from './dto'
 import { ArrayOrganizationResponse, StatusOrganizationResponse } from './response'
 import { OrganizationFilter } from './filters'
 import { DefaultPagination } from 'src/common/constants/constants'
+import { formatFilter } from 'src/utils/format-filter'
 
 @Injectable()
 export class OrganizationService {
@@ -35,15 +36,15 @@ export class OrganizationService {
     try {
       const count = organizationFilter?.offset?.count ?? DefaultPagination.COUNT
       const page = organizationFilter?.offset?.page ?? DefaultPagination.PAGE
+      const filters = formatFilter(organizationFilter?.filter ?? {})
 
-      const organizations = await this.organizationRepository
-        .createQueryBuilder()
-        .select()
-        .where({ ...organizationFilter.filter })
-        .orderBy({ ...organizationFilter.sorts })
-        .offset(count * (page - 1))
-        .limit(count)
-        .getManyAndCount()
+      const organizations = await this.organizationRepository.findAndCount({
+        relations: { organization_type: true },
+        where: filters,
+        order: organizationFilter.sorts,
+        skip: count * (page - 1),
+        take: count,
+      })
 
       return { count: organizations[1], data: organizations[0] }
     } catch (error) {

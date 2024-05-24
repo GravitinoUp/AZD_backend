@@ -1,32 +1,35 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { Field, ObjectType } from '@nestjs/graphql'
 import { IsString, IsBoolean, IsInt, IsOptional, IsArray } from 'class-validator'
 
+@ObjectType()
 export class OrganizationTypeResponse {
   @IsInt()
-  @ApiProperty()
+  @Field()
   organization_type_id: number
 
   @IsString()
-  @ApiProperty()
+  @Field()
   organization_type_name: string
 }
 
+@ObjectType()
 export class ArrayOrganizationTypeResponse {
   @IsInt()
-  @ApiProperty()
+  @Field()
   count: number
 
   @IsArray()
-  @ApiProperty({ required: false, type: OrganizationTypeResponse, isArray: true })
+  @Field(() => [OrganizationTypeResponse], { nullable: true })
   data: OrganizationTypeResponse[]
 }
 
+@ObjectType()
 export class StatusOrganizationTypeResponse {
   @IsBoolean()
-  @ApiProperty()
+  @Field()
   status: boolean
 
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   data?: OrganizationTypeResponse
 }

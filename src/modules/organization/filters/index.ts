@@ -1,5 +1,6 @@
-import { Field, InputType, Int } from '@nestjs/graphql'
+import { Field, InputType } from '@nestjs/graphql'
 import { FilterOffset } from 'src/common/classes/filter_offset'
+import { OrganizationTypeSorts } from 'src/modules/organization-type/filters'
 
 @InputType()
 export class OrganizationSorts {
@@ -7,7 +8,7 @@ export class OrganizationSorts {
   organization_uuid?: 'ASC' | 'DESC'
 
   @Field({ nullable: true })
-  organization_type_id?: 'ASC' | 'DESC'
+  organization_type?: OrganizationTypeSorts
 
   @Field({ nullable: true })
   contact_person_uuid?: 'ASC' | 'DESC'
@@ -66,8 +67,8 @@ export class OrganizationFilters {
   @Field({ nullable: true })
   organization_uuid?: string
 
-  @Field(() => Int, { nullable: true })
-  organization_type_id?: number
+  @Field({ nullable: true })
+  organization_type?: OrganizationFilters
 
   @Field({ nullable: true })
   contact_person_uuid?: string
