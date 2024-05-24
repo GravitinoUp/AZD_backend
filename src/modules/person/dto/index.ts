@@ -1,56 +1,58 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { Field, InputType } from '@nestjs/graphql'
 import { IsOptional, IsString, IsUUID } from 'class-validator'
 
+@InputType()
 export class CreatePersonDto {
   @IsString()
-  @ApiProperty()
+  @Field()
   last_name: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   first_name: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   patronymic?: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   post: string
 
   @IsUUID()
-  @ApiProperty()
+  @Field()
   legal_basis_uuid: string
 }
 
+@InputType()
 export class UpdatePersonDto {
   @IsUUID()
-  @ApiProperty()
+  @Field()
   person_uuid: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   last_name?: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   first_name?: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   patronymic?: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   post?: string
 
   @IsUUID()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   legal_basis_uuid?: string
 }
