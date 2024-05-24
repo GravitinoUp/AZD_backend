@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common'
 import { LegalBasisService } from './legal-basis.service'
-import { LegalBasisController } from './legal-basis.controller'
+import { LegalBasisResolver } from './legal-basis.resolver'
 
 @Module({
-  controllers: [LegalBasisController],
-  providers: [LegalBasisService],
+  providers: [LegalBasisService, LegalBasisResolver],
   exports: [LegalBasisService],
 })
 export class LegalBasisModule {}
