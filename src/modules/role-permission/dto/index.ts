@@ -1,23 +1,25 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { Field, InputType } from '@nestjs/graphql'
 
+@InputType()
 export class CreateRolesPermissionDto {
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   role_id?: number
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   user_uuid?: string
 
-  @ApiProperty({ default: [] })
+  @Field(() => [String])
   permission_ids: string[]
 
-  @ApiProperty()
+  @Field()
   rights: boolean
 }
 
+@InputType()
 export class UpdateRolePermissionDto {
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   role_permission_id?: number
 
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   rights?: boolean
 }

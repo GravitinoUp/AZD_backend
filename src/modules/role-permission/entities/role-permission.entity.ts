@@ -1,44 +1,45 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { Field, ObjectType } from '@nestjs/graphql'
 import BaseModel from 'src/common/model'
 import { Permission } from 'src/modules/permission/entities/permission.entity'
 import { Role } from 'src/modules/role/entities/role.entity'
 import { User } from 'src/modules/user/entities/user.entity'
 import { Entity, Column, PrimaryColumn, JoinColumn, ManyToOne } from 'typeorm'
 
+@ObjectType()
 @Entity({ name: 'RolesPermissions' })
 export class RolePermission extends BaseModel {
   @PrimaryColumn()
-  @ApiProperty()
+  @Field()
   role_permission_id: number
 
   @Column()
-  @ApiProperty()
+  @Field()
   role_id: number
 
   @ManyToOne(() => Role, (role) => role.role_id)
   @JoinColumn({ name: 'role_id', referencedColumnName: 'role_id' })
-  @ApiProperty()
+  @Field(() => Role)
   role: Role
 
   @Column()
-  @ApiProperty()
+  @Field()
   user_uuid: string
 
   @ManyToOne(() => User, (user) => user.role_permissions)
   @JoinColumn({ name: 'user_uuid', referencedColumnName: 'user_uuid' })
-  @ApiProperty()
+  @Field(() => User)
   user: User
 
   @Column()
-  @ApiProperty()
+  @Field()
   permission_id: string
 
   @ManyToOne(() => Permission, (permission) => permission.role_permissions)
   @JoinColumn({ name: 'permission_id', referencedColumnName: 'permission_id' })
-  @ApiProperty()
+  @Field(() => Permission)
   permission: Permission
 
   @Column()
-  @ApiProperty()
+  @Field()
   rights: boolean
 }

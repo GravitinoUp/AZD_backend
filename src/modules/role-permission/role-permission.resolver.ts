@@ -1,39 +1,23 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpException,
-  HttpStatus,
-  Inject,
-  NotFoundException,
-  Param,
-  Patch,
-  Post,
-  Req,
-  UseFilters,
-  UseGuards,
-} from '@nestjs/common'
+import { HttpException, HttpStatus, Inject, NotFoundException, UseGuards } from '@nestjs/common'
 import { RolePermissionService } from './role-permission.service'
-import { ApiOperation, ApiCreatedResponse, ApiBearerAuth, ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth } from '@nestjs/swagger'
 import { CacheRoutes } from 'src/common/constants/constants'
 import { AppStrings } from 'src/common/constants/strings'
 import { ActiveGuard } from '../auth/guards/active.guard'
 import { JwtAuthGuard } from '../auth/guards/auth.guard'
-import { ArrayRolePermissionResponse, RolePermissionResponse, StatusRolePermissionResponse } from './response'
+import { ArrayRolePermissionResponse, StatusRolePermissionResponse } from './response'
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager'
 import { CreateRolesPermissionDto, UpdateRolePermissionDto } from './dto'
 import { I18nService } from 'nestjs-i18n'
 import { RoleService } from '../role/role.service'
 import { UserService } from '../user/user.service'
 import { PermissionService } from '../permission/permission.service'
-import { AllExceptionsFilter } from 'src/common/exception.filter'
+import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql'
+import { RolePermission } from './entities/role-permission.entity'
 
 @ApiBearerAuth()
-@ApiTags('Permissions')
-@Controller('role-permission')
-@UseFilters(AllExceptionsFilter)
-export class RolePermissionController {
+@Resolver(() => RolePermission)
+export class RolePermissionResolver {
   constructor(
     private readonly rolePermissionService: RolePermissionService,
     private readonly userService: UserService,
@@ -44,13 +28,11 @@ export class RolePermissionController {
   ) {}
 
   @UseGuards(JwtAuthGuard, ActiveGuard)
-  @ApiOperation({ summary: AppStrings.ROLE_PERMISSIONS_CREATE_OPERATION })
-  @ApiCreatedResponse({
-    description: AppStrings.ROLE_PERMISSIONS_CREATED_RESPONSE,
-    type: StatusRolePermissionResponse,
+  @Mutation(() => StatusRolePermissionResponse, {
+    name: 'create_role_permissions',
+    description: AppStrings.ROLE_PERMISSIONS_CREATE_OPERATION,
   })
-  @Post('create')
-  async create(@Body() rolePermission: CreateRolesPermissionDto) {
+  async create(@Args('data') rolePermission: CreateRolesPermissionDto) {
     if (!rolePermission.role_id && !rolePermission.user_uuid) {
       throw new HttpException(this.i18n.t('errors.role_or_user_null'), HttpStatus.BAD_REQUEST)
     }
@@ -84,13 +66,10 @@ export class RolePermissionController {
   }
 
   @UseGuards(JwtAuthGuard, ActiveGuard)
-  @ApiOperation({ summary: AppStrings.ROLE_PERMISSION_ALL_OPERATION })
-  @ApiCreatedResponse({
-    description: AppStrings.ROLE_PERMISSION_ALL_RESPONSE,
-    type: ArrayRolePermissionResponse,
-    isArray: true,
+  @Query(() => ArrayRolePermissionResponse, {
+    name: 'role_permissions',
+    description: AppStrings.ROLE_PERMISSION_ALL_OPERATION,
   })
-  @Get('all')
   async findAll() {
     const key = `${CacheRoutes.ROLES_PERMISSIONS}/all`
     let rolesPermissions: ArrayRolePermissionResponse = await this.cacheManager.get(key)
@@ -105,34 +84,29 @@ export class RolePermissionController {
   }
 
   @UseGuards(JwtAuthGuard, ActiveGuard)
-  @ApiOperation({ summary: AppStrings.ROLE_PERMISSION_MY_OPERATION })
-  @ApiCreatedResponse({
-    description: AppStrings.ROLE_PERMISSION_MY_RESPONSE,
-    type: RolePermissionResponse,
-    isArray: true,
+  @Query(() => ArrayRolePermissionResponse, {
+    name: 'my_role_permissions',
+    description: AppStrings.ROLE_PERMISSION_ALL_OPERATION,
   })
-  @Get('my')
-  async findMy(@Req() request) {
-    const key = `${CacheRoutes.ROLES_PERMISSIONS}/my-${request.user.user_uuid}`
+  async findMy(@Context() context) {
+    const key = `${CacheRoutes.ROLES_PERMISSIONS}/my-${context.req.user.user_uuid}`
     let rolesPermissions: ArrayRolePermissionResponse = await this.cacheManager.get(key)
 
     if (rolesPermissions) {
       return rolesPermissions
     } else {
-      rolesPermissions = await this.rolePermissionService.findMy(request.user.user_uuid)
+      rolesPermissions = await this.rolePermissionService.findMy(context.req.user.user_uuid)
       await this.cacheManager.set(key, rolesPermissions)
       return rolesPermissions
     }
   }
 
   @UseGuards(JwtAuthGuard, ActiveGuard)
-  @ApiOperation({ summary: AppStrings.ROLE_PERMISSION_UPDATE_OPERATION })
-  @ApiCreatedResponse({
-    description: AppStrings.ROLE_PERMISSION_UPDATE_RESPONSE,
-    type: StatusRolePermissionResponse,
+  @Mutation(() => StatusRolePermissionResponse, {
+    name: 'update_role_permissions',
+    description: AppStrings.ROLE_PERMISSION_UPDATE_OPERATION,
   })
-  @Patch()
-  async update(@Body() updateRolesPermissionDto: UpdateRolePermissionDto) {
+  async update(@Args('data') updateRolesPermissionDto: UpdateRolePermissionDto) {
     const isRolePermissionExists = await this.rolePermissionService.isExists(
       updateRolesPermissionDto.role_permission_id,
     )
@@ -147,13 +121,11 @@ export class RolePermissionController {
   }
 
   @UseGuards(JwtAuthGuard, ActiveGuard)
-  @ApiOperation({ summary: AppStrings.ROLE_PERMISSION_DELETE_OPERATION })
-  @ApiCreatedResponse({
-    description: AppStrings.ROLE_PERMISSION_DELETE_RESPONSE,
-    type: StatusRolePermissionResponse,
+  @Mutation(() => StatusRolePermissionResponse, {
+    name: 'delete_role_permissions',
+    description: AppStrings.ROLE_PERMISSION_DELETE_OPERATION,
   })
-  @Delete(':id')
-  async remove(@Param('id') id: number) {
+  async remove(@Args('id') id: number) {
     const isRolePermissionExists = await this.rolePermissionService.isExists(id)
 
     if (!isRolePermissionExists) {

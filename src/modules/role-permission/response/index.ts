@@ -1,56 +1,60 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { Field, Int, ObjectType } from '@nestjs/graphql'
 import { IsArray, IsBoolean, IsInt, IsOptional, IsString } from 'class-validator'
 
+@ObjectType()
 export class RolePermissionResponse {
   @IsInt()
-  @ApiProperty()
+  @Field()
   role_permission_id: number
 
   @IsInt()
   @IsOptional()
-  @ApiProperty()
+  @Field({ nullable: true })
   role_id?: number
 
   @IsString()
   @IsOptional()
-  @ApiProperty()
+  @Field({ nullable: true })
   user_uuid?: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   permission_id: string
 
   @IsBoolean()
-  @ApiProperty()
+  @Field()
   rights: boolean
 }
 
+@ObjectType()
 export class ArrayRolePermissionResponse {
   @IsInt()
-  @ApiProperty()
+  @Field(() => Int)
   count: number
 
   @IsArray()
-  @ApiProperty({ required: false, type: RolePermissionResponse, isArray: true })
-  data: RolePermissionResponse[]
-}
-
-export class StatusArrayRolePermissionResponse {
-  @IsBoolean()
-  @ApiProperty()
-  status: boolean
-
-  @IsOptional()
-  @ApiProperty({ required: false })
+  @Field(() => [RolePermissionResponse], { nullable: true })
   data?: RolePermissionResponse[]
 }
 
-export class StatusRolePermissionResponse {
+@ObjectType()
+export class StatusArrayRolePermissionResponse {
   @IsBoolean()
-  @ApiProperty()
+  @Field()
   status: boolean
 
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field(() => [RolePermissionResponse], { nullable: true })
+  data?: RolePermissionResponse[]
+}
+
+@ObjectType()
+export class StatusRolePermissionResponse {
+  @IsBoolean()
+  @Field()
+  status: boolean
+
+  @IsOptional()
+  @Field({ nullable: true })
   data?: RolePermissionResponse
 }
