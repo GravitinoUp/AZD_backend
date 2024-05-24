@@ -1,5 +1,5 @@
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager'
-import { Inject, UseGuards } from '@nestjs/common'
+import { Inject, NotFoundException, UseGuards } from '@nestjs/common'
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { ApiBearerAuth } from '@nestjs/swagger'
 import { I18nService } from 'nestjs-i18n'
@@ -10,10 +10,11 @@ import { RoleFilter } from './filters'
 import { AppStrings } from 'src/common/constants/strings'
 import { ActiveGuard } from '../auth/guards/active.guard'
 import { JwtAuthGuard } from '../auth/guards/auth.guard'
-import { CreateRoleDto } from './dto'
+import { CreateRoleDto, UpdateRoleDto } from './dto'
+import { Role } from './entities/role.entity'
 
 @ApiBearerAuth()
-@Resolver('roles')
+@Resolver(() => Role)
 export class RolesResolver {
   constructor(
     private readonly roleService: RoleService,
@@ -44,6 +45,19 @@ export class RolesResolver {
       await this.cacheManager.set(key, roles)
       return roles
     }
+  }
+
+  @Mutation(() => StatusRoleResponse, { name: 'update_role', description: AppStrings.ROLE_UPDATE_OPERATION })
+  async update(@Args('role') updateRoleDto: UpdateRoleDto) {
+    const isExists = await this.roleService.isExists(updateRoleDto.role_id)
+
+    if (!isExists) {
+      throw new NotFoundException(this.i18n.t('errors.role_not_found'))
+    }
+
+    const result = await this.roleService.update(updateRoleDto)
+    await this.clearCache()
+    return result
   }
 
   async clearCache() {

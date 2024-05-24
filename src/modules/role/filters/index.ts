@@ -1,4 +1,4 @@
-import { Field, InputType } from '@nestjs/graphql'
+import { Field, InputType, Int } from '@nestjs/graphql'
 import { ApiProperty } from '@nestjs/swagger'
 import { FilterOffset } from 'src/common/classes/filter_offset'
 import { AppStrings } from 'src/common/constants/strings'
@@ -17,7 +17,7 @@ export class RoleSorts {
 @InputType()
 export class RoleFilters {
   @ApiProperty({ default: 1, required: false })
-  @Field({ nullable: true })
+  @Field(() => Int, { nullable: true })
   role_id?: number
 
   @ApiProperty({ required: false })

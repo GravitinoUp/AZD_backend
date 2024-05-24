@@ -1,4 +1,4 @@
-import { Field, ObjectType } from '@nestjs/graphql'
+import { Field, Int, ObjectType } from '@nestjs/graphql'
 import { ApiProperty } from '@nestjs/swagger'
 import { IsString, IsBoolean, IsInt, IsOptional, IsArray } from 'class-validator'
 
@@ -6,7 +6,7 @@ import { IsString, IsBoolean, IsInt, IsOptional, IsArray } from 'class-validator
 export class RoleResponse {
   @IsInt()
   @ApiProperty()
-  @Field()
+  @Field(() => Int)
   role_id: number
 
   @IsString()
@@ -19,7 +19,7 @@ export class RoleResponse {
 export class ArrayRoleResponse {
   @IsInt()
   @ApiProperty()
-  @Field()
+  @Field(() => Int)
   count: number
 
   @IsArray()
