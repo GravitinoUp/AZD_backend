@@ -1,40 +1,43 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { Field, ObjectType } from '@nestjs/graphql'
 import { IsArray, IsBoolean, IsInt, IsOptional, IsString } from 'class-validator'
 
+@ObjectType()
 export class PermissionResponse {
   @IsString()
-  @ApiProperty()
+  @Field()
   permission_id: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   permission_name: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   permission_description: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   entity_name: string
 }
 
+@ObjectType()
 export class ArrayPermissionResponse {
   @IsInt()
-  @ApiProperty()
+  @Field()
   count: number
 
   @IsArray()
-  @ApiProperty({ required: false, type: PermissionResponse, isArray: true })
+  @Field(() => [PermissionResponse], { nullable: true })
   data: PermissionResponse[]
 }
 
+@ObjectType()
 export class StatusPermissionResponse {
   @IsBoolean()
-  @ApiProperty()
+  @Field()
   status: boolean
 
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   data?: PermissionResponse
 }
