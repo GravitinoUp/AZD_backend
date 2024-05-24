@@ -1,71 +1,76 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { Field, InputType } from '@nestjs/graphql'
 import { IsArray, IsInt, IsOptional, IsString, IsUUID } from 'class-validator'
 
+@InputType()
 export class CreatePropertyNameDto {
   @IsString()
-  @ApiProperty()
+  @Field()
   property_name: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   entity_name: string
 }
 
+@InputType()
 export class CreatePropertyValueDto {
   @IsUUID()
-  @ApiProperty()
+  @Field()
   property_name_uuid: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   property_value: string
 }
 
+@InputType()
 export class UpdatePropertyNameDto {
   @IsInt()
   @IsOptional()
-  @ApiProperty({ default: 1 })
-  property_name_id: number
+  @Field()
+  property_name_uuid: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   property_name?: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   entity_name?: string
 }
 
+@InputType()
 export class CreatePropertyDto {
   @IsString()
-  @ApiProperty()
+  @Field()
   property_name: string
 
   @IsArray()
-  @ApiProperty({ default: [] })
+  @Field(() => [String])
   property_values: string[]
 
   @IsString()
-  @ApiProperty()
+  @Field()
   entity_name: string
 }
 
+@InputType()
 export class UpdatePropertyDto {
   @IsInt()
-  @ApiProperty()
-  property_name_id: number
+  @Field()
+  property_name_uuid: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   property_name: string
 
   @IsArray()
-  @ApiProperty({ default: [] })
+  @Field(() => [String])
   property_values: string[]
 
   @IsString()
-  @ApiProperty()
+  @Field()
   entity_name: string
 }

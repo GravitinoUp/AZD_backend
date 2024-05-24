@@ -1,50 +1,54 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { Field, Int, ObjectType } from '@nestjs/graphql'
 import { IsArray, IsBoolean, IsInt, IsOptional, IsString, IsUUID } from 'class-validator'
 
+@ObjectType()
 export class PropertyValueResponse {
   @IsUUID()
-  @ApiProperty()
+  @Field()
   property_value_uuid: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   property_value: string
 }
 
+@ObjectType()
 export class PropertyResponse {
   @IsUUID()
-  @ApiProperty()
+  @Field()
   property_name_uuid: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   property_name: string
 
   @IsString()
-  @ApiProperty()
+  @Field()
   entity_name: string
 
   @IsOptional()
-  @ApiProperty()
+  @Field(() => [PropertyValueResponse])
   values?: PropertyValueResponse[]
 }
 
+@ObjectType()
 export class ArrayPropertyResponse {
   @IsInt()
-  @ApiProperty()
+  @Field(() => Int)
   count: number
 
   @IsArray()
-  @ApiProperty({ required: false, type: PropertyResponse, isArray: true })
-  data: PropertyResponse[]
+  @Field(() => [PropertyResponse], { nullable: true })
+  data?: PropertyResponse[]
 }
 
+@ObjectType()
 export class StatusPropertyResponse {
   @IsBoolean()
-  @ApiProperty()
+  @Field()
   status: boolean
 
   @IsOptional()
-  @ApiProperty({ required: false })
+  @Field({ nullable: true })
   data?: PropertyResponse
 }
