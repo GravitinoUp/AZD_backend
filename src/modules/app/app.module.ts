@@ -3,7 +3,7 @@ import { AppService } from './app.service'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import configuration from 'src/config/configuration'
 import { ScheduleModule } from '@nestjs/schedule'
-import { ThrottlerModule } from '@nestjs/throttler'
+import { ThrottlerModule, ThrottlerModuleOptions } from '@nestjs/throttler'
 import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { AppController } from './app.controller'
@@ -15,7 +15,7 @@ import { UserModule } from '../user/user.module'
 import { join } from 'path'
 import { AcceptLanguageResolver, I18nModule } from 'nestjs-i18n'
 import { CacheModule } from '@nestjs/cache-manager'
-import { redisStore } from 'cache-manager-redis-yet'
+import * as redisStore from 'cache-manager-redis-store'
 import { PermissionModule } from '../permission/permission.module'
 import { RolePermissionModule } from '../role-permission/role-permission.module'
 import { OrganizationModule } from '../organization/organization.module'
@@ -23,6 +23,7 @@ import { OrganizationTypeModule } from '../organization-type/organization-type.m
 import { PropertiesModule } from '../properties/properties.module'
 import { PlanWayModule } from '../plan-way/plan-way.module'
 import { PlanModule } from '../plan/plan.module'
+import { RedisClientOptions } from 'redis'
 
 @Module({
   imports: [
@@ -41,30 +42,41 @@ import { PlanModule } from '../plan/plan.module'
       isGlobal: true,
       load: [configuration],
     }),
-    CacheModule.registerAsync({
+    CacheModule.registerAsync<RedisClientOptions>({
       imports: [ConfigModule],
       inject: [ConfigService],
       isGlobal: true,
-      useFactory: async (configService: ConfigService) => ({
-        store: redisStore,
-        host: configService.get('redis_host'),
-        port: configService.get('redis_port'),
-        ttl: configService.get('cache_ttl'),
-      }),
+      useFactory: async (configService: ConfigService) => {
+        const options = {
+          store: redisStore,
+          host: configService.get('redis_host'),
+          port: configService.get('redis_port'),
+          ttl: configService.get('cache_ttl'),
+        }
+
+        return options
+      },
     }),
     ScheduleModule.forRoot(),
     ThrottlerModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        storage: new ThrottlerStorageRedisService(),
-        throttlers: [
-          {
-            ttl: config.get('throttle_ttl'),
-            limit: config.get('throttle_limit'),
-          },
-        ],
-      }),
+      useFactory: (config: ConfigService) => {
+        const options: ThrottlerModuleOptions = {
+          storage: new ThrottlerStorageRedisService({
+            host: config.get('redis_host'),
+            port: config.get('redis_port'),
+          }),
+          throttlers: [
+            {
+              ttl: config.get('throttle_ttl'),
+              limit: config.get('throttle_limit'),
+            },
+          ],
+        }
+
+        return options
+      },
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
