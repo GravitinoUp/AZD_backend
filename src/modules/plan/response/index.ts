@@ -1,5 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsArray, IsBoolean, IsDateString, IsDecimal, IsInt, IsOptional, IsString, IsUUID } from 'class-validator'
+import { OrganizationResponse } from 'src/modules/organization/response'
+import { WayResponse } from 'src/modules/plan-way/response'
+import { UserResponse } from 'src/modules/user/response'
 
 export class PlanResponse {
   @IsUUID()
@@ -9,6 +12,10 @@ export class PlanResponse {
   @IsUUID()
   @ApiProperty()
   user_uuid: string
+
+  @IsOptional()
+  @ApiProperty()
+  user?: UserResponse
 
   @IsString()
   @IsOptional()
@@ -113,6 +120,10 @@ export class PlanResponse {
   @ApiProperty()
   way_id: number
 
+  @IsOptional()
+  @ApiProperty()
+  way?: WayResponse
+
   @IsBoolean()
   @ApiProperty()
   small_business: boolean
@@ -123,7 +134,11 @@ export class PlanResponse {
 
   @IsUUID()
   @ApiProperty()
-  branch_uuid: string // TODO UUID
+  branch_uuid: string
+
+  @IsOptional()
+  @ApiProperty()
+  branch?: OrganizationResponse
 
   @IsDecimal()
   @IsOptional()
