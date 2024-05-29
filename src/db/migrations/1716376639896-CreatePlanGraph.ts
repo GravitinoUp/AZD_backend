@@ -43,6 +43,26 @@ export class CreatePlanGraph1716376639896 implements MigrationInterface {
             generationStrategy: 'uuid',
           },
           {
+            name: 'purchase_name',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'purchase_price',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'purchase_date',
+            type: 'date',
+            isNullable: true,
+          },
+          {
+            name: 'purchase_uuid',
+            type: 'uuid',
+            isNullable: true,
+          },
+          {
             name: 'user_uuid',
             type: 'uuid',
           },

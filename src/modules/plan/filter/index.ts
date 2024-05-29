@@ -8,6 +8,18 @@ export class PlanSorts {
   plan_uuid?: 'ASC' | 'DESC'
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
+  purchase_name?: 'ASC' | 'DESC'
+
+  @ApiProperty({ default: AppStrings.ASC, required: false })
+  purchase_price?: 'ASC' | 'DESC'
+
+  @ApiProperty({ default: AppStrings.ASC, required: false })
+  purchase_date?: 'ASC' | 'DESC'
+
+  @ApiProperty({ default: AppStrings.ASC, required: false })
+  purchase_uuid?: 'ASC' | 'DESC'
+
+  @ApiProperty({ default: AppStrings.ASC, required: false })
   user_uuid?: 'ASC' | 'DESC'
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
@@ -116,6 +128,18 @@ export class PlanSorts {
 export class PlanFilters {
   @ApiProperty({ required: false })
   plan_uuid?: string
+
+  @ApiProperty({ required: false })
+  purchase_name?: string
+
+  @ApiProperty({ required: false })
+  purchase_date?: Date
+
+  @ApiProperty({ required: false })
+  purchase_price?: number
+
+  @ApiProperty({ required: false })
+  purchase_uuid?: string
 
   @ApiProperty({ required: false })
   user_uuid?: string

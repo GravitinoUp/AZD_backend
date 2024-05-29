@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsArray, IsBoolean, IsDateString, IsDecimal, IsInt, IsOptional, IsString, IsUUID } from 'class-validator'
+import { AppStrings } from 'src/common/constants/strings'
 import { OrganizationResponse } from 'src/modules/organization/response'
 import { WayResponse } from 'src/modules/plan-way/response'
 import { UserResponse } from 'src/modules/user/response'
@@ -8,6 +9,26 @@ export class PlanResponse {
   @IsUUID()
   @ApiProperty()
   plan_uuid: string
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ required: false, description: AppStrings.PLAN_PURCHASE_NAME })
+  purchase_name?: string
+
+  @IsDecimal()
+  @IsOptional()
+  @ApiProperty({ required: false, description: AppStrings.PLAN_PURCHASE_PRICE })
+  purchase_price?: number
+
+  @IsDateString()
+  @IsOptional()
+  @ApiProperty({ required: false, description: AppStrings.PLAN_PURCHASE_DATE })
+  purchase_date?: Date
+
+  @IsUUID()
+  @IsOptional()
+  @ApiProperty({ required: false, description: AppStrings.PLAN_PURCHASE_UUID })
+  purchase_uuid?: string
 
   @IsUUID()
   @ApiProperty()
@@ -19,142 +40,139 @@ export class PlanResponse {
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false, description: 'Номер предложения на закупку (Электронный бюджет)' })
+  @ApiProperty({ required: false, description: AppStrings.PLAN_OFFER_NUMBER })
   purchase_offer_number?: string
 
   @IsUUID()
-  @ApiProperty({ description: 'Код ОКПД2' })
+  @ApiProperty({ description: AppStrings.PLAN_OKPD2 })
   okpd_uuid: string
 
   @IsString()
-  @ApiProperty({ description: 'Наименование объекта закупки' })
+  @ApiProperty({ description: AppStrings.PLAN_OBJECT_NAME })
   object_name: string
 
   @IsUUID()
-  @ApiProperty({ description: 'Код по ОКЕИ' })
+  @ApiProperty({ description: AppStrings.PLAN_OKEI })
   okei_uuid: string
 
   @IsString()
-  @ApiProperty({ description: 'Наименование результата закупки товара, работ, услуги' })
+  @ApiProperty({ description: AppStrings.PLAN_RESULT_NAME })
   result_name: string
 
   @IsDateString()
   @ApiProperty({
-    description:
-      'Дата / Сведения о НПА, утвержденных в соответствии со ст. 19 Федерального закона от 05.04.2013 № 44-ФЗ',
+    description: AppStrings.PLAN_NPA_DATE,
   })
   npa_date: Date
 
   @IsString()
   @ApiProperty({
-    description:
-      'Номер, Вид документа / Сведения о НПА, утвержденных в соответствии со ст. 19 Федерального закона от 05.04.2013 № 44-ФЗ',
+    description: AppStrings.PLAN_NPA_NUMBER,
   })
   npa_number: string
 
   @IsInt()
-  @ApiProperty({ description: 'Плановое значение. Кол-во. Текущий год.' })
+  @ApiProperty({ description: AppStrings.PLAN_CURRENT_YEAR_COUNT })
   current_year_plan_count: number
 
   @IsDecimal()
-  @ApiProperty({ description: 'Плановое значение. Средняя цена. Текущий год.' })
+  @ApiProperty({ description: AppStrings.PLAN_CURRENT_YEAR_PRICE })
   current_year_plan_avg_price: number
 
   @IsInt()
-  @ApiProperty({ description: 'Плановое значение. Кол-во. Следующий год.' })
+  @ApiProperty({ description: AppStrings.PLAN_FIRST_YEAR_COUNT })
   first_year_plan_count: number
 
   @IsDecimal()
-  @ApiProperty({ description: 'Плановое значение. Средняя цена. Следующий год.' })
+  @ApiProperty({ description: AppStrings.PLAN_FIRST_YEAR_PRICE })
   first_year_plan_avg_price: number
 
   @IsInt()
-  @ApiProperty({ description: 'Плановое значение. Кол-во. Второй год.' })
+  @ApiProperty({ description: AppStrings.PLAN_SECOND_YEAR_COUNT })
   second_year_plan_count: number
 
   @IsDecimal()
-  @ApiProperty({ description: 'Плановое значение. Средняя цена. Второй год.' })
+  @ApiProperty({ description: AppStrings.PLAN_SECOND_YEAR_PRICE })
   second_year_plan_avg_price: number
 
   @IsInt()
-  @ApiProperty({ description: 'Плановое значение. Кол-во. Последующие года.' })
+  @ApiProperty({ description: AppStrings.PLAN_NEXT_YEAR_COUNT })
   next_years_plan_count: number
 
   @IsDecimal()
-  @ApiProperty({ description: 'Плановое значение. Средняя цена. Последующие года.' })
+  @ApiProperty({ description: AppStrings.PLAN_NEXT_YEAR_PRICE })
   next_years_plan_avg_price: number
 
   @IsDecimal()
-  @ApiProperty({ description: 'Объем финансового обеспечения. Текущий год.' })
+  @ApiProperty({ description: AppStrings.PLAN_CURRENT_YEAR_LIMIT })
   current_year_limit: number
 
   @IsDecimal()
-  @ApiProperty({ description: 'Объем финансового обеспечения. Следующий год.' })
+  @ApiProperty({ description: AppStrings.PLAN_FIRST_YEAR_LIMIT })
   first_year_limit: number
 
   @IsDecimal()
-  @ApiProperty({ description: 'Объем финансового обеспечения. Второй год.' })
+  @ApiProperty({ description: AppStrings.PLAN_SECOND_YEAR_LIMIT })
   second_year_limit: number
 
   @IsDecimal()
-  @ApiProperty({ description: 'Объем финансового обеспечения. Последующие года.' })
+  @ApiProperty({ description: AppStrings.PLAN_NEXT_YEAR_LIMIT })
   next_years_limit: number
 
   @IsDecimal()
-  @ApiProperty({ description: 'Начальная (максимальная) цена контракта' })
+  @ApiProperty({ description: AppStrings.PLAN_START_MAX_PRICE })
   start_max_price: number
 
   @IsBoolean()
-  @ApiProperty({ description: 'Информация о проведении обязательного общественного обсуждения закупки' })
+  @ApiProperty({ description: AppStrings.PLAN_PUBLIC_PURCHASE_DISCUSSION })
   public_purchase_discussion: boolean
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false, description: 'Наименование уполномоченного органа (учреждения)' })
+  @ApiProperty({ required: false, description: AppStrings.PLAN_AUTHORIZED_INSTITUTION })
   authorized_institution?: string
 
   @IsString()
   @IsOptional()
   @ApiProperty({
     required: false,
-    description: 'Наименование организатора проведения совместного конкурса или аукциона',
+    description: AppStrings.PLAN_ORGANIZER_NAME,
   })
   organizer_name?: string
 
   @IsString()
-  @ApiProperty({ description: 'Месяц размещения извещения или заключения контракта у ед. поставщика' })
+  @ApiProperty({ description: AppStrings.PLAN_PLACEMENT_MONTH })
   placement_month: string
 
   @IsInt()
-  @ApiProperty({ description: 'ID Способа' })
+  @ApiProperty({ description: AppStrings.PLAN_WAY_ID })
   way_id: number
 
   @IsOptional()
-  @ApiProperty({ description: 'Способ' })
+  @ApiProperty({ description: AppStrings.PLAN_WAY })
   way?: WayResponse
 
   @IsBoolean()
-  @ApiProperty({ description: 'Осуществление закупки у СМП и СОНО' })
+  @ApiProperty({ description: AppStrings.PLAN_SMALL_BUSINESS })
   small_business: boolean
 
   @IsString()
-  @ApiProperty({ description: 'Инициатор закупки' })
+  @ApiProperty({ description: AppStrings.PLAN_INITIATOR })
   initiator: string
 
   @IsUUID()
-  @ApiProperty({ description: 'UUID Филиала' })
+  @ApiProperty({ description: AppStrings.PLAN_BRANCH_UUID })
   branch_uuid: string
 
   @IsOptional()
-  @ApiProperty({ description: 'Филиал' })
+  @ApiProperty({ description: AppStrings.PLAN_BRANCH })
   branch?: OrganizationResponse
 
   @IsDecimal()
   @IsOptional()
   @ApiProperty({
     required: false,
-    description:
-      'Заключено государственных контрактов, договоров, закуплено продукции на сумму, не превышающую шестисот тысяч рублей. В стоимостном выражении (руб.)',
+    description: AppStrings.PLAN_PRICE_VALUE,
   })
   price_value?: number
 
@@ -162,28 +180,27 @@ export class PlanResponse {
   @IsOptional()
   @ApiProperty({
     required: false,
-    description:
-      'Заключено государственных контрактов, договоров, закуплено продукции на сумму, не превышающую шестисот тысяч рублей. Экономия по результатам размещения заказа (руб.)',
+    description: AppStrings.PLAN_SAVINGS,
   })
   savings?: number
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false, description: '№ Контракта' })
+  @ApiProperty({ required: false, description: AppStrings.PLAN_CONTRACT_NUMBER })
   contract_number?: string
 
   @IsDateString()
   @IsOptional()
-  @ApiProperty({ required: false, description: 'Дата Контракта' })
+  @ApiProperty({ required: false, description: AppStrings.PLAN_CONTRACT_DATE })
   contract_date?: Date
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ required: false, description: 'Контрагент' })
+  @ApiProperty({ required: false, description: AppStrings.PLAN_CONTRAGENT })
   contragent?: string
 
   @IsString()
-  @ApiProperty({ description: 'Письмо согласования/ письмо уведомления (номер и дата)' })
+  @ApiProperty({ description: AppStrings.PLAN_APPROVAL_LETTER })
   approval_letter: string
 }
 

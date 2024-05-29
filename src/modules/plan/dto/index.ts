@@ -1,7 +1,27 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsUUID, IsString, IsInt, IsBoolean, IsDateString, IsOptional } from 'class-validator'
+import { IsUUID, IsString, IsInt, IsBoolean, IsDateString, IsOptional, IsDecimal } from 'class-validator'
 
 export class CreatePlanDto {
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  purchase_name?: string
+
+  @IsDecimal()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  purchase_price?: number
+
+  @IsDateString()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  purchase_date?: Date
+
+  @IsUUID()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  purchase_uuid?: string //TODO UUID
+
   @IsUUID()
   @ApiProperty()
   user_uuid: string
@@ -155,6 +175,26 @@ export class UpdatePlanDto {
   @IsUUID()
   @ApiProperty()
   plan_uuid: string
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  purchase_name?: string
+
+  @IsDecimal()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  purchase_price?: number
+
+  @IsDateString()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  purchase_date?: Date
+
+  @IsUUID()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  purchase_uuid?: string //TODO UUID
 
   @IsUUID()
   @IsOptional()

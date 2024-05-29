@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
+import { IsDecimal } from 'class-validator'
 import { AppStrings } from 'src/common/constants/strings'
 import BaseModel from 'src/common/model'
 import { Organization } from 'src/modules/organization/entities/organization.entity'
@@ -11,6 +12,22 @@ export class Plan extends BaseModel {
   @PrimaryColumn()
   @ApiProperty()
   plan_uuid: string
+
+  @Column()
+  @ApiProperty({ required: false, description: AppStrings.PLAN_PURCHASE_NAME })
+  purchase_name?: string
+
+  @IsDecimal()
+  @ApiProperty({ required: false, description: AppStrings.PLAN_PURCHASE_PRICE })
+  purchase_price?: number
+
+  @Column()
+  @ApiProperty({ required: false, description: AppStrings.PLAN_PURCHASE_DATE })
+  purchase_date?: Date
+
+  @Column()
+  @ApiProperty({ required: false, description: AppStrings.PLAN_PURCHASE_UUID })
+  purchase_uuid?: string // TODO UUID
 
   @Column()
   @ApiProperty()
@@ -27,7 +44,7 @@ export class Plan extends BaseModel {
 
   @Column()
   @ApiProperty({ description: AppStrings.PLAN_OKPD2 })
-  okpd_uuid: string // TODO UUID
+  okpd_uuid: string // TODO NAME
 
   @Column()
   @ApiProperty({ description: AppStrings.PLAN_OBJECT_NAME })
@@ -35,7 +52,7 @@ export class Plan extends BaseModel {
 
   @Column()
   @ApiProperty({ description: AppStrings.PLAN_OKEI })
-  okei_uuid: string // TODO UUID
+  okei_uuid: string // TODO NAME
 
   @Column()
   @ApiProperty({ description: AppStrings.PLAN_RESULT_NAME })

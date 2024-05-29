@@ -92,6 +92,10 @@ export const AppStrings = {
   USERS_DELETE_CURRENT_OPERATION: 'Удаление текущего пользователя',
   USERS_DELETE_CURRENT_RESPONSE: 'Пользователь успешно удален',
 
+  PLAN_PURCHASE_NAME: 'Наименование закупки',
+  PLAN_PURCHASE_PRICE: 'Стоимость закупки',
+  PLAN_PURCHASE_DATE: 'Дата закупки',
+  PLAN_PURCHASE_UUID: 'UUID закупки',
   PLAN_OFFER_NUMBER: 'Номер предложения на закупку (Электронный бюджет)',
   PLAN_OKPD2: 'Код ОКПД2',
   PLAN_OBJECT_NAME: 'Наименование объекта закупки',
