@@ -24,6 +24,7 @@ import { PropertiesModule } from '../properties/properties.module'
 import { PlanWayModule } from '../plan-way/plan-way.module'
 import { PlanModule } from '../plan/plan.module'
 import { RedisClientOptions } from 'redis'
+import { OkpdModule } from '../okpd/okpd.module'
 
 @Module({
   imports: [
@@ -97,6 +98,7 @@ import { RedisClientOptions } from 'redis'
     }),
     AuthModule,
     LegalBasis,
+    OkpdModule,
     OrganizationModule,
     OrganizationTypeModule,
     PermissionModule,

@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger'
 import { IsDecimal } from 'class-validator'
 import { AppStrings } from 'src/common/constants/strings'
 import BaseModel from 'src/common/model'
+import { Okpd } from 'src/modules/okpd/entities/okpd.entity'
 import { Organization } from 'src/modules/organization/entities/organization.entity'
 import { PlanWay } from 'src/modules/plan-way/entities/plan-way.entity'
 import { User } from 'src/modules/user/entities/user.entity'
@@ -48,7 +49,12 @@ export class Plan extends BaseModel {
 
   @Column()
   @ApiProperty({ description: AppStrings.PLAN_OKPD2 })
-  okpd_uuid: string // TODO NAME
+  okpd_uuid: string
+
+  @ManyToOne(() => Okpd, (okpd) => okpd.plans)
+  @JoinColumn({ name: 'okpd_uuid', referencedColumnName: 'okpd_uuid' })
+  @ApiProperty()
+  okpd: Okpd
 
   @Column()
   @ApiProperty({ description: AppStrings.PLAN_OBJECT_NAME })
