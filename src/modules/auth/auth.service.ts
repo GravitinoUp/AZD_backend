@@ -94,8 +94,6 @@ export class AuthService {
     }
 
     const loginData = await this.usersService.authByEmail(user.email)
-    delete loginData['password']
-
     const accessToken = {
       ...loginData,
     }
@@ -136,11 +134,7 @@ export class AuthService {
     if (!foundAuth) {
       throw new HttpException(await this.i18n.t('errors.invalid_jwt'), HttpStatus.FORBIDDEN)
     } else {
-      await this.authRepository
-        .createQueryBuilder()
-        .delete()
-        .where('auth_uuid = :auth_uuid', { auth_uuid })
-        .execute()
+      await this.authRepository.createQueryBuilder().delete().where('auth_uuid = :auth_uuid', { auth_uuid }).execute()
 
       return { status: true }
     }

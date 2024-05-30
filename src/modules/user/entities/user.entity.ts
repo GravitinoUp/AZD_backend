@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger'
 import BaseModel from 'src/common/model'
 import { Auth } from 'src/modules/auth/entities/auth.entity'
 import { Person } from 'src/modules/person/entities/person.entity'
+import { PlanEvent } from 'src/modules/plan-event/entities/plan-event.entity'
 import { Plan } from 'src/modules/plan/entities/plan.entity'
 import { RolePermission } from 'src/modules/role-permission/entities/role-permission.entity'
 import { Role } from 'src/modules/role/entities/role.entity'
@@ -43,7 +44,7 @@ export class User extends BaseModel {
   @ApiProperty({ required: false })
   phone?: string
 
-  @Column()
+  @Column({ select: false })
   @ApiProperty()
   password: string
 
@@ -57,4 +58,7 @@ export class User extends BaseModel {
     cascade: true,
   })
   role_permissions: RolePermission[]
+
+  @OneToMany(() => PlanEvent, (planEvent) => planEvent.user, { cascade: true })
+  plan_events: PlanEvent[]
 }

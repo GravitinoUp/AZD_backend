@@ -43,8 +43,32 @@ export class CreatePlanGraph1716376639896 implements MigrationInterface {
             generationStrategy: 'uuid',
           },
           {
+            name: 'purchase_name',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'purchase_price',
+            type: 'decimal',
+            isNullable: true,
+          },
+          {
+            name: 'purchase_date',
+            type: 'date',
+            isNullable: true,
+          },
+          {
+            name: 'purchase_uuid',
+            type: 'uuid',
+            isNullable: true,
+          },
+          {
             name: 'user_uuid',
             type: 'uuid',
+          },
+          {
+            name: 'kosgu',
+            type: 'varchar',
           },
           {
             name: 'purchase_offer_number',
@@ -52,16 +76,16 @@ export class CreatePlanGraph1716376639896 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: 'okpd_uuid',
-            type: 'uuid',
+            name: 'okpd_code',
+            type: 'varchar',
           },
           {
             name: 'object_name',
             type: 'text',
           },
           {
-            name: 'okei_uuid',
-            type: 'uuid',
+            name: 'okei_code',
+            type: 'varchar',
           },
           {
             name: 'result_name',
@@ -239,10 +263,91 @@ export class CreatePlanGraph1716376639896 implements MigrationInterface {
         onUpdate: 'CASCADE',
       }),
     )
+
+    await queryRunner.createForeignKey(
+      'Plans',
+      new TableForeignKey({
+        columnNames: ['branch_uuid'],
+        referencedColumnNames: ['organization_uuid'],
+        referencedTableName: 'Organizations',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      }),
+    )
+
+    await queryRunner.createTable(
+      new Table({
+        name: 'PlanEvents',
+        columns: [
+          {
+            name: 'plan_event_uuid',
+            type: 'uuid',
+            isPrimary: true,
+            isGenerated: true,
+            generationStrategy: 'uuid',
+          },
+          {
+            name: 'plan_event_name',
+            type: 'varchar',
+          },
+          {
+            name: 'old_value',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'new_value',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'plan_uuid',
+            type: 'uuid',
+          },
+          {
+            name: 'user_uuid',
+            type: 'uuid',
+          },
+          {
+            name: 'created_at',
+            type: 'timestamp',
+            default: 'now()',
+          },
+          {
+            name: 'updated_at',
+            type: 'timestamp',
+            default: 'now()',
+          },
+        ],
+      }),
+    )
+
+    await queryRunner.createForeignKey(
+      'PlanEvents',
+      new TableForeignKey({
+        columnNames: ['plan_uuid'],
+        referencedColumnNames: ['plan_uuid'],
+        referencedTableName: 'Plans',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      }),
+    )
+
+    await queryRunner.createForeignKey(
+      'PlanEvents',
+      new TableForeignKey({
+        columnNames: ['user_uuid'],
+        referencedColumnNames: ['user_uuid'],
+        referencedTableName: 'Users',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      }),
+    )
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropTable('Plans')
     await queryRunner.dropTable('PlanWays')
+    await queryRunner.dropTable('PlanEvents')
   }
 }

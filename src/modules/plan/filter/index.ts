@@ -1,11 +1,27 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { FilterOffset } from 'src/common/classes/filter_offset'
 import { AppStrings } from 'src/common/constants/strings'
+import { OkpdFilters, OkpdSorts } from 'src/modules/okpd/filters'
 import { OrganizationFilters, OrganizationSorts } from 'src/modules/organization/filters'
 
 export class PlanSorts {
   @ApiProperty({ default: AppStrings.ASC, required: false })
   plan_uuid?: 'ASC' | 'DESC'
+
+  @ApiProperty({ default: AppStrings.ASC, required: false })
+  purchase_name?: 'ASC' | 'DESC'
+
+  @ApiProperty({ default: AppStrings.ASC, required: false })
+  purchase_price?: 'ASC' | 'DESC'
+
+  @ApiProperty({ default: AppStrings.ASC, required: false })
+  purchase_date?: 'ASC' | 'DESC'
+
+  @ApiProperty({ default: AppStrings.ASC, required: false })
+  purchase_uuid?: 'ASC' | 'DESC'
+
+  @ApiProperty({ default: AppStrings.ASC, required: false })
+  kosgu?: 'ASC' | 'DESC'
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
   user_uuid?: 'ASC' | 'DESC'
@@ -14,13 +30,13 @@ export class PlanSorts {
   purchase_offer_number?: 'ASC' | 'DESC'
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
-  okpd_uuid?: 'ASC' | 'DESC'
+  okpd?: OkpdSorts
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
   object_name?: 'ASC' | 'DESC'
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
-  okei_uuid?: 'ASC' | 'DESC'
+  okei_code?: 'ASC' | 'DESC'
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
   result_name?: 'ASC' | 'DESC'
@@ -118,19 +134,34 @@ export class PlanFilters {
   plan_uuid?: string
 
   @ApiProperty({ required: false })
+  purchase_name?: string
+
+  @ApiProperty({ required: false })
+  purchase_date?: Date
+
+  @ApiProperty({ required: false })
+  purchase_price?: number
+
+  @ApiProperty({ required: false })
+  purchase_uuid?: string
+
+  @ApiProperty({ required: false })
+  kosgu?: string
+
+  @ApiProperty({ required: false })
   user_uuid?: string
 
   @ApiProperty({ required: false })
   purchase_offer_number?: string
 
   @ApiProperty({ required: false })
-  okpd_uuid?: string // TODO UUID
+  okpd?: OkpdFilters
 
   @ApiProperty({ required: false })
   object_name?: string
 
   @ApiProperty({ required: false })
-  okei_uuid?: string // TODO UUID
+  okei_code?: string // TODO UUID
 
   @ApiProperty({ required: false })
   result_name?: string

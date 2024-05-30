@@ -1,7 +1,31 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsUUID, IsString, IsInt, IsBoolean, IsDateString, IsOptional } from 'class-validator'
+import { IsUUID, IsString, IsInt, IsBoolean, IsDateString, IsOptional, IsDecimal } from 'class-validator'
 
 export class CreatePlanDto {
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  purchase_name?: string
+
+  @IsDecimal()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  purchase_price?: number
+
+  @IsDateString()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  purchase_date?: Date
+
+  @IsUUID()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  purchase_uuid?: string //TODO UUID
+
+  @IsString()
+  @ApiProperty()
+  kosgu: string
+
   @IsUUID()
   @ApiProperty()
   user_uuid: string
@@ -11,17 +35,17 @@ export class CreatePlanDto {
   @ApiProperty({ required: false })
   purchase_offer_number?: string
 
-  @IsUUID()
+  @IsString()
   @ApiProperty()
-  okpd_uuid: string
+  okpd_code: string
 
   @IsString()
   @ApiProperty()
   object_name: string
 
-  @IsUUID()
+  @IsString()
   @ApiProperty()
-  okei_uuid: string
+  okei_code: string
 
   @IsString()
   @ApiProperty()
@@ -156,6 +180,26 @@ export class UpdatePlanDto {
   @ApiProperty()
   plan_uuid: string
 
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  purchase_name?: string
+
+  @IsDecimal()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  purchase_price?: number
+
+  @IsDateString()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  purchase_date?: Date
+
+  @IsUUID()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  purchase_uuid?: string //TODO UUID
+
   @IsUUID()
   @IsOptional()
   @ApiProperty({ required: false })
@@ -166,20 +210,20 @@ export class UpdatePlanDto {
   @ApiProperty({ required: false })
   purchase_offer_number?: string
 
-  @IsUUID()
+  @IsString()
   @IsOptional()
   @ApiProperty({ required: false })
-  okpd_uuid?: string
+  okpd_code?: string
 
   @IsString()
   @IsOptional()
   @ApiProperty({ required: false })
   object_name?: string
 
-  @IsUUID()
+  @IsString()
   @IsOptional()
   @ApiProperty({ required: false })
-  okei_uuid?: string
+  okei_code?: string
 
   @IsString()
   @IsOptional()
