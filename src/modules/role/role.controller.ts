@@ -1,22 +1,5 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Inject,
-  NotFoundException,
-  Patch,
-  Post,
-  UseFilters,
-  UseGuards,
-} from '@nestjs/common'
-import {
-  ApiBearerAuth,
-  ApiBody,
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiOperation,
-  ApiTags,
-} from '@nestjs/swagger'
+import { Body, Controller, Get, Inject, NotFoundException, Patch, Post, UseFilters, UseGuards } from '@nestjs/common'
+import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger'
 import { AllExceptionsFilter } from 'src/common/exception.filter'
 import { RoleService } from './role.service'
 import { I18nService } from 'nestjs-i18n'
@@ -60,7 +43,7 @@ export class RoleController {
   @ApiBody({ required: false, type: RoleFilter })
   @Post('all')
   async findAll(@Body() roleFilter: RoleFilter) {
-    const key = `${CacheRoutes.ROLES}/all-${JSON.stringify(roleFilter)}`
+    const key = `${CacheRoutes.ROLE}/all-${JSON.stringify(roleFilter)}`
     let roles: ArrayRoleResponse = await this.cacheManager.get(key)
 
     if (roles) {
@@ -79,7 +62,7 @@ export class RoleController {
   })
   @Get('all')
   async getAll() {
-    const key = `${CacheRoutes.ROLES}/all-{}`
+    const key = `${CacheRoutes.ROLE}/all-{}`
     let roles: ArrayRoleResponse = await this.cacheManager.get(key)
 
     if (roles) {
@@ -111,7 +94,7 @@ export class RoleController {
   }
 
   async clearCache() {
-    const keys = await this.cacheManager.store.keys(`${CacheRoutes.ROLES}*`) // Удаление кэша
+    const keys = await this.cacheManager.store.keys(`${CacheRoutes.ROLE}*`) // Удаление кэша
     for (const key of keys) {
       await this.cacheManager.del(key)
     }

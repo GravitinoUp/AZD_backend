@@ -63,7 +63,7 @@ export class PlanController {
   @ApiBody({ required: false, type: PlanFilter })
   @Post('all')
   async findAll(@Body() planFilter: PlanFilter) {
-    const key = `${CacheRoutes.PLANS}/all-${JSON.stringify(planFilter)}`
+    const key = `${CacheRoutes.PLAN}/all-${JSON.stringify(planFilter)}`
     let result: ArrayPlanResponse = await this.cacheManager.get(key)
 
     if (result) {
@@ -125,12 +125,12 @@ export class PlanController {
   }
 
   async clearCache() {
-    const keys = await this.cacheManager.store.keys(`${CacheRoutes.PLANS}*`) // Удаление кэша
+    const keys = await this.cacheManager.store.keys(`${CacheRoutes.PLAN}*`) // Удаление кэша
     for (const key of keys) {
       await this.cacheManager.del(key)
     }
 
-    const eventsKeys = await this.cacheManager.store.keys(`${CacheRoutes.PLAN_EVENTS}*`) // Удаление кэша событий
+    const eventsKeys = await this.cacheManager.store.keys(`${CacheRoutes.PLAN_EVENT}*`) // Удаление кэша событий
     for (const key of eventsKeys) {
       await this.cacheManager.del(key)
     }

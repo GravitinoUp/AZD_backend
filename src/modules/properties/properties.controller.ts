@@ -56,7 +56,7 @@ export class PropertiesController {
   @ApiBody({ type: PropertyFilter, required: false })
   @Post('all')
   async findAll(@Body() propertyFilter: PropertyFilter) {
-    const key = `${CacheRoutes.PROPERTIES}/all-${JSON.stringify(propertyFilter)}`
+    const key = `${CacheRoutes.PROPERTY}/all-${JSON.stringify(propertyFilter)}`
     let properties: ArrayPropertyResponse = await this.cacheManager.get(key)
 
     if (properties) {
@@ -87,7 +87,7 @@ export class PropertiesController {
   }
 
   async clearCache() {
-    const keys = await this.cacheManager.store.keys(`${CacheRoutes.PROPERTIES}*`) // Удаление кэша
+    const keys = await this.cacheManager.store.keys(`${CacheRoutes.PROPERTY}*`) // Удаление кэша
     for (const key of keys) {
       await this.cacheManager.del(key)
     }

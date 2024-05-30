@@ -5,6 +5,21 @@ export const AppStrings = {
 
   ASC: 'ASC',
 
+  CURRENCY_ALL_RESPONSE: 'Список валют получен',
+  CURRENCY_ALL_OPERATION: 'Получение списка всех валют',
+
+  LIMIT_CREATE_RESPONSE: 'Лимит создан',
+  LIMIT_CREATE_OPERATION: 'Создание лимита',
+  LIMIT_ALL_RESPONSE: 'Список лимитов получен',
+  LIMIT_ALL_OPERATION: 'Получение списка всех лимитов',
+  LIMIT_UPDATE_RESPONSE: 'Лимит изменен',
+  LIMIT_UPDATE_OPERATION: 'Изменение лимита',
+  LIMIT_DELETE_RESPONSE: 'Лимит удален',
+  LIMIT_DELETE_OPERATION: 'Удаление лимита',
+
+  LIMIT_EVENT_ALL_RESPONSE: 'Список событий лимита получен',
+  LIMIT_EVENT_ALL_OPERATION: 'Получение списка всех событий лимита',
+
   ORGANIZATION_CREATED_RESPONSE: 'Организация создана',
   ORGANIZATION_CREATE_OPERATION: 'Создание организации',
   ORGANIZATION_ALL_RESPONSE: 'Список организаций получен',

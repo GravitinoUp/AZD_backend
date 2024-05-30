@@ -68,7 +68,7 @@ export class OrganizationController {
   @ApiBody({ required: false, type: OrganizationFilter })
   @Post('all')
   async findAll(@Body() organizationFilter: OrganizationFilter) {
-    const key = `${CacheRoutes.ORGANIZATIONS}/all-${JSON.stringify(organizationFilter)}`
+    const key = `${CacheRoutes.ORGANIZATION}/all-${JSON.stringify(organizationFilter)}`
     let organizations: ArrayOrganizationResponse = await this.cacheManager.get(key)
 
     if (organizations) {
@@ -87,7 +87,7 @@ export class OrganizationController {
   })
   @Get('all')
   async getAll() {
-    const key = `${CacheRoutes.ORGANIZATIONS}/all-{}`
+    const key = `${CacheRoutes.ORGANIZATION}/all-{}`
     let organizations: ArrayOrganizationResponse = await this.cacheManager.get(key)
 
     if (organizations) {
@@ -142,7 +142,7 @@ export class OrganizationController {
   }
 
   async clearCache() {
-    const keys = await this.cacheManager.store.keys(`${CacheRoutes.ORGANIZATIONS}*`) // Удаление кэша
+    const keys = await this.cacheManager.store.keys(`${CacheRoutes.ORGANIZATION}*`) // Удаление кэша
     for (const key of keys) {
       await this.cacheManager.del(key)
     }

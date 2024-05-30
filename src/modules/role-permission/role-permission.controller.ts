@@ -92,7 +92,7 @@ export class RolePermissionController {
   })
   @Get('all')
   async findAll() {
-    const key = `${CacheRoutes.ROLES_PERMISSIONS}/all`
+    const key = `${CacheRoutes.ROLE_PERMISSION}/all`
     let rolesPermissions: ArrayRolePermissionResponse = await this.cacheManager.get(key)
 
     if (rolesPermissions) {
@@ -113,7 +113,7 @@ export class RolePermissionController {
   })
   @Get('my')
   async findMy(@Req() request) {
-    const key = `${CacheRoutes.ROLES_PERMISSIONS}/my-${request.user.user_uuid}`
+    const key = `${CacheRoutes.ROLE_PERMISSION}/my-${request.user.user_uuid}`
     let rolesPermissions: ArrayRolePermissionResponse = await this.cacheManager.get(key)
 
     if (rolesPermissions) {
@@ -165,7 +165,7 @@ export class RolePermissionController {
   }
 
   async clearCache() {
-    const keys = await this.cacheManager.store.keys(`${CacheRoutes.ROLES_PERMISSIONS}*`) // Удаление кэша
+    const keys = await this.cacheManager.store.keys(`${CacheRoutes.ROLE_PERMISSION}*`) // Удаление кэша
     for (const key of keys) {
       await this.cacheManager.del(key)
     }

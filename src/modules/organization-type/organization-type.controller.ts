@@ -20,14 +20,15 @@ export class OrganizationTypeController {
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
   ) {}
 
+  @ApiOperation({ summary: AppStrings.ORGANIZATION_TYPE_ALL_OPERATION })
   @ApiOkResponse({
-    description: AppStrings.ROLE_ALL_RESPONSE,
+    description: AppStrings.ORGANIZATION_TYPE_ALL_RESPONSE,
     type: ArrayOrganizationTypeResponse,
   })
   @ApiBody({ required: false, type: OrganizationTypeFilter })
   @Post('all')
   async findAll(@Body() typeFilter: OrganizationTypeFilter) {
-    const key = `${CacheRoutes.ORGANIZATION_TYPES}/all-${JSON.stringify(typeFilter)}`
+    const key = `${CacheRoutes.ORGANIZATION_TYPE}/all-${JSON.stringify(typeFilter)}`
     let types: ArrayOrganizationTypeResponse = await this.cacheManager.get(key)
 
     if (types) {
@@ -46,7 +47,7 @@ export class OrganizationTypeController {
   })
   @Get('all')
   async getAll() {
-    const key = `${CacheRoutes.ORGANIZATION_TYPES}/all-{}`
+    const key = `${CacheRoutes.ORGANIZATION_TYPE}/all-{}`
     let types: ArrayOrganizationTypeResponse = await this.cacheManager.get(key)
 
     if (types) {

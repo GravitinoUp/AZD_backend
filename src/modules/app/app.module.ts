@@ -26,6 +26,9 @@ import { PlanModule } from '../plan/plan.module'
 import { RedisClientOptions } from 'redis'
 import { OkpdModule } from '../okpd/okpd.module'
 import { PlanEventModule } from '../plan-event/plan-event.module'
+import { CurrencyModule } from '../currency/currency.module'
+import { LimitModule } from '../limit/limit.module'
+import { LimitEventModule } from '../limit-event/limit-event.module'
 
 @Module({
   imports: [
@@ -98,7 +101,10 @@ import { PlanEventModule } from '../plan-event/plan-event.module'
       }),
     }),
     AuthModule,
+    CurrencyModule,
     LegalBasis,
+    LimitModule,
+    LimitEventModule,
     OkpdModule,
     OrganizationModule,
     OrganizationTypeModule,

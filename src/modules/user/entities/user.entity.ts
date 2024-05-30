@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import BaseModel from 'src/common/model'
 import { Auth } from 'src/modules/auth/entities/auth.entity'
+import { LimitEvent } from 'src/modules/limit-event/entities/limit-event.entity'
 import { Person } from 'src/modules/person/entities/person.entity'
 import { PlanEvent } from 'src/modules/plan-event/entities/plan-event.entity'
 import { Plan } from 'src/modules/plan/entities/plan.entity'
@@ -61,4 +62,7 @@ export class User extends BaseModel {
 
   @OneToMany(() => PlanEvent, (planEvent) => planEvent.user, { cascade: true })
   plan_events: PlanEvent[]
+
+  @OneToMany(() => LimitEvent, (limitEvent) => limitEvent.user, { cascade: true })
+  limit_events: LimitEvent[]
 }
