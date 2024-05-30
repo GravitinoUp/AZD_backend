@@ -47,17 +47,17 @@ export class PlanResponse {
   @ApiProperty({ required: false, description: AppStrings.PLAN_OFFER_NUMBER })
   purchase_offer_number?: string
 
-  @IsUUID()
+  @IsString()
   @ApiProperty({ description: AppStrings.PLAN_OKPD2 })
-  okpd_uuid: string
+  okpd_code: string
 
   @IsString()
   @ApiProperty({ description: AppStrings.PLAN_OBJECT_NAME })
   object_name: string
 
-  @IsUUID()
+  @IsString()
   @ApiProperty({ description: AppStrings.PLAN_OKEI })
-  okei_uuid: string
+  okei_code: string
 
   @IsString()
   @ApiProperty({ description: AppStrings.PLAN_RESULT_NAME })

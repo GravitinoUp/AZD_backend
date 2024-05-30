@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { FilterOffset } from 'src/common/classes/filter_offset'
 import { AppStrings } from 'src/common/constants/strings'
+import { OkpdFilters, OkpdSorts } from 'src/modules/okpd/filters'
 import { OrganizationFilters, OrganizationSorts } from 'src/modules/organization/filters'
 
 export class PlanSorts {
@@ -29,13 +30,13 @@ export class PlanSorts {
   purchase_offer_number?: 'ASC' | 'DESC'
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
-  okpd_uuid?: 'ASC' | 'DESC'
+  okpd?: OkpdSorts
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
   object_name?: 'ASC' | 'DESC'
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
-  okei_uuid?: 'ASC' | 'DESC'
+  okei_code?: 'ASC' | 'DESC'
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
   result_name?: 'ASC' | 'DESC'
@@ -154,13 +155,13 @@ export class PlanFilters {
   purchase_offer_number?: string
 
   @ApiProperty({ required: false })
-  okpd_uuid?: string // TODO UUID
+  okpd?: OkpdFilters
 
   @ApiProperty({ required: false })
   object_name?: string
 
   @ApiProperty({ required: false })
-  okei_uuid?: string // TODO UUID
+  okei_code?: string // TODO UUID
 
   @ApiProperty({ required: false })
   result_name?: string

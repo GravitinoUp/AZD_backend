@@ -43,6 +43,9 @@ export const AppStrings = {
   PLAN_DELETE_RESPONSE: 'План-график удалено',
   PLAN_DELETE_OPERATION: 'Удаление плана-графика',
 
+  PLAN_EVENT_ALL_RESPONSE: 'Список событий плана-графика получен',
+  PLAN_EVENT_ALL_OPERATION: 'Получение списка всех событий планов-графиков',
+
   PLAN_WAY_ALL_RESPONSE: 'Список способов получен',
   PLAN_WAY_ALL_OPERATION: 'Получение списка всех способов',
 

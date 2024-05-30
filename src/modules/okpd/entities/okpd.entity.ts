@@ -7,15 +7,11 @@ import { Entity, Column, PrimaryColumn, OneToMany } from 'typeorm'
 export class Okpd extends BaseModel {
   @PrimaryColumn()
   @ApiProperty()
-  okpd_uuid: string
+  okpd_code: string
 
   @Column()
   @ApiProperty()
   okpd_name: string
-
-  @Column()
-  @ApiProperty()
-  okpd_code: string
 
   @Column({ type: 'json' })
   @ApiProperty()

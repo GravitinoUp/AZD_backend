@@ -7,18 +7,12 @@ export class CreateOKPD1717057362699 implements MigrationInterface {
         name: 'OKPD2',
         columns: [
           {
-            name: 'okpd_uuid',
-            type: 'uuid',
+            name: 'okpd_code',
+            type: 'varchar',
             isPrimary: true,
-            isGenerated: true,
-            generationStrategy: 'uuid',
           },
           {
             name: 'okpd_name',
-            type: 'varchar',
-          },
-          {
-            name: 'okpd_code',
             type: 'varchar',
           },
           {
@@ -42,8 +36,8 @@ export class CreateOKPD1717057362699 implements MigrationInterface {
     await queryRunner.createForeignKey(
       'Plans',
       new TableForeignKey({
-        columnNames: ['okpd_uuid'],
-        referencedColumnNames: ['okpd_uuid'],
+        columnNames: ['okpd_code'],
+        referencedColumnNames: ['okpd_code'],
         referencedTableName: 'OKPD2',
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',

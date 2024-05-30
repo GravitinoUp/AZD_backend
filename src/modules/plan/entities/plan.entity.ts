@@ -1,12 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsDecimal } from 'class-validator'
 import { AppStrings } from 'src/common/constants/strings'
 import BaseModel from 'src/common/model'
 import { Okpd } from 'src/modules/okpd/entities/okpd.entity'
 import { Organization } from 'src/modules/organization/entities/organization.entity'
+import { PlanEvent } from 'src/modules/plan-event/entities/plan-event.entity'
 import { PlanWay } from 'src/modules/plan-way/entities/plan-way.entity'
 import { User } from 'src/modules/user/entities/user.entity'
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm'
 
 @Entity({ name: 'Plans' })
 export class Plan extends BaseModel {
@@ -18,7 +18,7 @@ export class Plan extends BaseModel {
   @ApiProperty({ required: false, description: AppStrings.PLAN_PURCHASE_NAME })
   purchase_name?: string
 
-  @IsDecimal()
+  @Column()
   @ApiProperty({ required: false, description: AppStrings.PLAN_PURCHASE_PRICE })
   purchase_price?: number
 
@@ -49,10 +49,10 @@ export class Plan extends BaseModel {
 
   @Column()
   @ApiProperty({ description: AppStrings.PLAN_OKPD2 })
-  okpd_uuid: string
+  okpd_code: string
 
   @ManyToOne(() => Okpd, (okpd) => okpd.plans)
-  @JoinColumn({ name: 'okpd_uuid', referencedColumnName: 'okpd_uuid' })
+  @JoinColumn({ name: 'okpd_code', referencedColumnName: 'okpd_code' })
   @ApiProperty()
   okpd: Okpd
 
@@ -62,7 +62,7 @@ export class Plan extends BaseModel {
 
   @Column()
   @ApiProperty({ description: AppStrings.PLAN_OKEI })
-  okei_uuid: string // TODO NAME
+  okei_code: string // TODO NAME
 
   @Column()
   @ApiProperty({ description: AppStrings.PLAN_RESULT_NAME })
@@ -209,4 +209,7 @@ export class Plan extends BaseModel {
   @Column()
   @ApiProperty({ description: AppStrings.PLAN_APPROVAL_LETTER })
   approval_letter: string
+
+  @OneToMany(() => PlanEvent, (planEvent) => planEvent.plan, { cascade: true })
+  plan_events: PlanEvent[]
 }

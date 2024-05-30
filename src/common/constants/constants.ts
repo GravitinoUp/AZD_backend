@@ -8,6 +8,7 @@ export const CacheRoutes = {
   ORGANIZATION_TYPES: 'organization_type',
   PERMISSIONS: 'permission',
   PLANS: 'plan',
+  PLAN_EVENTS: 'plan-event',
   PLAN_WAYS: 'plan-way',
   PROPERTIES: 'property',
   ROLES: 'role',

@@ -35,17 +35,17 @@ export class CreatePlanDto {
   @ApiProperty({ required: false })
   purchase_offer_number?: string
 
-  @IsUUID()
+  @IsString()
   @ApiProperty()
-  okpd_uuid: string
+  okpd_code: string
 
   @IsString()
   @ApiProperty()
   object_name: string
 
-  @IsUUID()
+  @IsString()
   @ApiProperty()
-  okei_uuid: string
+  okei_code: string
 
   @IsString()
   @ApiProperty()
@@ -210,20 +210,20 @@ export class UpdatePlanDto {
   @ApiProperty({ required: false })
   purchase_offer_number?: string
 
-  @IsUUID()
+  @IsString()
   @IsOptional()
   @ApiProperty({ required: false })
-  okpd_uuid?: string
+  okpd_code?: string
 
   @IsString()
   @IsOptional()
   @ApiProperty({ required: false })
   object_name?: string
 
-  @IsUUID()
+  @IsString()
   @IsOptional()
   @ApiProperty({ required: false })
-  okei_uuid?: string
+  okei_code?: string
 
   @IsString()
   @IsOptional()

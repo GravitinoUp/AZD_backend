@@ -25,6 +25,7 @@ import { PlanWayModule } from '../plan-way/plan-way.module'
 import { PlanModule } from '../plan/plan.module'
 import { RedisClientOptions } from 'redis'
 import { OkpdModule } from '../okpd/okpd.module'
+import { PlanEventModule } from '../plan-event/plan-event.module'
 
 @Module({
   imports: [
@@ -104,6 +105,7 @@ import { OkpdModule } from '../okpd/okpd.module'
     PermissionModule,
     PersonModule,
     PlanModule,
+    PlanEventModule,
     PlanWayModule,
     PropertiesModule,
     RoleModule,
