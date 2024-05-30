@@ -30,6 +30,10 @@ export class PlanResponse {
   @ApiProperty({ required: false, description: AppStrings.PLAN_PURCHASE_UUID })
   purchase_uuid?: string
 
+  @IsString()
+  @ApiProperty({ description: AppStrings.PLAN_KOSGU })
+  kosgu: string
+
   @IsUUID()
   @ApiProperty()
   user_uuid: string

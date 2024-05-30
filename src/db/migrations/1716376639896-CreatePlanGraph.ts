@@ -67,6 +67,10 @@ export class CreatePlanGraph1716376639896 implements MigrationInterface {
             type: 'uuid',
           },
           {
+            name: 'kosgu',
+            type: 'varchar',
+          },
+          {
             name: 'purchase_offer_number',
             type: 'varchar',
             isNullable: true,
@@ -255,6 +259,17 @@ export class CreatePlanGraph1716376639896 implements MigrationInterface {
         columnNames: ['user_uuid'],
         referencedColumnNames: ['user_uuid'],
         referencedTableName: 'Users',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      }),
+    )
+
+    await queryRunner.createForeignKey(
+      'Plans',
+      new TableForeignKey({
+        columnNames: ['branch_uuid'],
+        referencedColumnNames: ['organization_uuid'],
+        referencedTableName: 'Organizations',
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       }),

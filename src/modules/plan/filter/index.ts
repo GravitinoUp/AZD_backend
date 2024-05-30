@@ -20,6 +20,9 @@ export class PlanSorts {
   purchase_uuid?: 'ASC' | 'DESC'
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
+  kosgu?: 'ASC' | 'DESC'
+
+  @ApiProperty({ default: AppStrings.ASC, required: false })
   user_uuid?: 'ASC' | 'DESC'
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
@@ -140,6 +143,9 @@ export class PlanFilters {
 
   @ApiProperty({ required: false })
   purchase_uuid?: string
+
+  @ApiProperty({ required: false })
+  kosgu?: string
 
   @ApiProperty({ required: false })
   user_uuid?: string

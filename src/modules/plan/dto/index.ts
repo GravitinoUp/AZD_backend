@@ -22,6 +22,10 @@ export class CreatePlanDto {
   @ApiProperty({ required: false })
   purchase_uuid?: string //TODO UUID
 
+  @IsString()
+  @ApiProperty()
+  kosgu: string
+
   @IsUUID()
   @ApiProperty()
   user_uuid: string

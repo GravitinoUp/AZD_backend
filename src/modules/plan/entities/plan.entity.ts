@@ -33,6 +33,10 @@ export class Plan extends BaseModel {
   @ApiProperty()
   user_uuid: string
 
+  @Column()
+  @ApiProperty({ description: AppStrings.PLAN_KOSGU })
+  kosgu: string
+
   @ManyToOne(() => User, (user) => user.plans)
   @JoinColumn({ name: 'user_uuid', referencedColumnName: 'user_uuid' })
   @ApiProperty()
