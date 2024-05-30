@@ -129,5 +129,10 @@ export class PlanController {
     for (const key of keys) {
       await this.cacheManager.del(key)
     }
+
+    const eventsKeys = await this.cacheManager.store.keys(`${CacheRoutes.PLAN_EVENTS}*`) // Удаление кэша событий
+    for (const key of eventsKeys) {
+      await this.cacheManager.del(key)
+    }
   }
 }

@@ -51,8 +51,6 @@ export class UserService {
 
       const result = newUser.raw[0]
       if (result) {
-        delete result['password']
-
         await queryRunner.commitTransaction()
         return { status: true, data: result }
       } else {
@@ -77,7 +75,6 @@ export class UserService {
       query = query.where({ user_uuid })
 
       const user = await query.getOne()
-      delete user['password']
 
       return user
     } catch (error) {

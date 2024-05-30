@@ -44,7 +44,7 @@ export class User extends BaseModel {
   @ApiProperty({ required: false })
   phone?: string
 
-  @Column()
+  @Column({ select: false })
   @ApiProperty()
   password: string
 
