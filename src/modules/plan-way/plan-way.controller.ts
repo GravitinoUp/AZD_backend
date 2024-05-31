@@ -27,7 +27,7 @@ export class PlanWayController {
   })
   @Get('all')
   async getAll() {
-    const key = `${CacheRoutes.PLAN_WAYS}/all-{}`
+    const key = `${CacheRoutes.PLAN_WAY}/all-{}`
     let result: ArrayWayResponse = await this.cacheManager.get(key)
 
     if (result) {
@@ -46,7 +46,7 @@ export class PlanWayController {
   })
   @Post('all')
   async findAll(@Body() wayFilter: PlanWayFilter) {
-    const key = `${CacheRoutes.PLAN_WAYS}/all-${JSON.stringify(wayFilter)}`
+    const key = `${CacheRoutes.PLAN_WAY}/all-${JSON.stringify(wayFilter)}`
     let result: ArrayWayResponse = await this.cacheManager.get(key)
 
     if (result) {

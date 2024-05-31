@@ -26,7 +26,7 @@ export class PermissionController {
   })
   @Get('all')
   async getAll() {
-    const key = `${CacheRoutes.PERMISSIONS}/all-{}`
+    const key = `${CacheRoutes.PERMISSION}/all-{}`
     let permissions: ArrayPermissionResponse = await this.cacheManager.get(key)
 
     if (permissions) {
@@ -39,14 +39,12 @@ export class PermissionController {
   }
 
   async clearCache() {
-    const keys = await this.cacheManager.store.keys(`${CacheRoutes.PERMISSIONS}*`) // Удаление кэша
+    const keys = await this.cacheManager.store.keys(`${CacheRoutes.PERMISSION}*`) // Удаление кэша
     for (const key of keys) {
       await this.cacheManager.del(key)
     }
 
-    const rolePermissionKeys = await this.cacheManager.store.keys(
-      `${CacheRoutes.ROLES_PERMISSIONS}*`,
-    ) // Удаление кэша RolePermissions
+    const rolePermissionKeys = await this.cacheManager.store.keys(`${CacheRoutes.ROLE_PERMISSION}*`) // Удаление кэша RolePermissions
     for (const key of rolePermissionKeys) {
       await this.cacheManager.del(key)
     }

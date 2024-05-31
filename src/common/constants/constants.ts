@@ -4,15 +4,18 @@ export const RolesEnum = {
 }
 
 export const CacheRoutes = {
-  ORGANIZATIONS: 'organization',
-  ORGANIZATION_TYPES: 'organization_type',
-  PERMISSIONS: 'permission',
-  PLANS: 'plan',
-  PLAN_EVENTS: 'plan-event',
-  PLAN_WAYS: 'plan-way',
-  PROPERTIES: 'property',
-  ROLES: 'role',
-  ROLES_PERMISSIONS: 'role-permission',
+  CURRENCY: 'currency',
+  LIMIT: 'limit',
+  LIMIT_EVENT: 'limit-event',
+  ORGANIZATION: 'organization',
+  ORGANIZATION_TYPE: 'organization_type',
+  PERMISSION: 'permission',
+  PLAN: 'plan',
+  PLAN_EVENT: 'plan-event',
+  PLAN_WAY: 'plan-way',
+  PROPERTY: 'property',
+  ROLE: 'role',
+  ROLE_PERMISSION: 'role-permission',
 }
 
 export const DefaultPagination = {

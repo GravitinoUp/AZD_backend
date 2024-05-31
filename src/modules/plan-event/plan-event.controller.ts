@@ -32,7 +32,7 @@ export class PlanEventController {
   @UseGuards(JwtAuthGuard, ActiveGuard)
   @Post('all')
   async findAll(@Body() filter: PlanEventFilter) {
-    const key = `${CacheRoutes.PLAN_EVENTS}/all-${JSON.stringify(filter)}`
+    const key = `${CacheRoutes.PLAN_EVENT}/all-${JSON.stringify(filter)}`
     let planEvents: ArrayPlanEventResponse = await this.cacheManager.get(key)
 
     if (planEvents) {

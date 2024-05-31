@@ -12,5 +12,6 @@
   "organization_not_found": "Огранизация не найдена!",
   "person_not_found": "Ответственное лицо не найдено!",
   "plan_not_found": "План не найден!",
+  "currency_code_not_found": "Валюта не найдена!",
   "cannot_change_field": "Вы не можете изменить данное поле"
 }
