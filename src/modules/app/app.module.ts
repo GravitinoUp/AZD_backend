@@ -29,6 +29,8 @@ import { PlanEventModule } from '../plan-event/plan-event.module'
 import { CurrencyModule } from '../currency/currency.module'
 import { LimitModule } from '../limit/limit.module'
 import { LimitEventModule } from '../limit-event/limit-event.module'
+import { PurchaseTypeModule } from '../purchase-type/purchase-type.module'
+import { PurchaseStepModule } from '../purchase-step/purchase-step.module'
 
 @Module({
   imports: [
@@ -114,6 +116,8 @@ import { LimitEventModule } from '../limit-event/limit-event.module'
     PlanEventModule,
     PlanWayModule,
     PropertiesModule,
+    PurchaseStepModule,
+    PurchaseTypeModule,
     RoleModule,
     RolePermissionModule,
     UserModule,

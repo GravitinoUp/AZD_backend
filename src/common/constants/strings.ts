@@ -73,6 +73,12 @@ export const AppStrings = {
   PROPERTY_DELETE_RESPONSE: 'Характеристика удалена',
   PROPERTY_DELETE_OPERATION: 'Удаление характеристики',
 
+  PURCHASE_STEP_ALL_RESPONSE: 'Список этапов закупок получен',
+  PURCHASE_STEP_ALL_OPERATION: 'Получение списка всех этапов закупок',
+
+  PURCHASE_TYPE_ALL_RESPONSE: 'Список типов закупок получен',
+  PURCHASE_TYPE_ALL_OPERATION: 'Получение списка всех типов закупок',
+
   ROLE_CREATE_RESPONSE: 'Роль создана',
   ROLE_CREATE_OPERATION: 'Создание роли',
   ROLE_ALL_RESPONSE: 'Список ролей получен',

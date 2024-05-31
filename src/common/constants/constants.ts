@@ -14,6 +14,8 @@ export const CacheRoutes = {
   PLAN_EVENT: 'plan-event',
   PLAN_WAY: 'plan-way',
   PROPERTY: 'property',
+  PURCHASE_STEP: 'purchase-step',
+  PURCHASE_TYPE: 'purchase-type',
   ROLE: 'role',
   ROLE_PERMISSION: 'role-permission',
 }
