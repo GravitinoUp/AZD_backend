@@ -53,6 +53,8 @@ export const AppStrings = {
   PLAN_CREATE_OPERATION: 'Создание плана-графика',
   PLAN_ALL_RESPONSE: 'Список планов-графиков получен',
   PLAN_ALL_OPERATION: 'Получение списка всех планов-графиков',
+  PLAN_ONE_RESPONSE: 'План-график получен',
+  PLAN_ONE_OPERATION: 'Получение плана-графика по UUID',
   PLAN_UPDATE_RESPONSE: 'План-график изменен',
   PLAN_UPDATE_OPERATION: 'Изменение плана-графика',
   PLAN_DELETE_RESPONSE: 'План-график удалено',

@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   HttpException,
   HttpStatus,
   Inject,
@@ -20,7 +21,7 @@ import { I18nService } from 'nestjs-i18n'
 import { AppStrings } from 'src/common/constants/strings'
 import { ActiveGuard } from '../auth/guards/active.guard'
 import { JwtAuthGuard } from '../auth/guards/auth.guard'
-import { ArrayPlanResponse, StatusPlanResponse } from './response'
+import { ArrayPlanResponse, PlanResponse, StatusPlanResponse } from './response'
 import { CreatePlanDto, UpdatePlanDto } from './dto'
 import { CacheRoutes } from 'src/common/constants/constants'
 import { PlanFilter } from './filter'
@@ -66,10 +67,32 @@ export class PlanController {
     const key = `${CacheRoutes.PLAN}/all-${JSON.stringify(planFilter)}`
     let result: ArrayPlanResponse = await this.cacheManager.get(key)
 
-    if (result) {
+    if (false) {
       return result
     } else {
       result = await this.planService.findAll(planFilter)
+      await this.cacheManager.set(key, result)
+      return result
+    }
+  }
+
+  @ApiOperation({ summary: AppStrings.PLAN_ONE_OPERATION })
+  @ApiOkResponse({
+    description: AppStrings.PLAN_ONE_RESPONSE,
+    type: PlanResponse,
+  })
+  @Get(':uuid')
+  async findOne(@Param('uuid') planUuid: string) {
+    const planFilter = new PlanFilter()
+    planFilter.filter = { plan_uuid: planUuid }
+
+    const key = `${CacheRoutes.PLAN}/${planUuid}-${JSON.stringify(planFilter)}`
+    let result: PlanResponse = await this.cacheManager.get(key)
+
+    if (result) {
+      return result
+    } else {
+      result = (await this.planService.findAll(planFilter)).data[0]
       await this.cacheManager.set(key, result)
       return result
     }

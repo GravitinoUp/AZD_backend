@@ -3,6 +3,7 @@ import BaseModel from 'src/common/model'
 import { OrganizationType } from 'src/modules/organization-type/entities/organization-type.entity'
 import { Person } from 'src/modules/person/entities/person.entity'
 import { Plan } from 'src/modules/plan/entities/plan.entity'
+import { Purchase } from 'src/modules/purchase/entities/purchase.entity'
 import { Entity, Column, PrimaryColumn, JoinColumn, ManyToOne, OneToMany } from 'typeorm'
 
 @Entity({ name: 'Organizations' })
@@ -95,4 +96,7 @@ export class Organization extends BaseModel {
 
   @OneToMany(() => Plan, (plan) => plan.branch, { cascade: true })
   plans: Plan[]
+
+  @OneToMany(() => Purchase, (purchase) => purchase.executor, { cascade: true })
+  purchases: Purchase[]
 }

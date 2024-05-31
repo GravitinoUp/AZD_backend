@@ -159,7 +159,7 @@ export class CreatePurchases1717145645421 implements MigrationInterface {
           },
           {
             name: 'warranty_obligations_enforcement',
-            type: 'bool',
+            type: 'decimal',
             isNullable: true,
           },
           {

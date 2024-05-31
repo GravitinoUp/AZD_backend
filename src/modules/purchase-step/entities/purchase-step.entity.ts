@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import BaseModel from 'src/common/model'
-import { Column, Entity, PrimaryColumn } from 'typeorm'
+import { Purchase } from 'src/modules/purchase/entities/purchase.entity'
+import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm'
 
 @Entity({ name: 'PurchaseSteps' })
 export class PurchaseStep extends BaseModel {
@@ -12,6 +13,6 @@ export class PurchaseStep extends BaseModel {
   @ApiProperty()
   purchase_step_name: string
 
-  // @OneToMany(() => Purchase, (purchase) => purchase.purchase_step, { cascade: true })
-  // purchases: Purchase[]
+  @OneToMany(() => Purchase, (purchase) => purchase.purchase_step, { cascade: true })
+  purchases: Purchase[]
 }

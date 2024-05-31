@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { DefaultPagination } from 'src/common/constants/constants'
 import { formatFilter } from 'src/utils/format-filter'
 import { Repository } from 'typeorm'
-import { PurchaseStep } from './entities/purchase-type.entity'
+import { PurchaseStep } from './entities/purchase-step.entity'
 import { PurchaseStepFilter } from './filter'
 import { ArrayPurchaseStepResponse } from './response'
 
