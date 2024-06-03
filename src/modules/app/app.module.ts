@@ -40,7 +40,7 @@ import { PurchaseStepModule } from '../purchase-step/purchase-step.module'
         'ru-*': 'ru',
       },
       loaderOptions: {
-        path: join(__dirname.split('dist')[0], 'dist/i18n/'),
+        path: './dist/i18n/',
         watch: true,
       },
       resolvers: [AcceptLanguageResolver],
