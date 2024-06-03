@@ -5,6 +5,7 @@ import { LimitEvent } from 'src/modules/limit-event/entities/limit-event.entity'
 import { Person } from 'src/modules/person/entities/person.entity'
 import { PlanEvent } from 'src/modules/plan-event/entities/plan-event.entity'
 import { Plan } from 'src/modules/plan/entities/plan.entity'
+import { PurchaseEvent } from 'src/modules/purchase-event/entities/purchase-event.entity'
 import { Purchase } from 'src/modules/purchase/entities/purchase.entity'
 import { RolePermission } from 'src/modules/role-permission/entities/role-permission.entity'
 import { Role } from 'src/modules/role/entities/role.entity'
@@ -66,6 +67,9 @@ export class User extends BaseModel {
 
   @OneToMany(() => LimitEvent, (limitEvent) => limitEvent.user, { cascade: true })
   limit_events: LimitEvent[]
+
+  @OneToMany(() => PurchaseEvent, (purchaseEvent) => purchaseEvent.user, { cascade: true })
+  purchase_events: PurchaseEvent[]
 
   @OneToMany(() => Purchase, (purchase) => purchase.initiator, { cascade: true })
   purchases: Purchase[]

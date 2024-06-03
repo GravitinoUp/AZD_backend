@@ -106,7 +106,6 @@ export class CreatePurchases1717145645421 implements MigrationInterface {
           {
             name: 'end_date',
             type: 'timestamp',
-            isNullable: true,
           },
           {
             name: 'start_max_price',
@@ -235,9 +234,79 @@ export class CreatePurchases1717145645421 implements MigrationInterface {
         onUpdate: 'CASCADE',
       }),
     )
+
+    await queryRunner.createTable(
+      new Table({
+        name: 'PurchaseEvents',
+        columns: [
+          {
+            name: 'purchase_event_uuid',
+            type: 'uuid',
+            isPrimary: true,
+            isGenerated: true,
+            generationStrategy: 'uuid',
+          },
+          {
+            name: 'purchase_event_name',
+            type: 'varchar',
+          },
+          {
+            name: 'old_value',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'new_value',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'purchase_uuid',
+            type: 'uuid',
+          },
+          {
+            name: 'user_uuid',
+            type: 'uuid',
+          },
+          {
+            name: 'created_at',
+            type: 'timestamp',
+            default: 'now()',
+          },
+          {
+            name: 'updated_at',
+            type: 'timestamp',
+            default: 'now()',
+          },
+        ],
+      }),
+    )
+
+    await queryRunner.createForeignKey(
+      'PurchaseEvents',
+      new TableForeignKey({
+        columnNames: ['purchase_uuid'],
+        referencedColumnNames: ['purchase_uuid'],
+        referencedTableName: 'Purchases',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      }),
+    )
+
+    await queryRunner.createForeignKey(
+      'PurchaseEvents',
+      new TableForeignKey({
+        columnNames: ['user_uuid'],
+        referencedColumnNames: ['user_uuid'],
+        referencedTableName: 'Users',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      }),
+    )
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropTable('PurchaseEvents')
     await queryRunner.dropTable('Purchases')
     await queryRunner.dropTable('PurchaseSteps')
     await queryRunner.dropTable('PurchaseTypes')

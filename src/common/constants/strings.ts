@@ -75,6 +75,20 @@ export const AppStrings = {
   PROPERTY_DELETE_RESPONSE: 'Характеристика удалена',
   PROPERTY_DELETE_OPERATION: 'Удаление характеристики',
 
+  PURCHASE_CREATE_RESPONSE: 'Закупка создана',
+  PURCHASE_CREATE_OPERATION: 'Создание закупки',
+  PURCHASE_ALL_RESPONSE: 'Список закупок получен',
+  PURCHASE_ALL_OPERATION: 'Получение списка всех закупок',
+  PURCHASE_ONE_RESPONSE: 'Закупка получена',
+  PURCHASE_ONE_OPERATION: 'Получение закупки по UUID',
+  PURCHASE_UPDATE_RESPONSE: 'Закупка изменена',
+  PURCHASE_UPDATE_OPERATION: 'Изменение закупки',
+  PURCHASE_DELETE_RESPONSE: 'Закупка удалена',
+  PURCHASE_DELETE_OPERATION: 'Удаление закупки',
+
+  PURCHASE_EVENT_ALL_RESPONSE: 'Список событий закупки получен',
+  PURCHASE_EVENT_ALL_OPERATION: 'Получение списка всех событий закупки',
+
   PURCHASE_STEP_ALL_RESPONSE: 'Список этапов закупок получен',
   PURCHASE_STEP_ALL_OPERATION: 'Получение списка всех этапов закупок',
 

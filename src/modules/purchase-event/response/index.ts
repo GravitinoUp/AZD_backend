@@ -1,11 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger'
 
-export class PlanEventResponse {
+export class PurchaseEventResponse {
   @ApiProperty()
-  plan_event_uuid: string
+  purchase_event_uuid: string
 
   @ApiProperty()
-  plan_event_name: string
+  purchase_event_name: string
 
   @ApiProperty({ required: false })
   old_value?: string
@@ -14,7 +14,7 @@ export class PlanEventResponse {
   new_value?: string
 
   @ApiProperty()
-  plan_uuid: string
+  purchase_uuid: string
 
   @ApiProperty()
   user_uuid: string
@@ -23,18 +23,18 @@ export class PlanEventResponse {
   created_at: Date
 }
 
-export class ArrayPlanEventResponse {
+export class ArrayPurchaseEventResponse {
   @ApiProperty()
   count: number
 
-  @ApiProperty({ required: false, type: PlanEventResponse, isArray: true })
-  data: PlanEventResponse[]
+  @ApiProperty({ required: false, type: PurchaseEventResponse, isArray: true })
+  data: PurchaseEventResponse[]
 }
 
-export class StatusPlanEventResponse {
+export class StatusPurchaseEventResponse {
   @ApiProperty()
   status: boolean
 
   @ApiProperty({ required: false })
-  data?: PlanEventResponse
+  data?: PurchaseEventResponse
 }

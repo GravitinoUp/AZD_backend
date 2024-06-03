@@ -67,7 +67,7 @@ export class PlanController {
     const key = `${CacheRoutes.PLAN}/all-${JSON.stringify(planFilter)}`
     let result: ArrayPlanResponse = await this.cacheManager.get(key)
 
-    if (false) {
+    if (result) {
       return result
     } else {
       result = await this.planService.findAll(planFilter)

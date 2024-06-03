@@ -2,10 +2,11 @@ import { ApiProperty } from '@nestjs/swagger'
 import BaseModel from 'src/common/model'
 import { Currency } from 'src/modules/currency/entities/currency.entity'
 import { Organization } from 'src/modules/organization/entities/organization.entity'
+import { PurchaseEvent } from 'src/modules/purchase-event/entities/purchase-event.entity'
 import { PurchaseStep } from 'src/modules/purchase-step/entities/purchase-step.entity'
 import { PurchaseType } from 'src/modules/purchase-type/entities/purchase-type.entity'
 import { User } from 'src/modules/user/entities/user.entity'
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm'
 
 @Entity({ name: 'Purchases' })
 export class Purchase extends BaseModel {
@@ -56,9 +57,9 @@ export class Purchase extends BaseModel {
   @ApiProperty({ required: false })
   start_date?: Date
 
-  @Column({ nullable: true })
-  @ApiProperty({ required: false })
-  end_date?: Date
+  @Column()
+  @ApiProperty()
+  end_date: Date
 
   @Column({ type: 'decimal', nullable: true })
   @ApiProperty({ required: false })
@@ -79,7 +80,7 @@ export class Purchase extends BaseModel {
 
   @Column()
   @ApiProperty()
-  purchase_step_id: string
+  purchase_step_id: number
 
   @ManyToOne(() => PurchaseStep, (step) => step.purchases)
   @JoinColumn({ name: 'purchase_step_id', referencedColumnName: 'purchase_step_id' })
@@ -121,4 +122,7 @@ export class Purchase extends BaseModel {
   @Column({ type: 'text', nullable: true })
   @ApiProperty({ required: false })
   additional_info: string
+
+  @OneToMany(() => PurchaseEvent, (purchaseEvent) => purchaseEvent.purchase, { cascade: true })
+  purchase_events: PurchaseEvent[]
 }

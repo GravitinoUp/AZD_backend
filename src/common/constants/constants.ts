@@ -3,6 +3,13 @@ export const RolesEnum = {
   ADMIN: 2,
 }
 
+export const PurchaseStepsEnum = {
+  APPLICATIONS: 1,
+  COMISSION_WORK: 2,
+  COMPLETED: 3,
+  ENDED: 4,
+}
+
 export const CacheRoutes = {
   CURRENCY: 'currency',
   LIMIT: 'limit',
@@ -10,6 +17,8 @@ export const CacheRoutes = {
   ORGANIZATION: 'organization',
   ORGANIZATION_TYPE: 'organization_type',
   PERMISSION: 'permission',
+  PURCHASE: 'purchase',
+  PURCHASE_EVENT: 'purchase-event',
   PLAN: 'plan',
   PLAN_EVENT: 'plan-event',
   PLAN_WAY: 'plan-way',

@@ -4,28 +4,28 @@ import { I18nService } from 'nestjs-i18n'
 import { DefaultPagination } from 'src/common/constants/constants'
 import { formatFilter } from 'src/utils/format-filter'
 import { Repository } from 'typeorm'
-import { LimitEvent } from './entities/limit-event.entity'
-import { LimitEventFilter } from './filters'
-import { ArrayLimitEventResponse } from './response'
+import { PurchaseEvent } from './entities/purchase-event.entity'
+import { PurchaseEventFilter } from './filters'
+import { ArrayPurchaseEventResponse } from './response'
 
 @Injectable()
-export class LimitEventService {
+export class PurchaseEventService {
   constructor(
-    @InjectRepository(LimitEvent)
-    private limitEventRepository: Repository<LimitEvent>,
+    @InjectRepository(PurchaseEvent)
+    private purchaseEventRepository: Repository<PurchaseEvent>,
     private readonly i18n: I18nService,
   ) {}
 
-  async findAll(limitEventFilter: LimitEventFilter): Promise<ArrayLimitEventResponse> {
+  async findAll(purchaseEventFilter: PurchaseEventFilter): Promise<ArrayPurchaseEventResponse> {
     try {
-      const count = limitEventFilter?.offset?.count ?? DefaultPagination.COUNT
-      const page = limitEventFilter?.offset?.page ?? DefaultPagination.PAGE
-      const filters = formatFilter(limitEventFilter?.filter ?? {})
+      const count = purchaseEventFilter?.offset?.count ?? DefaultPagination.COUNT
+      const page = purchaseEventFilter?.offset?.page ?? DefaultPagination.PAGE
+      const filters = formatFilter(purchaseEventFilter?.filter ?? {})
 
-      const events = await this.limitEventRepository.findAndCount({
+      const events = await this.purchaseEventRepository.findAndCount({
         relations: { user: { person: true, role: true } },
         where: filters,
-        order: limitEventFilter.sorts,
+        order: purchaseEventFilter.sorts,
         skip: count * (page - 1),
         take: count,
       })
