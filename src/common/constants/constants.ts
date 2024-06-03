@@ -18,6 +18,7 @@ export const CacheRoutes = {
   PURCHASE_TYPE: 'purchase-type',
   ROLE: 'role',
   ROLE_PERMISSION: 'role-permission',
+  USER: 'user',
 }
 
 export const DefaultPagination = {

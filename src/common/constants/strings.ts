@@ -109,6 +109,8 @@ export const AppStrings = {
   USERS_CHECK_EXISTS_RESPONSE: 'Пользователь (не)зарегистрирован',
   USERS_GET_CURRENT_OPERATION: 'Получение данных текущего пользователя',
   USERS_GET_CURRENT_RESPONSE: 'Данные успешно получены',
+  USERS_ALL_OPERATION: 'Получение списка всех пользователей',
+  USERS_ALL_RESPONSE: 'Пользователи успешно получены',
   USERS_UPDATE_CURRENT_OPERATION: 'Изменение данных текущего пользователя',
   USERS_UPDATE_CURRENT_RESPONSE: 'Данные успешно изменены',
   USERS_UPDATE_PASSWORD_OPERATION: 'Изменение пароля текущего пользователя',

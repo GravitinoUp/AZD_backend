@@ -9,18 +9,22 @@ import {
   Get,
   UseGuards,
   Patch,
+  Inject,
 } from '@nestjs/common'
 import { UserService } from './user.service'
 import { CreateUserDto, UpdateCurrentUserDto, UpdateUserPasswordDto } from './dto'
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { AllExceptionsFilter } from 'src/common/exception.filter'
 import { I18nService } from 'nestjs-i18n'
-import { StatusUserResponse } from './response'
+import { ArrayUserResponse, StatusUserResponse } from './response'
 import { AppStrings } from 'src/common/constants/strings'
 import { User } from './entities/user.entity'
 import { Throttle } from '@nestjs/throttler'
 import { ActiveGuard } from '../auth/guards/active.guard'
 import { JwtAuthGuard } from '../auth/guards/auth.guard'
+import { UserFilter } from './filters'
+import { CacheRoutes } from 'src/common/constants/constants'
+import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager'
 
 @ApiBearerAuth()
 @ApiTags('Users')
@@ -30,6 +34,7 @@ export class UserController {
   constructor(
     private readonly userService: UserService,
     private readonly i18n: I18nService,
+    @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
   ) {}
 
   @ApiOperation({ summary: AppStrings.USERS_CREATE_OPERATION })
@@ -52,6 +57,28 @@ export class UserController {
 
     const result = await this.userService.create(createUserDto)
     return result
+  }
+
+  @ApiOperation({ summary: AppStrings.USERS_ALL_OPERATION })
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: AppStrings.USERS_ALL_RESPONSE,
+    type: ArrayUserResponse,
+  })
+  @ApiBody({ required: false, type: UserFilter })
+  @UseGuards(JwtAuthGuard, ActiveGuard)
+  @Post('all')
+  async findAll(@Body() filter: UserFilter) {
+    const key = `${CacheRoutes.USER}/all-${JSON.stringify(filter)}`
+    let users: ArrayUserResponse = await this.cacheManager.get(key)
+
+    if (users) {
+      return users
+    } else {
+      users = await this.userService.findAll(filter)
+      await this.cacheManager.set(key, users)
+      return users
+    }
   }
 
   @ApiOperation({ summary: AppStrings.USERS_GET_CURRENT_OPERATION })

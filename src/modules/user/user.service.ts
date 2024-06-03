@@ -2,13 +2,15 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { DataSource, Repository } from 'typeorm'
 import { User } from './entities/user.entity'
-import { StatusUserResponse, UserResponse } from './response'
+import { ArrayUserResponse, StatusUserResponse, UserResponse } from './response'
 import { CreateUserDto, UpdateCurrentUserDto, UpdateUserPasswordDto } from './dto'
 import { CreatePersonDto } from '../person/dto'
 import { Person } from '../person/entities/person.entity'
 import * as bcrypt from 'bcrypt'
 import { I18nService } from 'nestjs-i18n'
-import { RolesEnum } from 'src/common/constants/constants'
+import { DefaultPagination, RolesEnum } from 'src/common/constants/constants'
+import { UserFilter } from './filters'
+import { formatFilter } from 'src/utils/format-filter'
 
 @Injectable()
 export class UserService {
@@ -77,6 +79,27 @@ export class UserService {
       const user = await query.getOne()
 
       return user
+    } catch (error) {
+      console.log(error)
+      throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
+
+  async findAll(userFilter: UserFilter): Promise<ArrayUserResponse> {
+    try {
+      const count = userFilter?.offset?.count ?? DefaultPagination.COUNT
+      const page = userFilter?.offset?.page ?? DefaultPagination.PAGE
+      const filters = formatFilter(userFilter?.filter ?? {})
+
+      const users = await this.usersRepository.findAndCount({
+        relations: { role: true, person: true },
+        where: filters,
+        order: userFilter.sorts,
+        skip: count * (page - 1),
+        take: count,
+      })
+
+      return { count: users[1], data: users[0] }
     } catch (error) {
       console.log(error)
       throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
