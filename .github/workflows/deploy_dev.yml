@@ -19,7 +19,7 @@ jobs:
       - name: Check files
         run: ls -la azd-backend/
 
-      - name: Clone devops_azd repository
+      - name: Clone devops-azd repository
         run: git clone https://${{ secrets.TRIGGER }}@github.com/GravitinoUp/devops_azd.git -b ${{ github.ref_name }}
 
       - name: Copy Dockerfile to backend directory
