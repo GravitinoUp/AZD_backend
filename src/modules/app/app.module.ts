@@ -14,7 +14,7 @@ import { RoleModule } from '../role/role.module'
 import { UserModule } from '../user/user.module'
 import { join } from 'path'
 import { AcceptLanguageResolver, I18nModule } from 'nestjs-i18n'
-import { CacheModule } from '@nestjs/cache-manager'
+import { CacheModule, CacheOptions } from '@nestjs/cache-manager'
 import * as redisStore from 'cache-manager-redis-store'
 import { PermissionModule } from '../permission/permission.module'
 import { RolePermissionModule } from '../role-permission/role-permission.module'
@@ -29,6 +29,8 @@ import { PlanEventModule } from '../plan-event/plan-event.module'
 import { CurrencyModule } from '../currency/currency.module'
 import { LimitModule } from '../limit/limit.module'
 import { LimitEventModule } from '../limit-event/limit-event.module'
+import { PurchaseTypeModule } from '../purchase-type/purchase-type.module'
+import { PurchaseStepModule } from '../purchase-step/purchase-step.module'
 
 @Module({
   imports: [
@@ -52,12 +54,15 @@ import { LimitEventModule } from '../limit-event/limit-event.module'
       inject: [ConfigService],
       isGlobal: true,
       useFactory: async (configService: ConfigService) => {
-        const options = {
-          store: redisStore,
-          host: configService.get('redis_host'),
-          port: configService.get('redis_port'),
-          ttl: configService.get('cache_ttl'),
-        }
+        const options: CacheOptions =
+          configService.get('disable_cache') == 'true'
+            ? {}
+            : {
+                store: redisStore,
+                host: configService.get('redis_host'),
+                port: configService.get('redis_port'),
+                ttl: configService.get('cache_ttl'),
+              }
 
         return options
       },
@@ -114,6 +119,8 @@ import { LimitEventModule } from '../limit-event/limit-event.module'
     PlanEventModule,
     PlanWayModule,
     PropertiesModule,
+    PurchaseStepModule,
+    PurchaseTypeModule,
     RoleModule,
     RolePermissionModule,
     UserModule,

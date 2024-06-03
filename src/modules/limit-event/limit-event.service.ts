@@ -22,7 +22,7 @@ export class LimitEventService {
       const page = limitEventFilter?.offset?.page ?? DefaultPagination.PAGE
       const filters = formatFilter(limitEventFilter?.filter ?? {})
 
-      const limits = await this.limitEventRepository.findAndCount({
+      const events = await this.limitEventRepository.findAndCount({
         relations: { user: { person: true, role: true } },
         where: filters,
         order: limitEventFilter.sorts,
@@ -30,7 +30,7 @@ export class LimitEventService {
         take: count,
       })
 
-      return { count: limits[1], data: limits[0] }
+      return { count: events[1], data: events[0] }
     } catch (error) {
       console.log(error)
       throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)

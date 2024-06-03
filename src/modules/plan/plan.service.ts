@@ -24,7 +24,7 @@ export class PlanService {
 
   async create(plan: CreatePlanDto): Promise<StatusPlanResponse> {
     try {
-      const newRole = await this.planRepository
+      const newPlan = await this.planRepository
         .createQueryBuilder()
         .insert()
         .values({
@@ -33,7 +33,7 @@ export class PlanService {
         .returning('*')
         .execute()
 
-      return { status: true, data: newRole.raw[0] }
+      return { status: true, data: newPlan.raw[0] }
     } catch (error) {
       throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
     }
