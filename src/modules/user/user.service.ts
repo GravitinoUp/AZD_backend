@@ -8,7 +8,7 @@ import { CreatePersonDto } from '../person/dto'
 import { Person } from '../person/entities/person.entity'
 import * as bcrypt from 'bcrypt'
 import { I18nService } from 'nestjs-i18n'
-import { DefaultPagination, RolesEnum } from 'src/common/constants/constants'
+import { DefaultPagination } from 'src/common/constants/constants'
 import { UserFilter } from './filters'
 import { formatFilter } from 'src/utils/format-filter'
 
@@ -46,7 +46,6 @@ export class UserService {
           user_uuid: personUuid,
           ...user,
           person_uuid: personUuid,
-          role_id: RolesEnum.USER,
         })
         .returning('*')
         .execute()

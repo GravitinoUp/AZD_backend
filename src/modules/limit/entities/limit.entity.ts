@@ -1,6 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger'
 import BaseModel from 'src/common/model'
 import { Currency } from 'src/modules/currency/entities/currency.entity'
+import { KBK } from 'src/modules/kbk/entities/kbk.entity'
+import { Kosgu } from 'src/modules/kosgu/entities/kosgu.entity'
 import { LimitEvent } from 'src/modules/limit-event/entities/limit-event.entity'
 import { Entity, Column, PrimaryColumn, JoinColumn, ManyToOne, OneToMany } from 'typeorm'
 
@@ -20,11 +22,21 @@ export class Limit extends BaseModel {
 
   @Column()
   @ApiProperty()
-  kbk_code: string
+  kbk_uuid: string
+
+  @ManyToOne(() => KBK, (kbk) => kbk.limits)
+  @JoinColumn({ name: 'kbk_uuid', referencedColumnName: 'kbk_uuid' })
+  @ApiProperty()
+  kbk: KBK
 
   @Column()
   @ApiProperty()
-  kosgu: string
+  kosgu_uuid: string
+
+  @ManyToOne(() => Kosgu, (kosgu) => kosgu.limits)
+  @JoinColumn({ name: 'kosgu_uuid', referencedColumnName: 'kosgu_uuid' })
+  @ApiProperty()
+  kosgu: Kosgu
 
   @Column({ type: 'decimal' })
   @ApiProperty()

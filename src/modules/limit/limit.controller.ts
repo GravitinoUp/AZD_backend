@@ -25,6 +25,8 @@ import { CreateLimitDto, UpdateLimitDto } from './dto'
 import { LimitFilter } from './filters'
 import { CurrencyService } from '../currency/currency.service'
 import { AllExceptionsFilter } from 'src/common/exception.filter'
+import { KbkService } from '../kbk/kbk.service'
+import { KosguService } from '../kosgu/kosgu.service'
 
 @ApiBearerAuth()
 @ApiTags('Limit')
@@ -33,6 +35,8 @@ import { AllExceptionsFilter } from 'src/common/exception.filter'
 export class LimitController {
   constructor(
     private readonly limitService: LimitService,
+    private readonly kbkService: KbkService,
+    private readonly kosguService: KosguService,
     private readonly currencyService: CurrencyService,
     private readonly i18n: I18nService,
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
@@ -46,6 +50,12 @@ export class LimitController {
   })
   @Post()
   async create(@Body() limit: CreateLimitDto) {
+    const isKBKExists = await this.kbkService.isExists(limit.kbk_uuid) // ADD IF NOT EXISTS
+    if (!isKBKExists) throw new HttpException(this.i18n.t('errors.kbk_not_found'), HttpStatus.NOT_FOUND)
+
+    const isKosguExists = await this.kosguService.isExists(limit.kosgu_uuid) // ADD IF NOT EXISTS
+    if (!isKosguExists) throw new HttpException(this.i18n.t('errors.kosgu_not_found'), HttpStatus.NOT_FOUND)
+
     if (limit.current_year_currency_code) {
       const isCurrencyCodeExists = await this.currencyService.isExists(limit.current_year_currency_code)
       if (!isCurrencyCodeExists)
@@ -99,6 +109,15 @@ export class LimitController {
   async update(@Body() limit: UpdateLimitDto, @Req() request) {
     const isLimitExists = await this.limitService.isExists(limit.limit_uuid)
     if (!isLimitExists) throw new HttpException(this.i18n.t('errors.limit_not_found'), HttpStatus.NOT_FOUND)
+
+    if (limit.kbk_uuid) {
+      const isKBKExists = await this.kbkService.isExists(limit.kbk_uuid) // ADD IF NOT EXISTS
+      if (!isKBKExists) throw new HttpException(this.i18n.t('errors.kbk_not_found'), HttpStatus.NOT_FOUND)
+    }
+    if (limit.kosgu_uuid) {
+      const isKosguExists = await this.kosguService.isExists(limit.kosgu_uuid) // ADD IF NOT EXISTS
+      if (!isKosguExists) throw new HttpException(this.i18n.t('errors.kosgu_not_found'), HttpStatus.NOT_FOUND)
+    }
 
     if (limit.current_year_currency_code) {
       const isCurrencyCodeExists = await this.currencyService.isExists(limit.current_year_currency_code)

@@ -16,29 +16,31 @@ export class CreateUserDto {
   patronymic?: string
 
   @IsString()
-  @ApiProperty()
-  post: string
+  @IsOptional()
+  @ApiProperty({ required: false })
+  post?: string
 
   @IsUUID()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  legal_basis_uuid?: string
+
+  @IsInt()
   @ApiProperty()
-  legal_basis_uuid: string
+  role_id: number
+
+  @IsString()
+  @ApiProperty()
+  email: string
 
   @IsString()
   @IsOptional()
   @ApiProperty()
-  email?: string
-
-  @IsString()
-  @ApiProperty()
-  phone: string
+  phone?: string
 
   @IsString()
   @ApiProperty()
   password: string
-
-  @IsInt()
-  @ApiProperty()
-  code: number
 }
 
 export class CheckUserExistsDto {

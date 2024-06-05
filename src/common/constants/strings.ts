@@ -8,6 +8,9 @@ export const AppStrings = {
   CURRENCY_ALL_RESPONSE: 'Список валют получен',
   CURRENCY_ALL_OPERATION: 'Получение списка всех валют',
 
+  KOSGU_ALL_RESPONSE: 'КОСГУ получены',
+  KOSGU_ALL_OPERATION: 'Получение списка кодов КОСГУ',
+
   LIMIT_CREATE_RESPONSE: 'Лимит создан',
   LIMIT_CREATE_OPERATION: 'Создание лимита',
   LIMIT_ALL_RESPONSE: 'Список лимитов получен',

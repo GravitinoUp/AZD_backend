@@ -12,6 +12,7 @@ export const PurchaseStepsEnum = {
 
 export const CacheRoutes = {
   CURRENCY: 'currency',
+  KOSGU: 'kosgu',
   LIMIT: 'limit',
   LIMIT_EVENT: 'limit-event',
   ORGANIZATION: 'organization',
