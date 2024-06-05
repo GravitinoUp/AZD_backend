@@ -49,7 +49,11 @@ export class CheckUserExistsDto {
   phone: string
 }
 
-export class UpdateCurrentUserDto {
+export class UpdateUserDto {
+  @IsUUID()
+  @ApiProperty()
+  user_uuid: string
+
   @IsString()
   @IsOptional()
   @ApiProperty({ required: false })

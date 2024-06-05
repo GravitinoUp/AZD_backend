@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { DataSource, Repository } from 'typeorm'
 import { User } from './entities/user.entity'
 import { ArrayUserResponse, StatusUserResponse, UserResponse } from './response'
-import { CreateUserDto, UpdateCurrentUserDto, UpdateUserPasswordDto } from './dto'
+import { CreateUserDto, UpdateUserDto, UpdateUserPasswordDto } from './dto'
 import { CreatePersonDto } from '../person/dto'
 import { Person } from '../person/entities/person.entity'
 import * as bcrypt from 'bcrypt'
@@ -161,7 +161,7 @@ export class UserService {
     }
   }
 
-  async update(user: UpdateCurrentUserDto, user_uuid: string): Promise<StatusUserResponse> {
+  async update(user: UpdateUserDto): Promise<StatusUserResponse> {
     const queryRunner = this.dataSource.createQueryRunner()
     await queryRunner.connect()
     await queryRunner.startTransaction()
@@ -172,7 +172,7 @@ export class UserService {
         .useTransaction(true)
         .update()
         .set({ ...user })
-        .where({ person_uuid: user_uuid })
+        .where({ person_uuid: user.user_uuid })
         .execute()
 
       if (updatePerson.affected != 0) {
