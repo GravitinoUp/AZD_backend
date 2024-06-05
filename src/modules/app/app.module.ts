@@ -32,6 +32,7 @@ import { PurchaseTypeModule } from '../purchase-type/purchase-type.module'
 import { PurchaseStepModule } from '../purchase-step/purchase-step.module'
 import { KosguModule } from '../kosgu/kosgu.module'
 import { KbkModule } from '../kbk/kbk.module'
+import { TechnicalTaskModule } from '../technical-task/technical-task.module'
 
 @Module({
   imports: [
@@ -126,6 +127,7 @@ import { KbkModule } from '../kbk/kbk.module'
     PurchaseTypeModule,
     RoleModule,
     RolePermissionModule,
+    TechnicalTaskModule,
     UserModule,
   ],
   controllers: [AppController],

@@ -120,6 +120,17 @@ export const AppStrings = {
   ROLE_PERMISSION_DELETE_RESPONSE: 'Разрешение удалено',
   ROLE_PERMISSION_DELETE_OPERATION: 'Удаление разрешения',
 
+  TECHNICAL_TASK_CREATE_RESPONSE: 'Техническое задание создано',
+  TECHNICAL_TASK_CREATE_OPERATION: 'Создание технического задания',
+  TECHNICAL_TASK_ALL_RESPONSE: 'Список технических заданий получен',
+  TECHNICAL_TASK_ALL_OPERATION: 'Получение списка всех технических заданий',
+  TECHNICAL_TASK_PURCHASE_RESPONSE: 'Технические задания закупки получены',
+  TECHNICAL_TASK_PURCHASE_OPERATION: 'Получение списка всех технических заданий закупки',
+  TECHNICAL_TASK_UPDATE_RESPONSE: 'Техническое задание изменено',
+  TECHNICAL_TASK_UPDATE_OPERATION: 'Изменение технического задания',
+  TECHNICAL_TASK_DELETE_RESPONSE: 'Техническое задание удалено',
+  TECHNICAL_TASK_DELETE_OPERATION: 'Удаление технического задания',
+
   USERS_CREATE_OPERATION: 'Регистрация пользователя',
   USERS_CREATE_RESPONSE: 'Пользователь успешно зарегистрирован',
   USERS_CHECK_EXISTS_OPERATION: 'Проверка существования пользователя',

@@ -5,6 +5,7 @@ import { Organization } from 'src/modules/organization/entities/organization.ent
 import { PurchaseEvent } from 'src/modules/purchase-event/entities/purchase-event.entity'
 import { PurchaseStep } from 'src/modules/purchase-step/entities/purchase-step.entity'
 import { PurchaseType } from 'src/modules/purchase-type/entities/purchase-type.entity'
+import { TechnicalTask } from 'src/modules/technical-task/entities/technical_task.entity'
 import { User } from 'src/modules/user/entities/user.entity'
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm'
 
@@ -133,4 +134,7 @@ export class Purchase extends BaseModel {
 
   @OneToMany(() => PurchaseEvent, (purchaseEvent) => purchaseEvent.purchase, { cascade: true })
   purchase_events: PurchaseEvent[]
+
+  @OneToMany(() => TechnicalTask, (task) => task.purchase, { cascade: true })
+  technical_tasks: TechnicalTask[]
 }

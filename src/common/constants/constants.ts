@@ -28,6 +28,7 @@ export const CacheRoutes = {
   PURCHASE_TYPE: 'purchase-type',
   ROLE: 'role',
   ROLE_PERMISSION: 'role-permission',
+  TECHNICAL_TASK: 'technical-task',
   USER: 'user',
 }
 
