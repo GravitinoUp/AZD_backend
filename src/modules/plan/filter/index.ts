@@ -36,7 +36,7 @@ export class PlanSorts {
   object_name?: 'ASC' | 'DESC'
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
-  okei_code?: 'ASC' | 'DESC'
+  okei_uuid?: 'ASC' | 'DESC'
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
   result_name?: 'ASC' | 'DESC'
@@ -161,7 +161,7 @@ export class PlanFilters {
   object_name?: string
 
   @ApiProperty({ required: false })
-  okei_code?: string // TODO UUID
+  okei_uuid?: string // TODO UUID
 
   @ApiProperty({ required: false })
   result_name?: string

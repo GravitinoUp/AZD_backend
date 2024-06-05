@@ -5,6 +5,7 @@ import { Okpd } from 'src/modules/okpd/entities/okpd.entity'
 import { Organization } from 'src/modules/organization/entities/organization.entity'
 import { PlanEvent } from 'src/modules/plan-event/entities/plan-event.entity'
 import { PlanWay } from 'src/modules/plan-way/entities/plan-way.entity'
+import { Purchase } from 'src/modules/purchase/entities/purchase.entity'
 import { User } from 'src/modules/user/entities/user.entity'
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm'
 
@@ -28,7 +29,12 @@ export class Plan extends BaseModel {
 
   @Column()
   @ApiProperty({ required: false, description: AppStrings.PLAN_PURCHASE_UUID })
-  purchase_uuid?: string // TODO UUID
+  purchase_uuid?: string
+
+  @ManyToOne(() => Purchase, (purchase) => purchase.plans)
+  @JoinColumn({ name: 'purchase_uuid', referencedColumnName: 'purchase_uuid' })
+  @ApiProperty()
+  purchase: Purchase
 
   @Column()
   @ApiProperty()
@@ -49,10 +55,10 @@ export class Plan extends BaseModel {
 
   @Column()
   @ApiProperty({ description: AppStrings.PLAN_OKPD2 })
-  okpd_code: string
+  okpd_uuid: string
 
   @ManyToOne(() => Okpd, (okpd) => okpd.plans)
-  @JoinColumn({ name: 'okpd_code', referencedColumnName: 'okpd_code' })
+  @JoinColumn({ name: 'okpd_uuid', referencedColumnName: 'okpd_uuid' })
   @ApiProperty()
   okpd: Okpd
 
@@ -62,7 +68,7 @@ export class Plan extends BaseModel {
 
   @Column()
   @ApiProperty({ description: AppStrings.PLAN_OKEI })
-  okei_code: string // TODO NAME
+  okei_uuid: string
 
   @Column()
   @ApiProperty({ description: AppStrings.PLAN_RESULT_NAME })

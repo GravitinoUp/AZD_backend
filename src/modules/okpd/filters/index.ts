@@ -4,6 +4,9 @@ import { AppStrings } from 'src/common/constants/strings'
 
 export class OkpdSorts {
   @ApiProperty({ default: AppStrings.ASC, required: false })
+  okpd_uuid?: 'ASC' | 'DESC'
+
+  @ApiProperty({ default: AppStrings.ASC, required: false })
   okpd_code?: 'ASC' | 'DESC'
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
@@ -14,6 +17,9 @@ export class OkpdSorts {
 }
 
 export class OkpdFilters {
+  @ApiProperty({ required: false })
+  okpd_uuid?: string
+
   @ApiProperty({ required: false })
   okpd_code?: string
 

@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger'
 import BaseModel from 'src/common/model'
 import { Currency } from 'src/modules/currency/entities/currency.entity'
 import { Organization } from 'src/modules/organization/entities/organization.entity'
+import { Plan } from 'src/modules/plan/entities/plan.entity'
 import { PurchaseEvent } from 'src/modules/purchase-event/entities/purchase-event.entity'
 import { PurchaseStep } from 'src/modules/purchase-step/entities/purchase-step.entity'
 import { PurchaseType } from 'src/modules/purchase-type/entities/purchase-type.entity'
@@ -137,4 +138,7 @@ export class Purchase extends BaseModel {
 
   @OneToMany(() => TechnicalTask, (task) => task.purchase, { cascade: true })
   technical_tasks: TechnicalTask[]
+
+  @OneToMany(() => Plan, (plan) => plan.purchase, { cascade: true })
+  plans: Plan[]
 }
