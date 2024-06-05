@@ -40,6 +40,12 @@ export class PurchaseResponse {
   start_date?: Date
 
   @ApiProperty()
+  end_application_date?: Date
+
+  @ApiProperty()
+  executor_date?: Date
+
+  @ApiProperty()
   end_date: Date
 
   @ApiProperty()

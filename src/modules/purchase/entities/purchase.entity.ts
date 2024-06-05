@@ -57,6 +57,14 @@ export class Purchase extends BaseModel {
   @ApiProperty({ required: false })
   start_date?: Date
 
+  @Column({ nullable: true })
+  @ApiProperty({ required: false })
+  end_application_date?: Date
+
+  @Column({ nullable: true })
+  @ApiProperty({ required: false })
+  executor_date?: Date
+
   @Column()
   @ApiProperty()
   end_date: Date
