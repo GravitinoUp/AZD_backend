@@ -20,13 +20,17 @@ export class PurchaseService {
     private readonly i18n: I18nService,
   ) {}
 
-  async create(purchase: CreatePurchaseDto): Promise<StatusPurchaseResponse> {
+  async create(
+    purchase: CreatePurchaseDto,
+    initiatorUuid: string,
+  ): Promise<StatusPurchaseResponse> {
     try {
       const newPurchase = await this.purchaseRepository
         .createQueryBuilder()
         .insert()
         .values({
           ...purchase,
+          initiator_uuid: initiatorUuid,
           purchase_step_id: PurchaseStepsEnum.APPLICATIONS,
         })
         .returning('*')
@@ -45,7 +49,12 @@ export class PurchaseService {
       const filters = formatFilter(purchaseFilter?.filter ?? {})
 
       const purchases = await this.purchaseRepository.findAndCount({
-        relations: { initiator: { person: true }, executor: true, currency: true, purchase_step: true },
+        relations: {
+          initiator: { person: true },
+          executor: true,
+          currency: true,
+          purchase_step: true,
+        },
         where: filters,
         order: purchaseFilter.sorts,
         skip: count * (page - 1),
@@ -61,7 +70,11 @@ export class PurchaseService {
 
   async isExists(purchase_uuid: string): Promise<boolean> {
     try {
-      const isExists = await this.purchaseRepository.createQueryBuilder().select().where({ purchase_uuid }).getExists()
+      const isExists = await this.purchaseRepository
+        .createQueryBuilder()
+        .select()
+        .where({ purchase_uuid })
+        .getExists()
 
       return isExists
     } catch (error) {

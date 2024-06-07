@@ -4,7 +4,7 @@ import { PropertyValue } from './entities/property-value.entity'
 import { InjectRepository } from '@nestjs/typeorm'
 import { DataSource, Repository } from 'typeorm'
 import { CreatePropertyDto, CreatePropertyValueDto } from './dto'
-import { ArrayPropertyResponse, StatusPropertyResponse } from './response'
+import { ArrayPropertyResponse, PropertyValueResponse, StatusPropertyResponse } from './response'
 import { PropertyFilter } from './filter'
 import { DefaultPagination } from 'src/common/constants/constants'
 
@@ -72,7 +72,7 @@ export class PropertiesService {
       const count = propertyFilter?.offset?.count ?? DefaultPagination.COUNT
       const page = propertyFilter?.offset?.page ?? DefaultPagination.PAGE
 
-      const roles = await this.propertyNameRepository
+      const properties = await this.propertyNameRepository
         .createQueryBuilder('name')
         .leftJoinAndSelect('name.values', 'value')
         .where({ ...propertyFilter.filter })
@@ -81,7 +81,24 @@ export class PropertiesService {
         .limit(count)
         .getManyAndCount()
 
-      return { count: roles[1], data: roles[0] }
+      return { count: properties[1], data: properties[0] }
+    } catch (error) {
+      console.log(error)
+      throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
+
+  async findByIds(ids: string[]): Promise<PropertyValueResponse[]> {
+    try {
+      const properties = await this.propertyValueRepository
+        .createQueryBuilder('value')
+        .select(['value.property_value_uuid', 'value.property_value'])
+        .leftJoin('value.property_name', 'name')
+        .addSelect(['name.property_name_uuid', 'name.property_name'])
+        .where('"property_value_uuid" = ANY(:ids)', { ids })
+        .getMany()
+
+      return properties
     } catch (error) {
       console.log(error)
       throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)

@@ -4,9 +4,16 @@ import { PurchaseController } from './purchase.controller'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { Purchase } from './entities/purchase.entity'
 import { UserModule } from '../user/user.module'
+import { PurchaseTypeModule } from '../purchase-type/purchase-type.module'
+import { OrganizationModule } from '../organization/organization.module'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Purchase]), UserModule],
+  imports: [
+    TypeOrmModule.forFeature([Purchase]),
+    UserModule,
+    PurchaseTypeModule,
+    OrganizationModule,
+  ],
   controllers: [PurchaseController],
   providers: [PurchaseService],
   exports: [PurchaseService],

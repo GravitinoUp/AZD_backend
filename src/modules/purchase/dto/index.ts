@@ -1,5 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsBoolean, IsDateString, IsDecimal, IsInt, IsOptional, IsString, IsUUID } from 'class-validator'
+import {
+  IsBoolean,
+  IsDateString,
+  IsDecimal,
+  IsInt,
+  IsOptional,
+  IsString,
+  IsUUID,
+} from 'class-validator'
 
 export class CreatePurchaseDto {
   @IsString()
@@ -10,11 +18,7 @@ export class CreatePurchaseDto {
   @ApiProperty()
   purchase_type_id: number
 
-  @IsString()
-  @ApiProperty()
-  initiator_uuid: string
-
-  @IsString()
+  @IsUUID()
   @IsOptional()
   @ApiProperty({ required: false })
   executor_uuid?: string
@@ -118,11 +122,6 @@ export class UpdatePurchaseDto {
   @IsOptional()
   @ApiProperty({ required: false })
   purchase_type_id?: number
-
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  initiator_uuid?: string
 
   @IsString()
   @IsOptional()

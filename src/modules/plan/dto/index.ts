@@ -7,6 +7,7 @@ import {
   IsDateString,
   IsOptional,
   IsDecimal,
+  IsArray,
 } from 'class-validator'
 
 export class CreatePlanDto {
@@ -181,6 +182,11 @@ export class CreatePlanDto {
   @IsString()
   @ApiProperty()
   approval_letter: string
+
+  @IsArray()
+  @IsOptional()
+  @ApiProperty({ required: false, default: [] })
+  property_values?: string[]
 }
 
 export class UpdatePlanDto {
@@ -362,4 +368,9 @@ export class UpdatePlanDto {
   @IsOptional()
   @ApiProperty({ required: false })
   approval_letter?: string
+
+  @IsArray()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  property_values?: string[]
 }

@@ -8,24 +8,43 @@ import {
   Inject,
   Param,
   Post,
+  Req,
+  UseFilters,
   UseGuards,
 } from '@nestjs/common'
 import { PurchaseService } from './purchase.service'
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager'
 import { I18nService } from 'nestjs-i18n'
 import { CacheRoutes } from 'src/common/constants/constants'
-import { ApiOperation, ApiCreatedResponse, ApiBody, ApiOkResponse } from '@nestjs/swagger'
+import {
+  ApiOperation,
+  ApiCreatedResponse,
+  ApiBody,
+  ApiOkResponse,
+  ApiBearerAuth,
+  ApiTags,
+} from '@nestjs/swagger'
 import { AppStrings } from 'src/common/constants/strings'
 import { ActiveGuard } from '../auth/guards/active.guard'
 import { JwtAuthGuard } from '../auth/guards/auth.guard'
 import { ArrayPurchaseResponse, PurchaseResponse, StatusPurchaseResponse } from './response'
 import { CreatePurchaseDto } from './dto'
 import { PurchaseFilter } from './filter'
+import { AllExceptionsFilter } from 'src/common/exception.filter'
+import { PurchaseTypeService } from '../purchase-type/purchase-type.service'
+import { UserService } from '../user/user.service'
+import { OrganizationService } from '../organization/organization.service'
 
+@ApiBearerAuth()
+@ApiTags('Purchases')
 @Controller('purchase')
+@UseFilters(AllExceptionsFilter)
 export class PurchaseController {
   constructor(
     private readonly purchaseService: PurchaseService,
+    private readonly purchaseTypeService: PurchaseTypeService,
+    private readonly userService: UserService,
+    private readonly organizationService: OrganizationService,
     private readonly i18n: I18nService,
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
   ) {}
@@ -37,8 +56,16 @@ export class PurchaseController {
     type: StatusPurchaseResponse,
   })
   @Post()
-  async create(@Body() purchase: CreatePurchaseDto) {
-    const result = await this.purchaseService.create(purchase)
+  async create(@Body() purchase: CreatePurchaseDto, @Req() request) {
+    const isPurchaseTypeExists = await this.purchaseTypeService.isExists(purchase.purchase_type_id)
+    if (!isPurchaseTypeExists)
+      throw new HttpException(this.i18n.t('errors.purchase_type_not_found'), HttpStatus.NOT_FOUND)
+
+    const isExecutorExists = await this.organizationService.isExists(purchase.executor_uuid)
+    if (!isExecutorExists)
+      throw new HttpException(this.i18n.t('errors.executor_not_found'), HttpStatus.NOT_FOUND)
+
+    const result = await this.purchaseService.create(purchase, request.user.user_uuid)
     await this.clearCache()
     return result
   }
