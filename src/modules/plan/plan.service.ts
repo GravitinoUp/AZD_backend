@@ -11,6 +11,7 @@ import { RolePermissionService } from '../role-permission/role-permission.servic
 import { I18nService } from 'nestjs-i18n'
 import { PlanEvent } from '../plan-event/entities/plan-event.entity'
 import { CreatePlanEventDto } from '../plan-event/dto'
+import { PropertiesService } from '../properties/properties.service'
 
 @Injectable()
 export class PlanService {
@@ -18,6 +19,7 @@ export class PlanService {
     @InjectRepository(Plan)
     private planRepository: Repository<Plan>,
     private readonly rolesPermissionsService: RolePermissionService,
+    private readonly propertyService: PropertiesService,
     private readonly dataSource: DataSource,
     private readonly i18n: I18nService,
   ) {}
@@ -39,7 +41,10 @@ export class PlanService {
     }
   }
 
-  async findAll(planFilter: PlanFilter): Promise<ArrayPlanResponse> {
+  async findAll(
+    planFilter: PlanFilter,
+    includeProperties: boolean = true,
+  ): Promise<ArrayPlanResponse> {
     try {
       const count = planFilter?.offset?.count ?? DefaultPagination.COUNT
       const page = planFilter?.offset?.page ?? DefaultPagination.PAGE
@@ -53,6 +58,15 @@ export class PlanService {
         take: count,
       })
 
+      if (includeProperties == true) {
+        for (const plan of plans[0]) {
+          if (plan.property_values.length > 0) {
+            const properties = await this.propertyService.findByIds(plan.property_values)
+            plan['properties'] = properties
+          }
+        }
+      }
+
       return { count: plans[1], data: plans[0] }
     } catch (error) {
       console.log(error)
@@ -62,7 +76,11 @@ export class PlanService {
 
   async isExists(plan_uuid: string): Promise<boolean> {
     try {
-      const isExists = await this.planRepository.createQueryBuilder().select().where({ plan_uuid }).getExists()
+      const isExists = await this.planRepository
+        .createQueryBuilder()
+        .select()
+        .where({ plan_uuid })
+        .getExists()
 
       return isExists
     } catch (error) {
@@ -80,7 +98,10 @@ export class PlanService {
       for (const key of Object.keys(plan)) {
         if (key == 'plan_uuid') continue
 
-        const isHasPermission = await this.rolesPermissionsService.checkPermission(`plan.${key}`, user_uuid)
+        const isHasPermission = await this.rolesPermissionsService.checkPermission(
+          `plan.${key}`,
+          user_uuid,
+        )
         if (!isHasPermission) {
           throw new ForbiddenException(`${this.i18n.t('errors.cannot_change_field')} (${key})`)
         }
@@ -140,7 +161,11 @@ export class PlanService {
 
   async delete(plan_uuid: string): Promise<StatusPlanResponse> {
     try {
-      const deletePlan = await this.planRepository.createQueryBuilder().delete().where({ plan_uuid }).execute()
+      const deletePlan = await this.planRepository
+        .createQueryBuilder()
+        .delete()
+        .where({ plan_uuid })
+        .execute()
 
       return { status: deletePlan.affected !== 0 }
     } catch (error) {

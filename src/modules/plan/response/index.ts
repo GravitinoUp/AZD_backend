@@ -3,6 +3,7 @@ import { AppStrings } from 'src/common/constants/strings'
 import { OkpdResponse } from 'src/modules/okpd/response'
 import { OrganizationResponse } from 'src/modules/organization/response'
 import { WayResponse } from 'src/modules/plan-way/response'
+import { PropertyValueResponse } from 'src/modules/properties/response'
 import { PurchaseResponse } from 'src/modules/purchase/response'
 import { UserResponse } from 'src/modules/user/response'
 
@@ -157,6 +158,12 @@ export class PlanResponse {
 
   @ApiProperty({ description: AppStrings.PLAN_APPROVAL_LETTER })
   approval_letter: string
+
+  @ApiProperty({ description: AppStrings.PROPERTY_VALUES })
+  property_values: string[]
+
+  @ApiProperty({ required: false })
+  properties?: PropertyValueResponse[]
 }
 
 export class ArrayPlanResponse {

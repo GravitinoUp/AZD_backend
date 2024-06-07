@@ -216,6 +216,10 @@ export class Plan extends BaseModel {
   @ApiProperty({ description: AppStrings.PLAN_APPROVAL_LETTER })
   approval_letter: string
 
+  @Column({ type: 'uuid', array: true })
+  @ApiProperty({ description: AppStrings.PROPERTY_VALUES })
+  property_values: string[]
+
   @OneToMany(() => PlanEvent, (planEvent) => planEvent.plan, { cascade: true })
   plan_events: PlanEvent[]
 }

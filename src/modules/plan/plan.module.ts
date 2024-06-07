@@ -7,9 +7,17 @@ import { UserModule } from '../user/user.module'
 import { PlanWayModule } from '../plan-way/plan-way.module'
 import { OrganizationModule } from '../organization/organization.module'
 import { RolePermissionModule } from '../role-permission/role-permission.module'
+import { PropertiesModule } from '../properties/properties.module'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Plan]), UserModule, PlanWayModule, OrganizationModule, RolePermissionModule],
+  imports: [
+    TypeOrmModule.forFeature([Plan]),
+    UserModule,
+    PlanWayModule,
+    OrganizationModule,
+    RolePermissionModule,
+    PropertiesModule,
+  ],
   controllers: [PlanController],
   providers: [PlanService],
   exports: [PlanService],

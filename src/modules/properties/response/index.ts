@@ -1,11 +1,25 @@
 import { ApiProperty } from '@nestjs/swagger'
 
+export class PropertyNameResponse {
+  @ApiProperty()
+  property_name_uuid: string
+
+  @ApiProperty()
+  property_name: string
+
+  @ApiProperty()
+  entity_name: string
+}
+
 export class PropertyValueResponse {
   @ApiProperty()
   property_value_uuid: string
 
   @ApiProperty()
   property_value: string
+
+  @ApiProperty()
+  property_name: PropertyNameResponse
 }
 
 export class PropertyResponse {

@@ -5,6 +5,8 @@ export const AppStrings = {
 
   ASC: 'ASC',
 
+  PROPERTY_VALUES: 'Дополнительные характеристики',
+
   CURRENCY_ALL_RESPONSE: 'Список валют получен',
   CURRENCY_ALL_OPERATION: 'Получение списка всех валют',
 

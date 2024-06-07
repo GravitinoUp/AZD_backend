@@ -34,6 +34,7 @@ import { KosguModule } from '../kosgu/kosgu.module'
 import { KbkModule } from '../kbk/kbk.module'
 import { TechnicalTaskModule } from '../technical-task/technical-task.module'
 import { LimitStatusModule } from '../limit-status/limit-status.module'
+import { PurchaseModule } from '../purchase/purchase.module'
 
 @Module({
   imports: [
@@ -125,6 +126,7 @@ import { LimitStatusModule } from '../limit-status/limit-status.module'
     PlanEventModule,
     PlanWayModule,
     PropertiesModule,
+    PurchaseModule,
     PurchaseStepModule,
     PurchaseTypeModule,
     RoleModule,

@@ -8,5 +8,6 @@ import { PurchaseType } from './entities/purchase-type.entity'
   imports: [TypeOrmModule.forFeature([PurchaseType])],
   controllers: [PurchaseTypeController],
   providers: [PurchaseTypeService],
+  exports: [PurchaseTypeService],
 })
 export class PurchaseTypeModule {}

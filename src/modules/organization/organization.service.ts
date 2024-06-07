@@ -52,12 +52,12 @@ export class OrganizationService {
     }
   }
 
-  async isExists(organization_id: string): Promise<boolean> {
+  async isExists(organization_uuid: string): Promise<boolean> {
     try {
       const isOrganizationExists = await this.organizationRepository
         .createQueryBuilder()
         .select()
-        .where({ organization_id })
+        .where({ organization_uuid })
         .getExists()
 
       return isOrganizationExists
