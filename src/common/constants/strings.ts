@@ -23,6 +23,9 @@ export const AppStrings = {
   LIMIT_EVENT_ALL_RESPONSE: 'Список событий лимита получен',
   LIMIT_EVENT_ALL_OPERATION: 'Получение списка всех событий лимита',
 
+  LIMIT_STATUS_ALL_RESPONSE: 'Список статусов лимитов получен',
+  LIMIT_STATUS_ALL_OPERATION: 'Получение списка всех статусов лимитов',
+
   ORGANIZATION_CREATED_RESPONSE: 'Организация создана',
   ORGANIZATION_CREATE_OPERATION: 'Создание организации',
   ORGANIZATION_ALL_RESPONSE: 'Список организаций получен',
@@ -175,7 +178,8 @@ export const AppStrings = {
   PLAN_SECOND_YEAR_LIMIT: 'Объем финансового обеспечения. Второй год.',
   PLAN_NEXT_YEAR_LIMIT: 'Объем финансового обеспечения. Последующие года.',
   PLAN_START_MAX_PRICE: 'Начальная (максимальная) цена контракта.',
-  PLAN_PUBLIC_PURCHASE_DISCUSSION: 'Информация о проведении обязательного общественного обсуждения закупки',
+  PLAN_PUBLIC_PURCHASE_DISCUSSION:
+    'Информация о проведении обязательного общественного обсуждения закупки',
   PLAN_AUTHORIZED_INSTITUTION: 'Наименование уполномоченного органа (учреждения)',
   PLAN_ORGANIZER_NAME: 'Наименование организатора проведения совместного конкурса или аукциона',
   PLAN_PLACEMENT_MONTH: 'Месяц размещения извещения или заключения контракта у ед. поставщика',

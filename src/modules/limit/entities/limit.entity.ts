@@ -4,6 +4,7 @@ import { Currency } from 'src/modules/currency/entities/currency.entity'
 import { KBK } from 'src/modules/kbk/entities/kbk.entity'
 import { Kosgu } from 'src/modules/kosgu/entities/kosgu.entity'
 import { LimitEvent } from 'src/modules/limit-event/entities/limit-event.entity'
+import { LimitStatus } from 'src/modules/limit-status/entities/limit-status.entity'
 import { Entity, Column, PrimaryColumn, JoinColumn, ManyToOne, OneToMany } from 'typeorm'
 
 @Entity({ name: 'Limits' })
@@ -37,6 +38,19 @@ export class Limit extends BaseModel {
   @JoinColumn({ name: 'kosgu_uuid', referencedColumnName: 'kosgu_uuid' })
   @ApiProperty()
   kosgu: Kosgu
+
+  @Column({ nullable: true })
+  @ApiProperty({ required: false })
+  limit_version?: number
+
+  @Column()
+  @ApiProperty()
+  limit_status_id: number
+
+  @ManyToOne(() => LimitStatus, (limit) => limit.limits)
+  @JoinColumn({ name: 'limit_status_id', referencedColumnName: 'limit_status_id' })
+  @ApiProperty()
+  limit_status: LimitStatus
 
   @Column({ type: 'decimal' })
   @ApiProperty()
