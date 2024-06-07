@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { DataSource, Repository } from 'typeorm'
 import { User } from './entities/user.entity'
 import { ArrayUserResponse, StatusUserResponse, UserResponse } from './response'
-import { CreateUserDto, UpdateUserDto, UpdateUserPasswordDto } from './dto'
+import { CreateUserDto, UpdateUserDto, UpdateUserPasswordDto, UpdateUserStatusDto } from './dto'
 import { CreatePersonDto } from '../person/dto'
 import { Person } from '../person/entities/person.entity'
 import * as bcrypt from 'bcrypt'
@@ -71,7 +71,9 @@ export class UserService {
     try {
       let query = this.usersRepository.createQueryBuilder('user').select()
       if (includeJoins) {
-        query = query.leftJoinAndSelect('user.role', 'role').leftJoinAndSelect('user.person', 'person')
+        query = query
+          .leftJoinAndSelect('user.role', 'role')
+          .leftJoinAndSelect('user.person', 'person')
       }
       query = query.where({ user_uuid })
 
@@ -191,7 +193,10 @@ export class UserService {
     }
   }
 
-  async updatePassword(updateUserPasswordDto: UpdateUserPasswordDto, user_uuid: string): Promise<StatusUserResponse> {
+  async updatePassword(
+    updateUserPasswordDto: UpdateUserPasswordDto,
+    user_uuid: string,
+  ): Promise<StatusUserResponse> {
     try {
       const user = await this.usersRepository
         .createQueryBuilder('user')
@@ -214,7 +219,30 @@ export class UserService {
           return { status: false }
         }
       } else {
-        throw new HttpException(await this.i18n.t('errors.password_mismatch'), HttpStatus.BAD_REQUEST)
+        throw new HttpException(
+          await this.i18n.t('errors.password_mismatch'),
+          HttpStatus.BAD_REQUEST,
+        )
+      }
+    } catch (error) {
+      console.log(error)
+      throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
+
+  async updateStatus(data: UpdateUserStatusDto): Promise<StatusUserResponse> {
+    try {
+      const updateUser = await this.usersRepository
+        .createQueryBuilder()
+        .update()
+        .set({ is_active: data.is_active })
+        .where('user_uuid = :user_uuid', { user_uuid: data.user_uuid })
+        .execute()
+
+      if (updateUser.affected > 0) {
+        return { status: true }
+      } else {
+        return { status: false }
       }
     } catch (error) {
       console.log(error)
