@@ -6,7 +6,7 @@ import { Repository, DataSource } from 'typeorm'
 import { CreateLimitDto, UpdateLimitDto } from './dto'
 import { ArrayLimitResponse, StatusLimitResponse } from './response'
 import { LimitFilter } from './filters'
-import { DefaultPagination } from 'src/common/constants/constants'
+import { DefaultPagination, LimitStatusesEnum } from 'src/common/constants/constants'
 import { formatFilter } from 'src/utils/format-filter'
 import { CreateLimitEventDto } from '../limit-event/dto'
 import { LimitEvent } from '../limit-event/entities/limit-event.entity'
@@ -27,6 +27,7 @@ export class LimitService {
         .insert()
         .values({
           ...limit,
+          limit_status_id: LimitStatusesEnum.CREATED,
         })
         .returning('*')
         .execute()
@@ -44,7 +45,7 @@ export class LimitService {
       const filters = formatFilter(limitFilter?.filter ?? {})
 
       const limits = await this.limitRepository.findAndCount({
-        relations: {},
+        relations: { limit_status: true },
         where: filters,
         order: limitFilter.sorts,
         skip: count * (page - 1),
@@ -60,7 +61,11 @@ export class LimitService {
 
   async isExists(limit_uuid: string): Promise<boolean> {
     try {
-      const isExists = await this.limitRepository.createQueryBuilder().select().where({ limit_uuid }).getExists()
+      const isExists = await this.limitRepository
+        .createQueryBuilder()
+        .select()
+        .where({ limit_uuid })
+        .getExists()
 
       return isExists
     } catch (error) {
@@ -129,7 +134,11 @@ export class LimitService {
 
   async delete(limit_uuid: string): Promise<StatusLimitResponse> {
     try {
-      const deleteLimit = await this.limitRepository.createQueryBuilder().delete().where({ limit_uuid }).execute()
+      const deleteLimit = await this.limitRepository
+        .createQueryBuilder()
+        .delete()
+        .where({ limit_uuid })
+        .execute()
 
       return { status: deleteLimit.affected !== 0 }
     } catch (error) {

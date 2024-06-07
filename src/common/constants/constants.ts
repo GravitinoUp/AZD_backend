@@ -10,11 +10,19 @@ export const PurchaseStepsEnum = {
   ENDED: 4,
 }
 
+export const LimitStatusesEnum = {
+  CREATED: 1,
+  ON_APPROVAL: 2,
+  APPROVED: 3,
+  DECLINED: 4,
+}
+
 export const CacheRoutes = {
   CURRENCY: 'currency',
   KOSGU: 'kosgu',
   LIMIT: 'limit',
   LIMIT_EVENT: 'limit-event',
+  LIMIT_STATUS: 'limit-status',
   ORGANIZATION: 'organization',
   ORGANIZATION_TYPE: 'organization_type',
   PERMISSION: 'permission',

@@ -99,3 +99,11 @@ export class ResetUserPasswordDto {
   @ApiProperty()
   password: string
 }
+
+export class UpdateUserStatusDto {
+  @ApiProperty()
+  user_uuid: string
+
+  @ApiProperty({ default: true })
+  is_active: boolean
+}

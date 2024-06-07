@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { KBKResponse } from 'src/modules/kbk/response'
 import { KosguResponse } from 'src/modules/kosgu/response'
+import { LimitStatusResponse } from 'src/modules/limit-status/response'
 
 export class LimitResponse {
   @ApiProperty()
@@ -23,6 +24,15 @@ export class LimitResponse {
 
   @ApiProperty({ required: false })
   kosgu?: KosguResponse
+
+  @ApiProperty({ required: false })
+  limit_version?: number
+
+  @ApiProperty()
+  limit_status_id: number
+
+  @ApiProperty({ required: false })
+  limit_status?: LimitStatusResponse
 
   @ApiProperty()
   current_year_rub_value: number

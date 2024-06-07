@@ -39,6 +39,9 @@ export class KBKValueFilter {
 // KBK
 export class KBKSorts {
   @ApiProperty({ default: AppStrings.ASC, required: false })
+  kbk_uuid?: 'ASC' | 'DESC'
+
+  @ApiProperty({ default: AppStrings.ASC, required: false })
   kbk_name?: 'ASC' | 'DESC'
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
@@ -55,6 +58,9 @@ export class KBKSorts {
 }
 
 export class KBKFilters {
+  @ApiProperty({ required: false })
+  kbk_uuid?: string
+
   @ApiProperty({ required: false })
   kbk_name?: string
 

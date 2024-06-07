@@ -33,6 +33,7 @@ import { PurchaseStepModule } from '../purchase-step/purchase-step.module'
 import { KosguModule } from '../kosgu/kosgu.module'
 import { KbkModule } from '../kbk/kbk.module'
 import { TechnicalTaskModule } from '../technical-task/technical-task.module'
+import { LimitStatusModule } from '../limit-status/limit-status.module'
 
 @Module({
   imports: [
@@ -114,6 +115,7 @@ import { TechnicalTaskModule } from '../technical-task/technical-task.module'
     LegalBasis,
     LimitModule,
     LimitEventModule,
+    LimitStatusModule,
     OkpdModule,
     OrganizationModule,
     OrganizationTypeModule,
