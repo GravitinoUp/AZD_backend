@@ -8,6 +8,9 @@ export const AppStrings = {
   CURRENCY_ALL_RESPONSE: 'Список валют получен',
   CURRENCY_ALL_OPERATION: 'Получение списка всех валют',
 
+  KOSGU_ALL_RESPONSE: 'КОСГУ получены',
+  KOSGU_ALL_OPERATION: 'Получение списка кодов КОСГУ',
+
   LIMIT_CREATE_RESPONSE: 'Лимит создан',
   LIMIT_CREATE_OPERATION: 'Создание лимита',
   LIMIT_ALL_RESPONSE: 'Список лимитов получен',
@@ -116,6 +119,17 @@ export const AppStrings = {
   ROLE_PERMISSION_UPDATE_OPERATION: 'Изменение разрешения',
   ROLE_PERMISSION_DELETE_RESPONSE: 'Разрешение удалено',
   ROLE_PERMISSION_DELETE_OPERATION: 'Удаление разрешения',
+
+  TECHNICAL_TASK_CREATE_RESPONSE: 'Техническое задание создано',
+  TECHNICAL_TASK_CREATE_OPERATION: 'Создание технического задания',
+  TECHNICAL_TASK_ALL_RESPONSE: 'Список технических заданий получен',
+  TECHNICAL_TASK_ALL_OPERATION: 'Получение списка всех технических заданий',
+  TECHNICAL_TASK_PURCHASE_RESPONSE: 'Технические задания закупки получены',
+  TECHNICAL_TASK_PURCHASE_OPERATION: 'Получение списка всех технических заданий закупки',
+  TECHNICAL_TASK_UPDATE_RESPONSE: 'Техническое задание изменено',
+  TECHNICAL_TASK_UPDATE_OPERATION: 'Изменение технического задания',
+  TECHNICAL_TASK_DELETE_RESPONSE: 'Техническое задание удалено',
+  TECHNICAL_TASK_DELETE_OPERATION: 'Удаление технического задания',
 
   USERS_CREATE_OPERATION: 'Регистрация пользователя',
   USERS_CREATE_RESPONSE: 'Пользователь успешно зарегистрирован',

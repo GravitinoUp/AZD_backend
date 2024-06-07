@@ -46,7 +46,7 @@ export class PlanService {
       const filters = formatFilter(planFilter?.filter ?? {})
 
       const plans = await this.planRepository.findAndCount({
-        relations: { branch: true, user: { person: true } },
+        relations: { purchase: true, branch: true, user: { person: true } },
         where: filters,
         order: planFilter.sorts,
         skip: count * (page - 1),

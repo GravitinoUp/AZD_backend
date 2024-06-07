@@ -35,6 +35,16 @@ export class CreatePurchaseDto {
   start_date?: Date
 
   @IsDateString()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  end_application_date?: Date
+
+  @IsDateString()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  executor_date?: Date
+
+  @IsDateString()
   @ApiProperty()
   end_date: Date
 
@@ -133,6 +143,16 @@ export class UpdatePurchaseDto {
   @IsOptional()
   @ApiProperty({ required: false })
   start_date?: Date
+
+  @IsDateString()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  end_application_date?: Date
+
+  @IsDateString()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  executor_date?: Date
 
   @IsDateString()
   @IsOptional()

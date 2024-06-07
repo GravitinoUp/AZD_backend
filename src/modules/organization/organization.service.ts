@@ -16,7 +16,7 @@ export class OrganizationService {
 
   async create(organization: CreateOrganizationDto): Promise<StatusOrganizationResponse> {
     try {
-      const newRole = await this.organizationRepository
+      const newOrganization = await this.organizationRepository
         .createQueryBuilder()
         .insert()
         .values({
@@ -25,7 +25,7 @@ export class OrganizationService {
         .returning('*')
         .execute()
 
-      return { status: true, data: newRole.raw[0] }
+      return { status: true, data: newOrganization.raw[0] }
     } catch (error) {
       throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
     }
@@ -69,7 +69,7 @@ export class OrganizationService {
 
   async update(organization: UpdateOrganizationDto): Promise<StatusOrganizationResponse> {
     try {
-      const updateRole = await this.organizationRepository
+      const updateOrganization = await this.organizationRepository
         .createQueryBuilder()
         .update()
         .where({ organization_uuid: organization.organization_uuid })
@@ -78,7 +78,7 @@ export class OrganizationService {
         })
         .execute()
 
-      return { status: updateRole.affected !== 0 }
+      return { status: updateOrganization.affected !== 0 }
     } catch (error) {
       throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
     }
@@ -86,13 +86,13 @@ export class OrganizationService {
 
   async delete(organization_uuid: string): Promise<StatusOrganizationResponse> {
     try {
-      const updateRole = await this.organizationRepository
+      const deleteOrganization = await this.organizationRepository
         .createQueryBuilder()
         .delete()
         .where({ organization_uuid })
         .execute()
 
-      return { status: updateRole.affected !== 0 }
+      return { status: deleteOrganization.affected !== 0 }
     } catch (error) {
       throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
     }

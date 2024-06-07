@@ -12,6 +12,7 @@ export const PurchaseStepsEnum = {
 
 export const CacheRoutes = {
   CURRENCY: 'currency',
+  KOSGU: 'kosgu',
   LIMIT: 'limit',
   LIMIT_EVENT: 'limit-event',
   ORGANIZATION: 'organization',
@@ -27,6 +28,7 @@ export const CacheRoutes = {
   PURCHASE_TYPE: 'purchase-type',
   ROLE: 'role',
   ROLE_PERMISSION: 'role-permission',
+  TECHNICAL_TASK: 'technical-task',
   USER: 'user',
 }
 

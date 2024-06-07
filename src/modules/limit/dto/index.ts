@@ -10,13 +10,13 @@ export class CreateLimitDto {
   @ApiProperty()
   line_code: string
 
-  @IsString()
+  @IsUUID()
   @ApiProperty()
-  kbk_code: string
+  kbk_uuid: string
 
-  @IsString()
+  @IsUUID()
   @ApiProperty()
-  kosgu: string
+  kosgu_uuid: string
 
   @IsDecimal()
   @ApiProperty({ default: '0.0' })
@@ -71,15 +71,15 @@ export class UpdateLimitDto {
   @ApiProperty({ required: false })
   limit_name?: string
 
-  @IsString()
+  @IsUUID()
   @IsOptional()
   @ApiProperty({ required: false })
-  kbk_code?: string
+  kbk_uuid?: string
 
-  @IsString()
+  @IsUUID()
   @IsOptional()
   @ApiProperty({ required: false })
-  kosgu?: string
+  kosgu_uuid?: string
 
   @IsDecimal()
   @IsOptional()

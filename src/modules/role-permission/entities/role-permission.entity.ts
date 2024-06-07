@@ -15,7 +15,7 @@ export class RolePermission extends BaseModel {
   @ApiProperty()
   role_id: number
 
-  @ManyToOne(() => Role, (role) => role.role_id)
+  @ManyToOne(() => Role, (role) => role.role_permissions)
   @JoinColumn({ name: 'role_id', referencedColumnName: 'role_id' })
   @ApiProperty()
   role: Role

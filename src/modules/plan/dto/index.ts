@@ -1,5 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsUUID, IsString, IsInt, IsBoolean, IsDateString, IsOptional, IsDecimal } from 'class-validator'
+import {
+  IsUUID,
+  IsString,
+  IsInt,
+  IsBoolean,
+  IsDateString,
+  IsOptional,
+  IsDecimal,
+} from 'class-validator'
 
 export class CreatePlanDto {
   @IsString()
@@ -35,17 +43,17 @@ export class CreatePlanDto {
   @ApiProperty({ required: false })
   purchase_offer_number?: string
 
-  @IsString()
+  @IsUUID()
   @ApiProperty()
-  okpd_code: string
+  okpd_uuid: string
 
   @IsString()
   @ApiProperty()
   object_name: string
 
-  @IsString()
+  @IsUUID()
   @ApiProperty()
-  okei_code: string
+  okei_uuid: string
 
   @IsString()
   @ApiProperty()
@@ -210,20 +218,20 @@ export class UpdatePlanDto {
   @ApiProperty({ required: false })
   purchase_offer_number?: string
 
-  @IsString()
+  @IsUUID()
   @IsOptional()
   @ApiProperty({ required: false })
-  okpd_code?: string
+  okpd_uuid?: string
 
   @IsString()
   @IsOptional()
   @ApiProperty({ required: false })
   object_name?: string
 
-  @IsString()
+  @IsUUID()
   @IsOptional()
   @ApiProperty({ required: false })
-  okei_code?: string
+  okei_uuid?: string
 
   @IsString()
   @IsOptional()

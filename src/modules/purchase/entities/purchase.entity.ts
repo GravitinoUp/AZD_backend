@@ -2,9 +2,11 @@ import { ApiProperty } from '@nestjs/swagger'
 import BaseModel from 'src/common/model'
 import { Currency } from 'src/modules/currency/entities/currency.entity'
 import { Organization } from 'src/modules/organization/entities/organization.entity'
+import { Plan } from 'src/modules/plan/entities/plan.entity'
 import { PurchaseEvent } from 'src/modules/purchase-event/entities/purchase-event.entity'
 import { PurchaseStep } from 'src/modules/purchase-step/entities/purchase-step.entity'
 import { PurchaseType } from 'src/modules/purchase-type/entities/purchase-type.entity'
+import { TechnicalTask } from 'src/modules/technical-task/entities/technical_task.entity'
 import { User } from 'src/modules/user/entities/user.entity'
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm'
 
@@ -56,6 +58,14 @@ export class Purchase extends BaseModel {
   @Column({ nullable: true })
   @ApiProperty({ required: false })
   start_date?: Date
+
+  @Column({ nullable: true })
+  @ApiProperty({ required: false })
+  end_application_date?: Date
+
+  @Column({ nullable: true })
+  @ApiProperty({ required: false })
+  executor_date?: Date
 
   @Column()
   @ApiProperty()
@@ -125,4 +135,10 @@ export class Purchase extends BaseModel {
 
   @OneToMany(() => PurchaseEvent, (purchaseEvent) => purchaseEvent.purchase, { cascade: true })
   purchase_events: PurchaseEvent[]
+
+  @OneToMany(() => TechnicalTask, (task) => task.purchase, { cascade: true })
+  technical_tasks: TechnicalTask[]
+
+  @OneToMany(() => Plan, (plan) => plan.purchase, { cascade: true })
+  plans: Plan[]
 }

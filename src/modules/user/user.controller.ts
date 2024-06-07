@@ -12,7 +12,7 @@ import {
   Inject,
 } from '@nestjs/common'
 import { UserService } from './user.service'
-import { CreateUserDto, UpdateCurrentUserDto, UpdateUserPasswordDto } from './dto'
+import { CreateUserDto, UpdateUserDto, UpdateUserPasswordDto } from './dto'
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { AllExceptionsFilter } from 'src/common/exception.filter'
 import { I18nService } from 'nestjs-i18n'
@@ -102,14 +102,14 @@ export class UserController {
     type: StatusUserResponse,
   })
   @UseGuards(JwtAuthGuard, ActiveGuard)
-  @Patch('my')
-  async updateCurrent(@Body() user: UpdateCurrentUserDto, @Req() request) {
-    const isUserExists = await this.userService.isExists({ user_uuid: request.user.user_uuid })
+  @Patch()
+  async update(@Body() user: UpdateUserDto) {
+    const isUserExists = await this.userService.isExists({ user_uuid: user.user_uuid })
     if (!isUserExists) {
       throw new HttpException(await this.i18n.t('errors.user_not_found'), HttpStatus.NOT_FOUND)
     }
 
-    const result = await this.userService.update(user, request.user.user_uuid)
+    const result = await this.userService.update(user)
     return result
   }
 

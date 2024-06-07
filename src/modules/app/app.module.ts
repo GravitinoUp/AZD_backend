@@ -12,7 +12,6 @@ import { LegalBasis } from '../legal-basis/entities/legal-basis.entity'
 import { PersonModule } from '../person/person.module'
 import { RoleModule } from '../role/role.module'
 import { UserModule } from '../user/user.module'
-import { join } from 'path'
 import { AcceptLanguageResolver, I18nModule } from 'nestjs-i18n'
 import { CacheModule, CacheOptions } from '@nestjs/cache-manager'
 import * as redisStore from 'cache-manager-redis-store'
@@ -31,6 +30,9 @@ import { LimitModule } from '../limit/limit.module'
 import { LimitEventModule } from '../limit-event/limit-event.module'
 import { PurchaseTypeModule } from '../purchase-type/purchase-type.module'
 import { PurchaseStepModule } from '../purchase-step/purchase-step.module'
+import { KosguModule } from '../kosgu/kosgu.module'
+import { KbkModule } from '../kbk/kbk.module'
+import { TechnicalTaskModule } from '../technical-task/technical-task.module'
 
 @Module({
   imports: [
@@ -107,6 +109,8 @@ import { PurchaseStepModule } from '../purchase-step/purchase-step.module'
     }),
     AuthModule,
     CurrencyModule,
+    KbkModule,
+    KosguModule,
     LegalBasis,
     LimitModule,
     LimitEventModule,
@@ -123,6 +127,7 @@ import { PurchaseStepModule } from '../purchase-step/purchase-step.module'
     PurchaseTypeModule,
     RoleModule,
     RolePermissionModule,
+    TechnicalTaskModule,
     UserModule,
   ],
   controllers: [AppController],

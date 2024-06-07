@@ -2,6 +2,8 @@ import { ApiProperty } from '@nestjs/swagger'
 import { FilterOffset } from 'src/common/classes/filter_offset'
 import { AppStrings } from 'src/common/constants/strings'
 import { CurrencyFilter, CurrencySorts } from 'src/modules/currency/filters'
+import { KBKFilters, KBKSorts } from 'src/modules/kbk/filters'
+import { KosguFilters, KosguSorts } from 'src/modules/kosgu/filters'
 
 export class LimitSorts {
   @ApiProperty({ default: AppStrings.ASC, required: false })
@@ -11,10 +13,10 @@ export class LimitSorts {
   limit_name?: 'ASC' | 'DESC'
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
-  kbk_code?: 'ASC' | 'DESC'
+  kbk?: KBKSorts
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
-  kosgu?: 'ASC' | 'DESC'
+  kosgu?: KosguSorts
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
   current_year_rub_value?: 'ASC' | 'DESC'
@@ -52,10 +54,10 @@ export class LimitFilters {
   limit_name?: string
 
   @ApiProperty({ required: false })
-  kbk_code?: string
+  kbk?: KBKFilters
 
   @ApiProperty({ required: false })
-  kosgu?: string
+  kosgu?: KosguFilters
 
   @ApiProperty({ required: false })
   current_year_rub_value?: number

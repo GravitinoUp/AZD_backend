@@ -33,6 +33,12 @@ export class PurchaseSorts {
   start_date?: 'ASC' | 'DESC'
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
+  end_application_date?: 'ASC' | 'DESC'
+
+  @ApiProperty({ default: AppStrings.ASC, required: false })
+  executor_date?: 'ASC' | 'DESC'
+
+  @ApiProperty({ default: AppStrings.ASC, required: false })
   end_date?: 'ASC' | 'DESC'
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
@@ -99,6 +105,12 @@ export class PurchaseFilters {
 
   @ApiProperty({ required: false })
   start_date?: Date
+
+  @ApiProperty({ required: false })
+  end_application_date?: Date
+
+  @ApiProperty({ required: false })
+  executor_date?: Date
 
   @ApiProperty({ required: false })
   end_date?: Date
