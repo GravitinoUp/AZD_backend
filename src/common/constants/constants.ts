@@ -30,6 +30,7 @@ export const CacheRoutes = {
   PURCHASE_EVENT: 'purchase-event',
   PLAN: 'plan',
   PLAN_EVENT: 'plan-event',
+  PLAN_STATUS: 'plan-status',
   PLAN_WAY: 'plan-way',
   PROPERTY: 'property',
   PURCHASE_STEP: 'purchase-step',

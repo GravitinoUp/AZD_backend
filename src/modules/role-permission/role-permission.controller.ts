@@ -144,7 +144,7 @@ export class RolePermissionController {
   @Patch()
   async update(@Body() updateRolesPermissionDto: UpdateRolePermissionDto) {
     const isRolePermissionExists = await this.rolePermissionService.isExists(
-      updateRolesPermissionDto.role_permission_id,
+      updateRolesPermissionDto.role_permission_uuid,
     )
 
     if (!isRolePermissionExists) {
@@ -163,8 +163,8 @@ export class RolePermissionController {
     description: AppStrings.ROLE_PERMISSION_DELETE_RESPONSE,
     type: StatusRolePermissionResponse,
   })
-  @Delete(':id')
-  async remove(@Param('id') id: number) {
+  @Delete(':uuid')
+  async remove(@Param('uuid') id: string) {
     const isRolePermissionExists = await this.rolePermissionService.isExists(id)
 
     if (!isRolePermissionExists) {
