@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger'
 
 export class RolePermissionResponse {
   @ApiProperty()
-  role_permission_id: number
+  role_permission_uuid: string
 
   @ApiProperty()
   role_id?: number

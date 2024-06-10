@@ -23,7 +23,9 @@ export class RolePermissionService {
     private dataSource: DataSource,
   ) {}
 
-  async create(rolePermissionDto: CreateRolesPermissionDto): Promise<StatusArrayRolePermissionResponse> {
+  async create(
+    rolePermissionDto: CreateRolesPermissionDto,
+  ): Promise<StatusArrayRolePermissionResponse> {
     const queryRunner = this.dataSource.createQueryRunner()
     await queryRunner.connect()
 
@@ -53,7 +55,10 @@ export class RolePermissionService {
 
   async findAll(): Promise<ArrayRolePermissionResponse> {
     try {
-      const rolePermissions = await this.rolePermissionRepository.createQueryBuilder().select().getManyAndCount()
+      const rolePermissions = await this.rolePermissionRepository
+        .createQueryBuilder()
+        .select()
+        .getManyAndCount()
 
       return { count: rolePermissions[1], data: rolePermissions[0] }
     } catch (error) {
@@ -84,12 +89,12 @@ export class RolePermissionService {
     }
   }
 
-  async isExists(role_permission_id: number): Promise<boolean> {
+  async isExists(role_permission_uuid: string): Promise<boolean> {
     try {
       const isRolePermissionExists = await this.rolePermissionRepository
         .createQueryBuilder()
         .select()
-        .where('role_permission_id = :role_permission_id', { role_permission_id })
+        .where({ role_permission_uuid })
         .getExists()
 
       return isRolePermissionExists
@@ -104,7 +109,7 @@ export class RolePermissionService {
       const updateRolePermission = await this.rolePermissionRepository
         .createQueryBuilder()
         .update()
-        .where({ role_permission_id: rolePermission.role_permission_id })
+        .where({ role_permission_uuid: rolePermission.role_permission_uuid })
         .set({
           ...rolePermission,
         })
@@ -116,12 +121,12 @@ export class RolePermissionService {
     }
   }
 
-  async delete(role_permission_id: number): Promise<StatusRolePermissionResponse> {
+  async delete(role_permission_uuid: string): Promise<StatusRolePermissionResponse> {
     try {
       const updateRolePermission = await this.rolePermissionRepository
         .createQueryBuilder()
         .delete()
-        .where({ role_permission_id })
+        .where({ role_permission_uuid })
         .execute()
 
       return { status: updateRolePermission.affected !== 0 }
@@ -131,7 +136,11 @@ export class RolePermissionService {
   }
 
   async checkPermission(permission_id: string, user_uuid: string): Promise<boolean> {
-    const user = await this.userRepository.createQueryBuilder().select().where({ user_uuid }).getOne()
+    const user = await this.userRepository
+      .createQueryBuilder()
+      .select()
+      .where({ user_uuid })
+      .getOne()
 
     if (!user) {
       return false

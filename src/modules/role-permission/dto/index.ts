@@ -16,7 +16,7 @@ export class CreateRolesPermissionDto {
 
 export class UpdateRolePermissionDto {
   @ApiProperty({ required: false })
-  role_permission_id?: number
+  role_permission_uuid?: string
 
   @ApiProperty({ required: false })
   rights?: boolean

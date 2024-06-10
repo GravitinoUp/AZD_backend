@@ -9,7 +9,7 @@ import { Entity, Column, PrimaryColumn, JoinColumn, ManyToOne } from 'typeorm'
 export class RolePermission extends BaseModel {
   @PrimaryColumn()
   @ApiProperty()
-  role_permission_id: number
+  role_permission_uuid: string
 
   @Column()
   @ApiProperty()
