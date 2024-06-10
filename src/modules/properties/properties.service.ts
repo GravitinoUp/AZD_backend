@@ -7,6 +7,7 @@ import { CreatePropertyDto, CreatePropertyValueDto } from './dto'
 import { ArrayPropertyResponse, PropertyValueResponse, StatusPropertyResponse } from './response'
 import { PropertyFilter } from './filter'
 import { DefaultPagination } from 'src/common/constants/constants'
+import { formatFilter } from 'src/utils/format-filter'
 
 @Injectable()
 export class PropertiesService {
@@ -71,15 +72,15 @@ export class PropertiesService {
     try {
       const count = propertyFilter?.offset?.count ?? DefaultPagination.COUNT
       const page = propertyFilter?.offset?.page ?? DefaultPagination.PAGE
+      const filters = formatFilter(propertyFilter?.filter ?? {})
 
-      const properties = await this.propertyNameRepository
-        .createQueryBuilder('name')
-        .leftJoinAndSelect('name.values', 'value')
-        .where({ ...propertyFilter.filter })
-        .orderBy({ ...propertyFilter.sorts })
-        .offset(count * (page - 1))
-        .limit(count)
-        .getManyAndCount()
+      const properties = await this.propertyNameRepository.findAndCount({
+        relations: { values: true },
+        where: filters,
+        order: propertyFilter.sorts,
+        skip: count * (page - 1),
+        take: count,
+      })
 
       return { count: properties[1], data: properties[0] }
     } catch (error) {

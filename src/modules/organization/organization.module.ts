@@ -6,6 +6,7 @@ import { Organization } from './entities/organization.entity'
 import { UserModule } from '../user/user.module'
 import { OrganizationTypeModule } from '../organization-type/organization-type.module'
 import { PersonModule } from '../person/person.module'
+import { RolePermissionModule } from '../role-permission/role-permission.module'
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { PersonModule } from '../person/person.module'
     UserModule,
     OrganizationTypeModule,
     PersonModule,
+    RolePermissionModule,
   ],
   controllers: [OrganizationController],
   providers: [OrganizationService],

@@ -5,6 +5,8 @@ import { Repository } from 'typeorm'
 import { ArrayRoleResponse, StatusRoleResponse } from './response'
 import { CreateRoleDto, UpdateRoleDto } from './dto'
 import { RoleFilter } from './filters'
+import { DefaultPagination } from 'src/common/constants/constants'
+import { formatFilter } from 'src/utils/format-filter'
 
 @Injectable()
 export class RoleService {
@@ -32,14 +34,17 @@ export class RoleService {
 
   async findAll(roleFilter: RoleFilter): Promise<ArrayRoleResponse> {
     try {
-      const roles = await this.roleRepository
-        .createQueryBuilder()
-        .select()
-        .where({ ...roleFilter.filter })
-        .orderBy({ ...roleFilter.sorts })
-        .offset(roleFilter.offset.count * (roleFilter.offset.page - 1))
-        .limit(roleFilter.offset.count)
-        .getManyAndCount()
+      const count = roleFilter?.offset?.count ?? DefaultPagination.COUNT
+      const page = roleFilter?.offset?.page ?? DefaultPagination.PAGE
+      const filters = formatFilter(roleFilter?.filter ?? {})
+
+      const roles = await this.roleRepository.findAndCount({
+        relations: { role_permissions: true },
+        where: filters,
+        order: roleFilter.sorts,
+        skip: count * (page - 1),
+        take: count,
+      })
 
       return { count: roles[1], data: roles[0] }
     } catch (error) {

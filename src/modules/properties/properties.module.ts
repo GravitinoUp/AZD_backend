@@ -5,9 +5,14 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { PropertyValue } from './entities/property-value.entity'
 import { PropertyName } from './entities/property-name.entity'
 import { UserModule } from '../user/user.module'
+import { RolePermissionModule } from '../role-permission/role-permission.module'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PropertyValue, PropertyName]), UserModule],
+  imports: [
+    TypeOrmModule.forFeature([PropertyValue, PropertyName]),
+    UserModule,
+    RolePermissionModule,
+  ],
   controllers: [PropertiesController],
   providers: [PropertiesService],
   exports: [PropertiesService],

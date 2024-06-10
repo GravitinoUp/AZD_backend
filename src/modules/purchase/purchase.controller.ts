@@ -34,6 +34,7 @@ import { AllExceptionsFilter } from 'src/common/exception.filter'
 import { PurchaseTypeService } from '../purchase-type/purchase-type.service'
 import { UserService } from '../user/user.service'
 import { OrganizationService } from '../organization/organization.service'
+import { PermissionsGuard } from '../role-permission/guards/permission.guard'
 
 @ApiBearerAuth()
 @ApiTags('Purchases')
@@ -49,7 +50,8 @@ export class PurchaseController {
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
   ) {}
 
-  @UseGuards(JwtAuthGuard, ActiveGuard)
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.PurchaseCreate])
   @ApiOperation({ summary: AppStrings.PURCHASE_CREATE_OPERATION })
   @ApiCreatedResponse({
     description: AppStrings.PURCHASE_CREATE_RESPONSE,
@@ -70,6 +72,8 @@ export class PurchaseController {
     return result
   }
 
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.PurchaseGet])
   @ApiOperation({ summary: AppStrings.PURCHASE_ALL_OPERATION })
   @ApiOkResponse({
     description: AppStrings.PURCHASE_ALL_RESPONSE,
@@ -90,6 +94,8 @@ export class PurchaseController {
     }
   }
 
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.PurchaseGet])
   @ApiOperation({ summary: AppStrings.PURCHASE_ONE_OPERATION })
   @ApiOkResponse({
     description: AppStrings.PURCHASE_ONE_RESPONSE,
@@ -112,7 +118,8 @@ export class PurchaseController {
     }
   }
 
-  @UseGuards(JwtAuthGuard, ActiveGuard)
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.PurchaseDelete])
   @ApiOperation({ summary: AppStrings.PURCHASE_DELETE_OPERATION })
   @ApiOkResponse({
     description: AppStrings.PURCHASE_DELETE_RESPONSE,

@@ -1,5 +1,22 @@
-import { Body, Controller, Get, Inject, NotFoundException, Patch, Post, UseFilters, UseGuards } from '@nestjs/common'
-import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger'
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  NotFoundException,
+  Patch,
+  Post,
+  UseFilters,
+  UseGuards,
+} from '@nestjs/common'
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger'
 import { AllExceptionsFilter } from 'src/common/exception.filter'
 import { RoleService } from './role.service'
 import { I18nService } from 'nestjs-i18n'
@@ -11,6 +28,7 @@ import { ArrayRoleResponse, StatusRoleResponse } from './response'
 import { RoleFilter } from './filters'
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager'
 import { CacheRoutes } from 'src/common/constants/constants'
+import { PermissionsGuard } from '../role-permission/guards/permission.guard'
 
 @ApiBearerAuth()
 @ApiTags('Roles')
@@ -23,7 +41,8 @@ export class RoleController {
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
   ) {}
 
-  @UseGuards(JwtAuthGuard, ActiveGuard)
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.RoleCreate])
   @ApiOperation({ summary: AppStrings.ROLE_CREATE_OPERATION })
   @ApiCreatedResponse({
     description: AppStrings.ROLE_CREATE_RESPONSE,
@@ -36,6 +55,7 @@ export class RoleController {
     return result
   }
 
+  @UseGuards(JwtAuthGuard, ActiveGuard)
   @ApiOkResponse({
     description: AppStrings.ROLE_ALL_RESPONSE,
     type: ArrayRoleResponse,
@@ -74,7 +94,8 @@ export class RoleController {
     }
   }
 
-  @UseGuards(JwtAuthGuard, ActiveGuard)
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.RoleUpdate])
   @ApiOperation({ summary: AppStrings.ROLE_UPDATE_OPERATION })
   @ApiOkResponse({
     description: AppStrings.ROLE_UPDATE_RESPONSE,

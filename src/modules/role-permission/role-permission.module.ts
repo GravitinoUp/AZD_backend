@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common'
+import { Module, forwardRef } from '@nestjs/common'
 import { RolePermissionService } from './role-permission.service'
 import { RolePermissionController } from './role-permission.controller'
 import { TypeOrmModule } from '@nestjs/typeorm'
@@ -12,7 +12,7 @@ import { User } from '../user/entities/user.entity'
   imports: [
     TypeOrmModule.forFeature([RolePermission, User]),
     UserModule,
-    RoleModule,
+    forwardRef(() => RoleModule),
     PermissionModule,
   ],
   controllers: [RolePermissionController],

@@ -6,6 +6,7 @@ import { Purchase } from './entities/purchase.entity'
 import { UserModule } from '../user/user.module'
 import { PurchaseTypeModule } from '../purchase-type/purchase-type.module'
 import { OrganizationModule } from '../organization/organization.module'
+import { RolePermissionModule } from '../role-permission/role-permission.module'
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { OrganizationModule } from '../organization/organization.module'
     UserModule,
     PurchaseTypeModule,
     OrganizationModule,
+    RolePermissionModule,
   ],
   controllers: [PurchaseController],
   providers: [PurchaseService],

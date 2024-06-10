@@ -5,6 +5,7 @@ import { ArrayOrganizationTypeResponse } from './response'
 import { InjectRepository } from '@nestjs/typeorm'
 import { DefaultPagination } from 'src/common/constants/constants'
 import { Repository } from 'typeorm'
+import { formatFilter } from 'src/utils/format-filter'
 
 @Injectable()
 export class OrganizationTypeService {
@@ -17,15 +18,15 @@ export class OrganizationTypeService {
     try {
       const count = typeFilter?.offset?.count ?? DefaultPagination.COUNT
       const page = typeFilter?.offset?.page ?? DefaultPagination.PAGE
+      const filters = formatFilter(typeFilter?.filter ?? {})
 
-      const types = await this.organizationTypeRepository
-        .createQueryBuilder()
-        .select()
-        .where(typeFilter?.filter ?? '')
-        .orderBy({ ...typeFilter.sorts })
-        .offset(count * (page - 1))
-        .limit(count)
-        .getManyAndCount()
+      const types = await this.organizationTypeRepository.findAndCount({
+        relations: {},
+        where: filters,
+        order: typeFilter.sorts,
+        skip: count * (page - 1),
+        take: count,
+      })
 
       return { count: types[1], data: types[0] }
     } catch (error) {

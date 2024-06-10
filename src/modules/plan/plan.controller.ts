@@ -14,7 +14,14 @@ import {
   UseGuards,
 } from '@nestjs/common'
 import { PlanService } from './plan.service'
-import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger'
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger'
 import { AllExceptionsFilter } from 'src/common/exception.filter'
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager'
 import { I18nService } from 'nestjs-i18n'
@@ -28,6 +35,7 @@ import { PlanFilter } from './filter'
 import { UserService } from '../user/user.service'
 import { PlanWayService } from '../plan-way/plan-way.service'
 import { OrganizationService } from '../organization/organization.service'
+import { PermissionsGuard } from '../role-permission/guards/permission.guard'
 
 @ApiBearerAuth()
 @ApiTags('Plan')
@@ -43,7 +51,8 @@ export class PlanController {
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
   ) {}
 
-  @UseGuards(JwtAuthGuard, ActiveGuard)
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.PlanCreate])
   @ApiOperation({ summary: AppStrings.PLAN_CREATE_OPERATION })
   @ApiCreatedResponse({
     description: AppStrings.PLAN_CREATE_RESPONSE,
@@ -56,6 +65,8 @@ export class PlanController {
     return result
   }
 
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.PlanGet])
   @ApiOperation({ summary: AppStrings.PLAN_ALL_OPERATION })
   @ApiOkResponse({
     description: AppStrings.PLAN_ALL_RESPONSE,
@@ -75,7 +86,8 @@ export class PlanController {
       return result
     }
   }
-
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.PlanGet])
   @ApiOperation({ summary: AppStrings.PLAN_ONE_OPERATION })
   @ApiOkResponse({
     description: AppStrings.PLAN_ONE_RESPONSE,
@@ -98,7 +110,8 @@ export class PlanController {
     }
   }
 
-  @UseGuards(JwtAuthGuard, ActiveGuard)
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.PlanUpdate])
   @ApiOperation({ summary: AppStrings.PLAN_UPDATE_OPERATION })
   @ApiOkResponse({
     description: AppStrings.PLAN_UPDATE_RESPONSE,
@@ -107,21 +120,25 @@ export class PlanController {
   @Patch()
   async update(@Body() plan: UpdatePlanDto, @Req() request) {
     const isPlanExists = await this.planService.isExists(plan.plan_uuid)
-    if (!isPlanExists) throw new HttpException(this.i18n.t('errors.plan_not_found'), HttpStatus.NOT_FOUND)
+    if (!isPlanExists)
+      throw new HttpException(this.i18n.t('errors.plan_not_found'), HttpStatus.NOT_FOUND)
 
     if (plan.user_uuid) {
       const isUserExists = await this.userService.isExists({ user_uuid: plan.user_uuid })
-      if (!isUserExists) throw new HttpException(this.i18n.t('errors.user_not_found'), HttpStatus.NOT_FOUND)
+      if (!isUserExists)
+        throw new HttpException(this.i18n.t('errors.user_not_found'), HttpStatus.NOT_FOUND)
     }
 
     if (plan.way_id) {
       const isWayExists = await this.wayService.isExists(plan.way_id)
-      if (!isWayExists) throw new HttpException(this.i18n.t('errors.user_not_found'), HttpStatus.NOT_FOUND)
+      if (!isWayExists)
+        throw new HttpException(this.i18n.t('errors.user_not_found'), HttpStatus.NOT_FOUND)
     }
 
     if (plan.branch_uuid) {
       const isBranchExists = await this.organizationService.isExists(plan.branch_uuid)
-      if (!isBranchExists) throw new HttpException(this.i18n.t('errors.organization_not_found'), HttpStatus.NOT_FOUND)
+      if (!isBranchExists)
+        throw new HttpException(this.i18n.t('errors.organization_not_found'), HttpStatus.NOT_FOUND)
     }
 
     const result = await this.planService.update(plan, request.user.user_uuid)
@@ -129,7 +146,8 @@ export class PlanController {
     return result
   }
 
-  @UseGuards(JwtAuthGuard, ActiveGuard)
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.PlanDelete])
   @ApiOperation({ summary: AppStrings.PLAN_DELETE_OPERATION })
   @ApiOkResponse({
     description: AppStrings.PLAN_DELETE_RESPONSE,

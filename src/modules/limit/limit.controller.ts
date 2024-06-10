@@ -15,7 +15,14 @@ import {
 import { LimitService } from './limit.service'
 import { I18nService } from 'nestjs-i18n'
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager'
-import { ApiOperation, ApiCreatedResponse, ApiBody, ApiOkResponse, ApiBearerAuth, ApiTags } from '@nestjs/swagger'
+import {
+  ApiOperation,
+  ApiCreatedResponse,
+  ApiBody,
+  ApiOkResponse,
+  ApiBearerAuth,
+  ApiTags,
+} from '@nestjs/swagger'
 import { CacheRoutes } from 'src/common/constants/constants'
 import { AppStrings } from 'src/common/constants/strings'
 import { ActiveGuard } from '../auth/guards/active.guard'
@@ -27,6 +34,7 @@ import { CurrencyService } from '../currency/currency.service'
 import { AllExceptionsFilter } from 'src/common/exception.filter'
 import { KbkService } from '../kbk/kbk.service'
 import { KosguService } from '../kosgu/kosgu.service'
+import { PermissionsGuard } from '../role-permission/guards/permission.guard'
 
 @ApiBearerAuth()
 @ApiTags('Limit')
@@ -42,34 +50,43 @@ export class LimitController {
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
   ) {}
 
-  @UseGuards(JwtAuthGuard, ActiveGuard)
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.LimitCreate])
   @ApiOperation({ summary: AppStrings.LIMIT_CREATE_OPERATION })
   @ApiCreatedResponse({
     description: AppStrings.LIMIT_CREATE_RESPONSE,
     type: StatusLimitResponse,
   })
   @Post()
-  async create(@Body() limit: CreateLimitDto) {
+  async create(@Body() limit: CreateLimitDto): Promise<StatusLimitResponse> {
     const isKBKExists = await this.kbkService.isExists(limit.kbk_uuid) // ADD IF NOT EXISTS
-    if (!isKBKExists) throw new HttpException(this.i18n.t('errors.kbk_not_found'), HttpStatus.NOT_FOUND)
+    if (!isKBKExists)
+      throw new HttpException(this.i18n.t('errors.kbk_not_found'), HttpStatus.NOT_FOUND)
 
     const isKosguExists = await this.kosguService.isExists(limit.kosgu_uuid) // ADD IF NOT EXISTS
-    if (!isKosguExists) throw new HttpException(this.i18n.t('errors.kosgu_not_found'), HttpStatus.NOT_FOUND)
+    if (!isKosguExists)
+      throw new HttpException(this.i18n.t('errors.kosgu_not_found'), HttpStatus.NOT_FOUND)
 
     if (limit.current_year_currency_code) {
-      const isCurrencyCodeExists = await this.currencyService.isExists(limit.current_year_currency_code)
+      const isCurrencyCodeExists = await this.currencyService.isExists(
+        limit.current_year_currency_code,
+      )
       if (!isCurrencyCodeExists)
         throw new HttpException(this.i18n.t('errors.currency_code_not_found'), HttpStatus.NOT_FOUND)
     }
 
     if (limit.first_year_currency_code) {
-      const isCurrencyCodeExists = await this.currencyService.isExists(limit.first_year_currency_code)
+      const isCurrencyCodeExists = await this.currencyService.isExists(
+        limit.first_year_currency_code,
+      )
       if (!isCurrencyCodeExists)
         throw new HttpException(this.i18n.t('errors.currency_code_not_found'), HttpStatus.NOT_FOUND)
     }
 
     if (limit.second_year_currency_code) {
-      const isCurrencyCodeExists = await this.currencyService.isExists(limit.second_year_currency_code)
+      const isCurrencyCodeExists = await this.currencyService.isExists(
+        limit.second_year_currency_code,
+      )
       if (!isCurrencyCodeExists)
         throw new HttpException(this.i18n.t('errors.currency_code_not_found'), HttpStatus.NOT_FOUND)
     }
@@ -79,6 +96,8 @@ export class LimitController {
     return result
   }
 
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.LimitGet])
   @ApiOperation({ summary: AppStrings.LIMIT_ALL_OPERATION })
   @ApiOkResponse({
     description: AppStrings.LIMIT_ALL_RESPONSE,
@@ -99,7 +118,8 @@ export class LimitController {
     }
   }
 
-  @UseGuards(JwtAuthGuard, ActiveGuard)
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.LimitUpdate])
   @ApiOperation({ summary: AppStrings.LIMIT_UPDATE_OPERATION })
   @ApiOkResponse({
     description: AppStrings.LIMIT_UPDATE_RESPONSE,
@@ -108,31 +128,40 @@ export class LimitController {
   @Patch()
   async update(@Body() limit: UpdateLimitDto, @Req() request) {
     const isLimitExists = await this.limitService.isExists(limit.limit_uuid)
-    if (!isLimitExists) throw new HttpException(this.i18n.t('errors.limit_not_found'), HttpStatus.NOT_FOUND)
+    if (!isLimitExists)
+      throw new HttpException(this.i18n.t('errors.limit_not_found'), HttpStatus.NOT_FOUND)
 
     if (limit.kbk_uuid) {
       const isKBKExists = await this.kbkService.isExists(limit.kbk_uuid) // ADD IF NOT EXISTS
-      if (!isKBKExists) throw new HttpException(this.i18n.t('errors.kbk_not_found'), HttpStatus.NOT_FOUND)
+      if (!isKBKExists)
+        throw new HttpException(this.i18n.t('errors.kbk_not_found'), HttpStatus.NOT_FOUND)
     }
     if (limit.kosgu_uuid) {
       const isKosguExists = await this.kosguService.isExists(limit.kosgu_uuid) // ADD IF NOT EXISTS
-      if (!isKosguExists) throw new HttpException(this.i18n.t('errors.kosgu_not_found'), HttpStatus.NOT_FOUND)
+      if (!isKosguExists)
+        throw new HttpException(this.i18n.t('errors.kosgu_not_found'), HttpStatus.NOT_FOUND)
     }
 
     if (limit.current_year_currency_code) {
-      const isCurrencyCodeExists = await this.currencyService.isExists(limit.current_year_currency_code)
+      const isCurrencyCodeExists = await this.currencyService.isExists(
+        limit.current_year_currency_code,
+      )
       if (!isCurrencyCodeExists)
         throw new HttpException(this.i18n.t('errors.currency_code_not_found'), HttpStatus.NOT_FOUND)
     }
 
     if (limit.first_year_currency_code) {
-      const isCurrencyCodeExists = await this.currencyService.isExists(limit.first_year_currency_code)
+      const isCurrencyCodeExists = await this.currencyService.isExists(
+        limit.first_year_currency_code,
+      )
       if (!isCurrencyCodeExists)
         throw new HttpException(this.i18n.t('errors.currency_code_not_found'), HttpStatus.NOT_FOUND)
     }
 
     if (limit.second_year_currency_code) {
-      const isCurrencyCodeExists = await this.currencyService.isExists(limit.second_year_currency_code)
+      const isCurrencyCodeExists = await this.currencyService.isExists(
+        limit.second_year_currency_code,
+      )
       if (!isCurrencyCodeExists)
         throw new HttpException(this.i18n.t('errors.currency_code_not_found'), HttpStatus.NOT_FOUND)
     }
@@ -142,7 +171,8 @@ export class LimitController {
     return result
   }
 
-  @UseGuards(JwtAuthGuard, ActiveGuard)
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.LimitDelete])
   @ApiOperation({ summary: AppStrings.LIMIT_DELETE_OPERATION })
   @ApiOkResponse({
     description: AppStrings.LIMIT_DELETE_RESPONSE,

@@ -13,7 +13,14 @@ import {
 } from '@nestjs/common'
 import { OrganizationService } from './organization.service'
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager'
-import { ApiOperation, ApiCreatedResponse, ApiBearerAuth, ApiTags, ApiBody, ApiOkResponse } from '@nestjs/swagger'
+import {
+  ApiOperation,
+  ApiCreatedResponse,
+  ApiBearerAuth,
+  ApiTags,
+  ApiBody,
+  ApiOkResponse,
+} from '@nestjs/swagger'
 import { I18nService } from 'nestjs-i18n'
 import { AppStrings } from 'src/common/constants/strings'
 import { ActiveGuard } from '../auth/guards/active.guard'
@@ -27,6 +34,7 @@ import { OrganizationTypeService } from '../organization-type/organization-type.
 import { ArrayOrganizationResponse } from './response'
 import { OrganizationFilter } from './filters'
 import { ArrayOrganizationTypeResponse } from '../organization-type/response'
+import { PermissionsGuard } from '../role-permission/guards/permission.guard'
 
 @ApiBearerAuth()
 @ApiTags('Organizations')
@@ -41,7 +49,8 @@ export class OrganizationController {
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
   ) {}
 
-  @UseGuards(JwtAuthGuard, ActiveGuard)
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.OrganizationCreate])
   @ApiOperation({ summary: AppStrings.ORGANIZATION_CREATE_OPERATION })
   @ApiCreatedResponse({
     description: AppStrings.ORGANIZATION_CREATED_RESPONSE,
@@ -49,8 +58,11 @@ export class OrganizationController {
   })
   @Post()
   async create(@Body() organization: CreateOrganizationDto) {
-    const isOrganizationTypeExists = await this.organizationTypeService.isExists(organization.organization_type_id)
-    if (!isOrganizationTypeExists) throw new NotFoundException(this.i18n.t('errors.organization_type_not_found'))
+    const isOrganizationTypeExists = await this.organizationTypeService.isExists(
+      organization.organization_type_id,
+    )
+    if (!isOrganizationTypeExists)
+      throw new NotFoundException(this.i18n.t('errors.organization_type_not_found'))
 
     const isPersonExists = await this.personService.isExists(organization.contact_person_uuid)
     if (!isPersonExists) throw new NotFoundException(this.i18n.t('errors.person_not_found'))
@@ -60,6 +72,8 @@ export class OrganizationController {
     return result
   }
 
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.OrganizationGet])
   @ApiOperation({ summary: AppStrings.ORGANIZATION_ALL_OPERATION })
   @ApiOkResponse({
     description: AppStrings.ORGANIZATION_ALL_RESPONSE,
@@ -80,6 +94,8 @@ export class OrganizationController {
     }
   }
 
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.OrganizationGet])
   @ApiOperation({ summary: AppStrings.ORGANIZATION_ALL_OPERATION })
   @ApiOkResponse({
     description: AppStrings.ORGANIZATION_ALL_RESPONSE,
@@ -99,7 +115,8 @@ export class OrganizationController {
     }
   }
 
-  @UseGuards(JwtAuthGuard, ActiveGuard)
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.OrganizationUpdate])
   @ApiOperation({ summary: AppStrings.ORGANIZATION_UPDATE_OPERATION })
   @ApiOkResponse({
     description: AppStrings.ORGANIZATION_UPDATE_RESPONSE,
@@ -111,8 +128,11 @@ export class OrganizationController {
     if (!isExists) throw new NotFoundException(this.i18n.t('errors.organization_not_found'))
 
     if (organization.organization_type_id) {
-      const isOrganizationTypeExists = await this.organizationTypeService.isExists(organization.organization_type_id)
-      if (!isOrganizationTypeExists) throw new NotFoundException(this.i18n.t('errors.organization_type_not_found'))
+      const isOrganizationTypeExists = await this.organizationTypeService.isExists(
+        organization.organization_type_id,
+      )
+      if (!isOrganizationTypeExists)
+        throw new NotFoundException(this.i18n.t('errors.organization_type_not_found'))
     }
 
     if (organization.contact_person_uuid) {
@@ -125,7 +145,8 @@ export class OrganizationController {
     return result
   }
 
-  @UseGuards(JwtAuthGuard, ActiveGuard)
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.OrganizationDelete])
   @ApiOperation({ summary: AppStrings.ORGANIZATION_DELETE_OPERATION })
   @ApiOkResponse({
     description: AppStrings.ORGANIZATION_DELETE_RESPONSE,

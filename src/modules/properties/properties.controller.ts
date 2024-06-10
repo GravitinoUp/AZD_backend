@@ -13,7 +13,14 @@ import {
 import { PropertiesService } from './properties.service'
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager'
 import { I18nService } from 'nestjs-i18n'
-import { ApiOperation, ApiCreatedResponse, ApiBearerAuth, ApiTags, ApiOkResponse, ApiBody } from '@nestjs/swagger'
+import {
+  ApiOperation,
+  ApiCreatedResponse,
+  ApiBearerAuth,
+  ApiTags,
+  ApiOkResponse,
+  ApiBody,
+} from '@nestjs/swagger'
 import { CacheRoutes } from 'src/common/constants/constants'
 import { AppStrings } from 'src/common/constants/strings'
 import { ActiveGuard } from '../auth/guards/active.guard'
@@ -22,6 +29,7 @@ import { CreatePropertyDto } from './dto'
 import { ArrayPropertyResponse, StatusPropertyResponse } from './response'
 import { AllExceptionsFilter } from 'src/common/exception.filter'
 import { PropertyFilter } from './filter'
+import { PermissionsGuard } from '../role-permission/guards/permission.guard'
 
 @ApiBearerAuth()
 @ApiTags('Properties')
@@ -34,7 +42,8 @@ export class PropertiesController {
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
   ) {}
 
-  @UseGuards(JwtAuthGuard, ActiveGuard)
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.PropertyCreate])
   @ApiOperation({ summary: AppStrings.PROPERTY_CREATE_OPERATION })
   @ApiCreatedResponse({
     description: AppStrings.PROPERTY_CREATE_RESPONSE,
@@ -47,7 +56,8 @@ export class PropertiesController {
     return result
   }
 
-  @UseGuards(JwtAuthGuard, ActiveGuard)
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.PropertyGet])
   @ApiOperation({ summary: AppStrings.PROPERTY_ALL_OPERATION })
   @ApiOkResponse({
     description: AppStrings.PROPERTY_ALL_RESPONSE,
@@ -68,7 +78,8 @@ export class PropertiesController {
     }
   }
 
-  @UseGuards(JwtAuthGuard, ActiveGuard)
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.PropertyDelete])
   @ApiOperation({ summary: AppStrings.PROPERTY_DELETE_OPERATION })
   @ApiOkResponse({
     description: AppStrings.PROPERTY_DELETE_RESPONSE,

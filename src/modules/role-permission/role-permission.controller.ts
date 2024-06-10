@@ -20,7 +20,11 @@ import { CacheRoutes } from 'src/common/constants/constants'
 import { AppStrings } from 'src/common/constants/strings'
 import { ActiveGuard } from '../auth/guards/active.guard'
 import { JwtAuthGuard } from '../auth/guards/auth.guard'
-import { ArrayRolePermissionResponse, RolePermissionResponse, StatusRolePermissionResponse } from './response'
+import {
+  ArrayRolePermissionResponse,
+  RolePermissionResponse,
+  StatusRolePermissionResponse,
+} from './response'
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager'
 import { CreateRolesPermissionDto, UpdateRolePermissionDto } from './dto'
 import { I18nService } from 'nestjs-i18n'
@@ -28,6 +32,7 @@ import { RoleService } from '../role/role.service'
 import { UserService } from '../user/user.service'
 import { PermissionService } from '../permission/permission.service'
 import { AllExceptionsFilter } from 'src/common/exception.filter'
+import { PermissionsGuard } from './guards/permission.guard'
 
 @ApiBearerAuth()
 @ApiTags('Permissions')
@@ -43,7 +48,8 @@ export class RolePermissionController {
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
   ) {}
 
-  @UseGuards(JwtAuthGuard, ActiveGuard)
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.RolePermissionCreate])
   @ApiOperation({ summary: AppStrings.ROLE_PERMISSIONS_CREATE_OPERATION })
   @ApiCreatedResponse({
     description: AppStrings.ROLE_PERMISSIONS_CREATED_RESPONSE,
@@ -74,7 +80,10 @@ export class RolePermissionController {
     for (const id of rolePermission.permission_ids) {
       const isPermissionExists = await this.permissionService.isExists(id)
       if (!isPermissionExists) {
-        throw new HttpException(`${this.i18n.t('errors.permission_not_found')} (ID: ${id})`, HttpStatus.NOT_FOUND)
+        throw new HttpException(
+          `${this.i18n.t('errors.permission_not_found')} (ID: ${id})`,
+          HttpStatus.NOT_FOUND,
+        )
       }
     }
 
@@ -125,7 +134,8 @@ export class RolePermissionController {
     }
   }
 
-  @UseGuards(JwtAuthGuard, ActiveGuard)
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.RolePermissionUpdate])
   @ApiOperation({ summary: AppStrings.ROLE_PERMISSION_UPDATE_OPERATION })
   @ApiCreatedResponse({
     description: AppStrings.ROLE_PERMISSION_UPDATE_RESPONSE,
@@ -146,7 +156,8 @@ export class RolePermissionController {
     return result
   }
 
-  @UseGuards(JwtAuthGuard, ActiveGuard)
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.RolePermissionDelete])
   @ApiOperation({ summary: AppStrings.ROLE_PERMISSION_DELETE_OPERATION })
   @ApiCreatedResponse({
     description: AppStrings.ROLE_PERMISSION_DELETE_RESPONSE,

@@ -7,9 +7,17 @@ import { UserModule } from '../user/user.module'
 import { CurrencyModule } from '../currency/currency.module'
 import { KbkModule } from '../kbk/kbk.module'
 import { KosguModule } from '../kosgu/kosgu.module'
+import { RolePermissionModule } from '../role-permission/role-permission.module'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Limit]), UserModule, CurrencyModule, KbkModule, KosguModule],
+  imports: [
+    TypeOrmModule.forFeature([Limit]),
+    UserModule,
+    CurrencyModule,
+    KbkModule,
+    KosguModule,
+    RolePermissionModule,
+  ],
   controllers: [LimitController],
   providers: [LimitService],
 })

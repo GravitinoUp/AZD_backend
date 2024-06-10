@@ -5,6 +5,7 @@ import { DefaultPagination } from 'src/common/constants/constants'
 import { Repository } from 'typeorm'
 import { PlanWayFilter } from './filter'
 import { ArrayWayResponse } from './response'
+import { formatFilter } from 'src/utils/format-filter'
 
 @Injectable()
 export class PlanWayService {
@@ -17,14 +18,15 @@ export class PlanWayService {
     try {
       const count = wayFilter?.offset?.count ?? DefaultPagination.COUNT
       const page = wayFilter?.offset?.page ?? DefaultPagination.PAGE
+      const filters = formatFilter(wayFilter?.filter ?? {})
 
-      const ways = await this.planWayRepository
-        .createQueryBuilder()
-        .where({ ...wayFilter.filter })
-        .orderBy({ ...wayFilter.sorts })
-        .offset(count * (page - 1))
-        .limit(count)
-        .getManyAndCount()
+      const ways = await this.planWayRepository.findAndCount({
+        relations: {},
+        where: filters,
+        order: wayFilter.sorts,
+        skip: count * (page - 1),
+        take: count,
+      })
 
       return { count: ways[1], data: ways[0] }
     } catch (error) {
@@ -35,7 +37,11 @@ export class PlanWayService {
 
   async isExists(way_id: number): Promise<boolean> {
     try {
-      const isExists = await this.planWayRepository.createQueryBuilder().select().where({ way_id }).getExists()
+      const isExists = await this.planWayRepository
+        .createQueryBuilder()
+        .select()
+        .where({ way_id })
+        .getExists()
 
       return isExists
     } catch (error) {
