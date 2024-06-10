@@ -35,6 +35,7 @@ import { KbkModule } from '../kbk/kbk.module'
 import { TechnicalTaskModule } from '../technical-task/technical-task.module'
 import { LimitStatusModule } from '../limit-status/limit-status.module'
 import { PurchaseModule } from '../purchase/purchase.module'
+import { PlanStatusModule } from '../plan-status/plan-status.module'
 
 @Module({
   imports: [
@@ -124,6 +125,7 @@ import { PurchaseModule } from '../purchase/purchase.module'
     PersonModule,
     PlanModule,
     PlanEventModule,
+    PlanStatusModule,
     PlanWayModule,
     PropertiesModule,
     PurchaseModule,

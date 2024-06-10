@@ -4,6 +4,7 @@ import BaseModel from 'src/common/model'
 import { Okpd } from 'src/modules/okpd/entities/okpd.entity'
 import { Organization } from 'src/modules/organization/entities/organization.entity'
 import { PlanEvent } from 'src/modules/plan-event/entities/plan-event.entity'
+import { PlanStatus } from 'src/modules/plan-status/entities/plan-status.entity'
 import { PlanWay } from 'src/modules/plan-way/entities/plan-way.entity'
 import { Purchase } from 'src/modules/purchase/entities/purchase.entity'
 import { User } from 'src/modules/user/entities/user.entity'
@@ -35,6 +36,15 @@ export class Plan extends BaseModel {
   @JoinColumn({ name: 'purchase_uuid', referencedColumnName: 'purchase_uuid' })
   @ApiProperty()
   purchase: Purchase
+
+  @Column()
+  @ApiProperty({ description: AppStrings.PLAN_STATUS })
+  plan_status_id: string
+
+  @ManyToOne(() => PlanStatus, (planStatus) => planStatus.plans)
+  @JoinColumn({ name: 'plan_status_id', referencedColumnName: 'plan_status_id' })
+  @ApiProperty()
+  plan_status: PlanStatus
 
   @Column()
   @ApiProperty()

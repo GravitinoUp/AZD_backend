@@ -3,6 +3,7 @@ import { FilterOffset } from 'src/common/classes/filter_offset'
 import { AppStrings } from 'src/common/constants/strings'
 import { OkpdFilters, OkpdSorts } from 'src/modules/okpd/filters'
 import { OrganizationFilters, OrganizationSorts } from 'src/modules/organization/filters'
+import { PlanStatusFilters, PlanStatusSorts } from 'src/modules/plan-status/filter'
 
 export class PlanSorts {
   @ApiProperty({ default: AppStrings.ASC, required: false })
@@ -19,6 +20,9 @@ export class PlanSorts {
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
   purchase_uuid?: 'ASC' | 'DESC'
+
+  @ApiProperty({ default: AppStrings.ASC, required: false })
+  plan_status?: PlanStatusSorts
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
   kosgu?: 'ASC' | 'DESC'
@@ -144,6 +148,9 @@ export class PlanFilters {
 
   @ApiProperty({ required: false })
   purchase_uuid?: string
+
+  @ApiProperty({ required: false })
+  plan_status?: PlanStatusFilters
 
   @ApiProperty({ required: false })
   kosgu?: string

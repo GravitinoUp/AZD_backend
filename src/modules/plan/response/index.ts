@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger'
 import { AppStrings } from 'src/common/constants/strings'
 import { OkpdResponse } from 'src/modules/okpd/response'
 import { OrganizationResponse } from 'src/modules/organization/response'
+import { PlanStatusResponse } from 'src/modules/plan-status/response'
 import { WayResponse } from 'src/modules/plan-way/response'
 import { PropertyValueResponse } from 'src/modules/properties/response'
 import { PurchaseResponse } from 'src/modules/purchase/response'
@@ -25,6 +26,12 @@ export class PlanResponse {
 
   @ApiProperty({ required: false, description: AppStrings.PLAN_PURCHASE_UUID })
   purchase?: PurchaseResponse
+
+  @ApiProperty({ required: false, description: AppStrings.PLAN_STATUS })
+  plan_status_id: string
+
+  @ApiProperty({ required: false, description: AppStrings.PLAN_STATUS })
+  plan_status?: PlanStatusResponse
 
   @ApiProperty({ description: AppStrings.PLAN_KOSGU })
   kosgu: string

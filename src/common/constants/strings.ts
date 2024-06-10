@@ -71,6 +71,9 @@ export const AppStrings = {
   PLAN_EVENT_ALL_RESPONSE: 'Список событий плана-графика получен',
   PLAN_EVENT_ALL_OPERATION: 'Получение списка всех событий планов-графиков',
 
+  PLAN_STATUS_ALL_RESPONSE: 'Список статусов планов получен',
+  PLAN_STATUS_ALL_OPERATION: 'Получение списка всех статусов планов',
+
   PLAN_WAY_ALL_RESPONSE: 'Список способов получен',
   PLAN_WAY_ALL_OPERATION: 'Получение списка всех способов',
 
@@ -159,6 +162,7 @@ export const AppStrings = {
   PLAN_PURCHASE_PRICE: 'Стоимость закупки',
   PLAN_PURCHASE_DATE: 'Дата закупки',
   PLAN_PURCHASE_UUID: 'UUID закупки',
+  PLAN_STATUS: 'Статус плана',
   PLAN_KOSGU: 'КОСГУ',
   PLAN_OFFER_NUMBER: 'Номер предложения на закупку (Электронный бюджет)',
   PLAN_OKPD2: 'Код ОКПД2',
