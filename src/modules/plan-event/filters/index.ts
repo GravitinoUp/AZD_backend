@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { FilterOffset } from 'src/common/classes/filter_offset'
 import { AppStrings } from 'src/common/constants/strings'
-import { PlanFilters, PlanSorts } from 'src/modules/plan/filter'
+import { PlanPositionFilters, PlanPositionSorts } from 'src/modules/plan-position/filter'
 import { UserFilters, UserSorts } from 'src/modules/user/filters'
 
 export class PlanEventSorts {
@@ -18,7 +18,7 @@ export class PlanEventSorts {
   new_value?: 'ASC' | 'DESC'
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
-  plan?: PlanSorts
+  plan?: PlanPositionSorts
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
   user?: UserSorts
@@ -41,7 +41,7 @@ export class PlanEventFilters {
   new_value?: string
 
   @ApiProperty({ required: false })
-  plan?: PlanFilters
+  plan?: PlanPositionFilters
 
   @ApiProperty({ required: false })
   user?: UserFilters
