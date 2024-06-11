@@ -257,6 +257,14 @@ export class CreateUsers1715943970995 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
+    const table = await queryRunner.getTable('Users')
+    const foreignKeys = table.foreignKeys
+    await queryRunner.dropForeignKeys('Users', foreignKeys)
+
+    const authTable = await queryRunner.getTable('Auths')
+    const authForeignKeys = authTable.foreignKeys
+    await queryRunner.dropForeignKeys('Auths', authForeignKeys)
+
     await queryRunner.dropTable('Auths')
     await queryRunner.dropTable('Users')
     await queryRunner.dropTable('People')

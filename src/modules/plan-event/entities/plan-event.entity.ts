@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import BaseModel from 'src/common/model'
-import { Plan } from 'src/modules/plan/entities/plan.entity'
+import { PlanPosition } from 'src/modules/plan-position/entities/plan-position.entity'
 import { User } from 'src/modules/user/entities/user.entity'
 import { Entity, Column, PrimaryColumn, JoinColumn, ManyToOne } from 'typeorm'
 
@@ -24,12 +24,12 @@ export class PlanEvent extends BaseModel {
 
   @Column()
   @ApiProperty()
-  plan_uuid: string
+  plan_position_uuid: string
 
-  @ManyToOne(() => Plan, (plan) => plan.plan_events)
-  @JoinColumn({ name: 'plan_uuid', referencedColumnName: 'plan_uuid' })
+  @ManyToOne(() => PlanPosition, (plan) => plan.plan_position_events)
+  @JoinColumn({ name: 'plan_position_uuid', referencedColumnName: 'plan_position_uuid' })
   @ApiProperty()
-  plan: Plan
+  plan_position: PlanPosition
 
   @Column()
   @ApiProperty()

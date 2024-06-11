@@ -10,7 +10,11 @@ import {
   IsArray,
 } from 'class-validator'
 
-export class CreatePlanDto {
+export class CreatePlanPositionDto {
+  @IsUUID()
+  @ApiProperty()
+  plan_uuid: string
+
   @IsString()
   @IsOptional()
   @ApiProperty({ required: false })
@@ -189,10 +193,16 @@ export class CreatePlanDto {
   property_values?: string[]
 }
 
-export class UpdatePlanDto {
+export class UpdatePlanPositionDto {
   @IsUUID()
-  @ApiProperty()
-  plan_uuid: string
+  @IsOptional()
+  @ApiProperty({ required: false })
+  plan_position_uuid?: string
+
+  @IsUUID()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  plan_uuid?: string
 
   @IsString()
   @IsOptional()
