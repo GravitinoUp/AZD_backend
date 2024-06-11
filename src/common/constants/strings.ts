@@ -57,6 +57,9 @@ export const AppStrings = {
   PERMISSION_DELETE_RESPONSE: 'Разрешение удалено',
   PERMISSION_DELETE_OPERATION: 'Удаление разрешения',
 
+  PERSON_ALL_OPERATION: 'Получение списка всех данных пользователей',
+  PERSON_ALL_RESPONSE: 'Список данных получен',
+
   PLAN_CREATE_RESPONSE: 'План-график создан',
   PLAN_CREATE_OPERATION: 'Создание плана-графика',
   PLAN_ALL_RESPONSE: 'Список планов-графиков получен',

@@ -36,6 +36,7 @@ import { UserService } from '../user/user.service'
 import { PlanWayService } from '../plan-way/plan-way.service'
 import { OrganizationService } from '../organization/organization.service'
 import { PermissionsGuard } from '../role-permission/guards/permission.guard'
+import { PurchaseService } from '../purchase/purchase.service'
 
 @ApiBearerAuth()
 @ApiTags('Plan')
@@ -44,6 +45,7 @@ import { PermissionsGuard } from '../role-permission/guards/permission.guard'
 export class PlanController {
   constructor(
     private readonly planService: PlanService,
+    private readonly purchaseService: PurchaseService,
     private readonly userService: UserService,
     private readonly wayService: PlanWayService,
     private readonly organizationService: OrganizationService,
@@ -60,6 +62,24 @@ export class PlanController {
   })
   @Post()
   async create(@Body() plan: CreatePlanDto) {
+    if (plan.purchase_uuid) {
+      const isPurchaseExists = await this.purchaseService.isExists(plan.purchase_uuid)
+      if (!isPurchaseExists)
+        throw new HttpException(this.i18n.t('errors.purchase_not_found'), HttpStatus.NOT_FOUND)
+    }
+
+    const isUserExists = await this.userService.isExists({ user_uuid: plan.user_uuid })
+    if (!isUserExists)
+      throw new HttpException(this.i18n.t('errors.user_not_found'), HttpStatus.NOT_FOUND)
+
+    const isWayExists = await this.wayService.isExists(plan.way_id)
+    if (!isWayExists)
+      throw new HttpException(this.i18n.t('errors.way_not_found'), HttpStatus.NOT_FOUND)
+
+    const isBranchExists = await this.organizationService.isExists(plan.branch_uuid)
+    if (!isBranchExists)
+      throw new HttpException(this.i18n.t('errors.organization_not_found'), HttpStatus.NOT_FOUND)
+
     const result = await this.planService.create(plan)
     await this.clearCache()
     return result
@@ -122,6 +142,12 @@ export class PlanController {
     const isPlanExists = await this.planService.isExists(plan.plan_uuid)
     if (!isPlanExists)
       throw new HttpException(this.i18n.t('errors.plan_not_found'), HttpStatus.NOT_FOUND)
+
+    if (plan.purchase_uuid) {
+      const isPurchaseExists = await this.purchaseService.isExists(plan.purchase_uuid)
+      if (!isPurchaseExists)
+        throw new HttpException(this.i18n.t('errors.purchase_not_found'), HttpStatus.NOT_FOUND)
+    }
 
     if (plan.user_uuid) {
       const isUserExists = await this.userService.isExists({ user_uuid: plan.user_uuid })

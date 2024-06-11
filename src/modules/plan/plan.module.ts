@@ -8,6 +8,7 @@ import { PlanWayModule } from '../plan-way/plan-way.module'
 import { OrganizationModule } from '../organization/organization.module'
 import { RolePermissionModule } from '../role-permission/role-permission.module'
 import { PropertiesModule } from '../properties/properties.module'
+import { PurchaseModule } from '../purchase/purchase.module'
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { PropertiesModule } from '../properties/properties.module'
     OrganizationModule,
     RolePermissionModule,
     PropertiesModule,
+    PurchaseModule,
   ],
   controllers: [PlanController],
   providers: [PlanService],

@@ -15,6 +15,7 @@
   "plan_not_found": "План не найден!",
   "currency_code_not_found": "Валюта не найдена!",
   "purchase_not_found": "Закупка не найдена!",
+  "way_not_found": "Способ не найден!",
   "purchase_type_not_found": "Тип закупки не найден!",
   "initiator_not_found": "Инициатор закупки не найден!",
   "executor_not_found": "Исполнитель закупки не найден!",

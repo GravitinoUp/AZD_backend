@@ -26,6 +26,7 @@ export const CacheRoutes = {
   ORGANIZATION: 'organization',
   ORGANIZATION_TYPE: 'organization_type',
   PERMISSION: 'permission',
+  PERSON: 'person',
   PURCHASE: 'purchase',
   PURCHASE_EVENT: 'purchase-event',
   PLAN: 'plan',

@@ -9,7 +9,7 @@ import { PurchaseEvent } from 'src/modules/purchase-event/entities/purchase-even
 import { Purchase } from 'src/modules/purchase/entities/purchase.entity'
 import { RolePermission } from 'src/modules/role-permission/entities/role-permission.entity'
 import { Role } from 'src/modules/role/entities/role.entity'
-import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn, OneToMany } from 'typeorm'
+import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn, OneToMany, OneToOne } from 'typeorm'
 
 @Entity({ name: 'Users' })
 export class User extends BaseModel {
@@ -21,7 +21,7 @@ export class User extends BaseModel {
   @ApiProperty()
   person_uuid: string
 
-  @ManyToOne(() => Person, (person) => person.users)
+  @OneToOne(() => Person, (person) => person.user)
   @JoinColumn({ name: 'person_uuid', referencedColumnName: 'person_uuid' })
   @ApiProperty()
   person: Person

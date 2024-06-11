@@ -15,7 +15,6 @@ export class OrganizationType extends BaseModel {
 
   @OneToMany(() => Organization, (organization) => organization.organization_type, {
     cascade: true,
-    eager: true,
   })
   organizations: Organization[]
 }

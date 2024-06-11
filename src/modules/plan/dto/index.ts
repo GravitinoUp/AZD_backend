@@ -29,7 +29,7 @@ export class CreatePlanDto {
   @IsUUID()
   @IsOptional()
   @ApiProperty({ required: false })
-  purchase_uuid?: string //TODO UUID
+  purchase_uuid?: string
 
   @IsString()
   @ApiProperty()
@@ -212,7 +212,7 @@ export class UpdatePlanDto {
   @IsUUID()
   @IsOptional()
   @ApiProperty({ required: false })
-  purchase_uuid?: string //TODO UUID
+  purchase_uuid?: string
 
   @IsUUID()
   @IsOptional()

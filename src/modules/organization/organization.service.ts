@@ -39,7 +39,7 @@ export class OrganizationService {
       const filters = formatFilter(organizationFilter?.filter ?? {})
 
       const organizations = await this.organizationRepository.findAndCount({
-        relations: { organization_type: true },
+        relations: { organization_type: true, contact_person: true },
         where: filters,
         order: organizationFilter.sorts,
         skip: count * (page - 1),
