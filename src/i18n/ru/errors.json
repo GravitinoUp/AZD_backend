@@ -6,6 +6,7 @@
   "password_mismatch": "Пароли не совпадают!",
   "user_exists": "Пользователь с таким E-Mail или номером телефона уже существует!",
   "user_not_found": "Пользователь не найден!",
+  "permission_not_found": "Разрешение не найдено!",
   "page_not_found": "Страница не найдена!",
   "data_not_found": "Ошибка получения данных (404)!",
   "organization_type_not_found": "Тип огранизации не найден!",
@@ -18,5 +19,7 @@
   "initiator_not_found": "Инициатор закупки не найден!",
   "executor_not_found": "Исполнитель закупки не найден!",
   "technical_task_not_found": "Техническое задание не найдено!",
-  "cannot_change_field": "Вы не можете изменить данное поле"
+  "cannot_change_field": "Вы не можете изменить данное поле",
+  "role_or_permission_null": "Необходимо выбрать роль или пользователя",
+  "role_and_user_permissions": "Необходимо выборать или роль или пользователя"
 }

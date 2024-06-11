@@ -26,7 +26,7 @@ import {
   StatusRolePermissionResponse,
 } from './response'
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager'
-import { CreateRolesPermissionDto, UpdateRolePermissionDto } from './dto'
+import { CreateRolesPermissionDto, UpdateRolePermissionDto, UpdateRolePermissionsDto } from './dto'
 import { I18nService } from 'nestjs-i18n'
 import { RoleService } from '../role/role.service'
 import { UserService } from '../user/user.service'
@@ -59,6 +59,11 @@ export class RolePermissionController {
   async create(@Body() rolePermission: CreateRolesPermissionDto) {
     if (!rolePermission.role_id && !rolePermission.user_uuid) {
       throw new HttpException(this.i18n.t('errors.role_or_user_null'), HttpStatus.BAD_REQUEST)
+    } else if (rolePermission.role_id && !rolePermission.user_uuid) {
+      throw new HttpException(
+        this.i18n.t('errors.role_and_user_permissions'),
+        HttpStatus.BAD_REQUEST,
+      )
     }
 
     if (rolePermission.role_id) {
@@ -88,6 +93,55 @@ export class RolePermissionController {
     }
 
     const result = await this.rolePermissionService.create(rolePermission)
+    await this.clearCache()
+    return result
+  }
+
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.RolePermissionCreate,PermissionEnum.RolePermissionUpdate])
+  @ApiOperation({ summary: AppStrings.ROLE_PERMISSIONS_UPDATE_OPERATION })
+  @ApiCreatedResponse({
+    description: AppStrings.ROLE_PERMISSIONS_UPDATE_RESPONSE,
+    type: StatusRolePermissionResponse,
+  })
+  @Patch('permissions')
+  async updatePermissions(@Body() rolePermission: UpdateRolePermissionsDto) {
+    if (!rolePermission.role_id && !rolePermission.user_uuid) {
+      throw new HttpException(this.i18n.t('errors.role_or_user_null'), HttpStatus.BAD_REQUEST)
+    } else if (rolePermission.role_id && !rolePermission.user_uuid) {
+      throw new HttpException(
+        this.i18n.t('errors.role_and_user_permissions'),
+        HttpStatus.BAD_REQUEST,
+      )
+    }
+
+    if (rolePermission.role_id) {
+      const isRoleExists = await this.roleService.isExists(rolePermission.role_id)
+      if (!isRoleExists) {
+        throw new NotFoundException(this.i18n.t('errors.role_not_found'))
+      }
+    }
+
+    if (rolePermission.user_uuid) {
+      const isUserExists = await this.userService.isExists({
+        user_uuid: rolePermission.user_uuid,
+      })
+      if (!isUserExists) {
+        throw new HttpException(this.i18n.t('errors.user_not_found'), HttpStatus.NOT_FOUND)
+      }
+    }
+
+    for (const id of rolePermission.permission_ids) {
+      const isPermissionExists = await this.permissionService.isExists(id)
+      if (!isPermissionExists) {
+        throw new HttpException(
+          `${this.i18n.t('errors.permission_not_found')} (ID: ${id})`,
+          HttpStatus.NOT_FOUND,
+        )
+      }
+    }
+
+    const result = await this.rolePermissionService.updatePermissions(rolePermission)
     await this.clearCache()
     return result
   }

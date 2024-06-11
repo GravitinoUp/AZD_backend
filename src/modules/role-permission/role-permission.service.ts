@@ -1,16 +1,18 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { RolePermission } from './entities/role-permission.entity'
 import { InjectRepository } from '@nestjs/typeorm'
-import { DataSource, Repository } from 'typeorm'
-import { CreateRolesPermissionDto, UpdateRolePermissionDto } from './dto'
+import { DataSource, EntityManager, Repository } from 'typeorm'
+import { CreateRolesPermissionDto, UpdateRolePermissionDto, UpdateRolePermissionsDto } from './dto'
 import {
   ArrayRolePermissionResponse,
+  RolePermissionResponse,
   StatusArrayRolePermissionResponse,
   StatusRolePermissionResponse,
 } from './response'
 import { User } from '../user/entities/user.entity'
 import { RolesEnum } from 'src/common/constants/constants'
 import { PermissionService } from '../permission/permission.service'
+import { I18nService } from 'nestjs-i18n'
 
 @Injectable()
 export class RolePermissionService {
@@ -21,6 +23,7 @@ export class RolePermissionService {
     private userRepository: Repository<User>,
     private readonly permissionService: PermissionService,
     private dataSource: DataSource,
+    private readonly i18n: I18nService,
   ) {}
 
   async create(
@@ -31,17 +34,56 @@ export class RolePermissionService {
 
     await queryRunner.startTransaction()
     try {
-      const result = []
-      for (const rolePermission of rolePermissionDto.permission_ids) {
-        const newRolePermission = await queryRunner.manager.save(RolePermission, {
-          role_id: rolePermissionDto.role_id,
-          user_uuid: rolePermissionDto.user_uuid,
-          permission_id: rolePermission,
-          rights: rolePermissionDto.rights,
-        })
+      const result = await this.createRolePermissions(queryRunner.manager, rolePermissionDto)
+      await queryRunner.commitTransaction()
+      return { status: true, data: result }
+    } catch (error) {
+      await queryRunner.rollbackTransaction()
+      throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
+    } finally {
+      await queryRunner.release()
+    }
+  }
 
-        result.push(newRolePermission)
+  async createRolePermissions(
+    manager: EntityManager,
+    rolePermissionDto: CreateRolesPermissionDto,
+  ): Promise<RolePermissionResponse[]> {
+    const result = []
+    for (const rolePermission of rolePermissionDto.permission_ids) {
+      const newRolePermission = await manager.save(RolePermission, {
+        role_id: rolePermissionDto.role_id,
+        user_uuid: rolePermissionDto.user_uuid,
+        permission_id: rolePermission,
+        rights: rolePermissionDto.rights,
+      })
+
+      result.push(newRolePermission)
+    }
+
+    return result
+  }
+
+  async updatePermissions(
+    rolePermissionDto: UpdateRolePermissionsDto,
+  ): Promise<StatusArrayRolePermissionResponse> {
+    const queryRunner = this.dataSource.createQueryRunner()
+    await queryRunner.connect()
+
+    await queryRunner.startTransaction()
+    try {
+      if (rolePermissionDto.role_id) {
+        await queryRunner.manager.delete(RolePermission, { role_id: rolePermissionDto.role_id })
+      } else if (rolePermissionDto.user_uuid) {
+        await queryRunner.manager.delete(RolePermission, { user_uuid: rolePermissionDto.user_uuid })
+      } else {
+        throw new HttpException(
+          this.i18n.t('errors.role_and_user_permissions'),
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        )
       }
+
+      const result = await this.createRolePermissions(queryRunner.manager, rolePermissionDto)
 
       await queryRunner.commitTransaction()
       return { status: true, data: result }

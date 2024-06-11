@@ -125,6 +125,8 @@ export const AppStrings = {
   ROLE_PERMISSION_MY_OPERATION: 'Получение списка всех разрешений пользователя',
   ROLE_PERMISSION_UPDATE_RESPONSE: 'Разрешение изменено',
   ROLE_PERMISSION_UPDATE_OPERATION: 'Изменение разрешения',
+  ROLE_PERMISSIONS_UPDATE_RESPONSE: 'Разрешения изменены',
+  ROLE_PERMISSIONS_UPDATE_OPERATION: 'Изменение разрешений у роли или пользователя',
   ROLE_PERMISSION_DELETE_RESPONSE: 'Разрешение удалено',
   ROLE_PERMISSION_DELETE_OPERATION: 'Удаление разрешения',
 

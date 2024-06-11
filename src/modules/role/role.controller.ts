@@ -2,6 +2,8 @@ import {
   Body,
   Controller,
   Get,
+  HttpException,
+  HttpStatus,
   Inject,
   NotFoundException,
   Patch,
@@ -29,6 +31,8 @@ import { RoleFilter } from './filters'
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager'
 import { CacheRoutes } from 'src/common/constants/constants'
 import { PermissionsGuard } from '../role-permission/guards/permission.guard'
+import { PermissionService } from '../permission/permission.service'
+import { RolePermissionService } from '../role-permission/role-permission.service'
 
 @ApiBearerAuth()
 @ApiTags('Roles')
@@ -37,6 +41,8 @@ import { PermissionsGuard } from '../role-permission/guards/permission.guard'
 export class RoleController {
   constructor(
     private readonly roleService: RoleService,
+    private readonly permissionService: PermissionService,
+    private readonly rolePermissionService: RolePermissionService,
     private readonly i18n: I18nService,
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
   ) {}
@@ -50,6 +56,16 @@ export class RoleController {
   })
   @Post()
   async create(@Body() createRoleDto: CreateRoleDto) {
+    for (const id of createRoleDto.permission_ids) {
+      const isPermissionExists = await this.permissionService.isExists(id)
+      if (!isPermissionExists) {
+        throw new HttpException(
+          `${this.i18n.t('errors.permission_not_found')} (ID: ${id})`,
+          HttpStatus.NOT_FOUND,
+        )
+      }
+    }
+
     const result = await this.roleService.create(createRoleDto)
     await this.clearCache()
     return result
@@ -104,11 +120,19 @@ export class RoleController {
   @Patch()
   async update(@Body() updateRoleDto: UpdateRoleDto) {
     const isExists = await this.roleService.isExists(updateRoleDto.role_id)
-
     if (!isExists) {
       throw new NotFoundException(this.i18n.t('errors.role_not_found'))
     }
 
+    for (const id of updateRoleDto.permission_ids) {
+      const isPermissionExists = await this.permissionService.isExists(id)
+      if (!isPermissionExists) {
+        throw new HttpException(
+          `${this.i18n.t('errors.permission_not_found')} (ID: ${id})`,
+          HttpStatus.NOT_FOUND,
+        )
+      }
+    }
     const result = await this.roleService.update(updateRoleDto)
     await this.clearCache()
     return result

@@ -1,23 +1,33 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { Role } from './entities/role.entity'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { DataSource, Repository } from 'typeorm'
 import { ArrayRoleResponse, StatusRoleResponse } from './response'
 import { CreateRoleDto, UpdateRoleDto } from './dto'
 import { RoleFilter } from './filters'
 import { DefaultPagination } from 'src/common/constants/constants'
 import { formatFilter } from 'src/utils/format-filter'
+import { RolePermissionService } from '../role-permission/role-permission.service'
+import { UpdateRolePermissionsDto } from '../role-permission/dto'
+import { RolePermission } from '../role-permission/entities/role-permission.entity'
 
 @Injectable()
 export class RoleService {
   constructor(
     @InjectRepository(Role)
     private roleRepository: Repository<Role>,
+    private readonly rolePermissionService: RolePermissionService,
+    private dataSource: DataSource,
   ) {}
 
   async create(role: CreateRoleDto): Promise<StatusRoleResponse> {
+    const queryRunner = this.dataSource.createQueryRunner()
+    await queryRunner.connect()
+
+    await queryRunner.startTransaction()
     try {
-      const newRole = await this.roleRepository
+      const newRole = await queryRunner.manager
+        .getRepository(Role)
         .createQueryBuilder()
         .insert()
         .values({
@@ -26,9 +36,23 @@ export class RoleService {
         .returning('*')
         .execute()
 
+      const newRolePermissions = new UpdateRolePermissionsDto()
+      newRolePermissions.role_id = newRole.raw[0].role_id
+      newRolePermissions.permission_ids = role.permission_ids
+      newRolePermissions.rights = true
+
+      await this.rolePermissionService.createRolePermissions(
+        queryRunner.manager,
+        newRolePermissions,
+      )
+
+      await queryRunner.commitTransaction()
       return { status: true, data: newRole.raw[0] }
     } catch (error) {
+      await queryRunner.rollbackTransaction()
       throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
+    } finally {
+      await queryRunner.release()
     }
   }
 
@@ -69,19 +93,39 @@ export class RoleService {
   }
 
   async update(role: UpdateRoleDto): Promise<StatusRoleResponse> {
+    const queryRunner = this.dataSource.createQueryRunner()
+    await queryRunner.connect()
+
+    await queryRunner.startTransaction()
     try {
       const updateRole = await this.roleRepository
         .createQueryBuilder()
         .update()
         .where({ role_id: role.role_id })
         .set({
-          ...role,
+          role_name: role.role_name,
         })
         .execute()
 
+      await queryRunner.manager.delete(RolePermission, { role_id: role.role_id })
+
+      const newRolePermissions = new UpdateRolePermissionsDto()
+      newRolePermissions.role_id = role.role_id
+      newRolePermissions.permission_ids = role.permission_ids
+      newRolePermissions.rights = true
+
+      await this.rolePermissionService.createRolePermissions(
+        queryRunner.manager,
+        newRolePermissions,
+      )
+
+      await queryRunner.commitTransaction()
       return { status: updateRole.affected !== 0 }
     } catch (error) {
+      await queryRunner.rollbackTransaction()
       throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
+    } finally {
+      await queryRunner.release()
     }
   }
 }
