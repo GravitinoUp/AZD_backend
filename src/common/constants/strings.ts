@@ -26,6 +26,8 @@ export const AppStrings = {
   LIMIT_CREATE_OPERATION: 'Создание лимита',
   LIMIT_ALL_RESPONSE: 'Список лимитов получен',
   LIMIT_ALL_OPERATION: 'Получение списка всех лимитов',
+  LIMIT_ONE_RESPONSE: 'Лимит получен',
+  LIMIT_ONE_OPERATION: 'Получение лимита по UUID',
   LIMIT_UPDATE_RESPONSE: 'Лимит изменен',
   LIMIT_UPDATE_OPERATION: 'Изменение лимита',
   LIMIT_DELETE_RESPONSE: 'Лимит удален',

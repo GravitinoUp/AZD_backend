@@ -110,6 +110,7 @@ export class PlanPositionController {
       return result
     }
   }
+
   @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
   // @HasPermissions([PermissionEnum.PlanPositionGet])
   @ApiOperation({ summary: AppStrings.PLAN_POSITION_ONE_OPERATION })
