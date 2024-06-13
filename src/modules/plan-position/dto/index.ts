@@ -76,7 +76,7 @@ export class CreatePlanPositionDto {
   @ApiProperty()
   current_year_plan_count: number
 
-  // @IsDecimal()
+  @IsDecimal()
   @ApiProperty()
   current_year_plan_avg_price: number
 
@@ -84,7 +84,7 @@ export class CreatePlanPositionDto {
   @ApiProperty()
   first_year_plan_count: number
 
-  // @IsDecimal()
+  @IsDecimal()
   @ApiProperty()
   first_year_plan_avg_price: number
 
@@ -92,7 +92,7 @@ export class CreatePlanPositionDto {
   @ApiProperty()
   second_year_plan_count: number
 
-  // @IsDecimal()
+  @IsDecimal()
   @ApiProperty()
   second_year_plan_avg_price: number
 
@@ -100,27 +100,27 @@ export class CreatePlanPositionDto {
   @ApiProperty()
   next_years_plan_count: number
 
-  // @IsDecimal()
+  @IsDecimal()
   @ApiProperty()
   next_years_plan_avg_price: number
 
-  // @IsDecimal()
+  @IsDecimal()
   @ApiProperty()
   current_year_limit: number
 
-  // @IsDecimal()
+  @IsDecimal()
   @ApiProperty()
   first_year_limit: number
 
-  // @IsDecimal()
+  @IsDecimal()
   @ApiProperty()
   second_year_limit: number
 
-  // @IsDecimal()
+  @IsDecimal()
   @ApiProperty()
   next_years_limit: number
 
-  // @IsDecimal()
+  @IsDecimal()
   @ApiProperty()
   start_max_price: number
 
@@ -158,12 +158,12 @@ export class CreatePlanPositionDto {
   @ApiProperty()
   branch_uuid: string
 
-  // // @IsDecimal()
+  @IsDecimal()
   @IsOptional()
   @ApiProperty()
   price_value?: number
 
-  // // @IsDecimal()
+  @IsDecimal()
   @IsOptional()
   @ApiProperty({ required: false })
   savings?: number
@@ -173,7 +173,7 @@ export class CreatePlanPositionDto {
   @ApiProperty({ required: false })
   contract_number?: string
 
-  // @IsDateString()
+  @IsDateString()
   @IsOptional()
   @ApiProperty({ required: false })
   contract_date?: Date
@@ -269,7 +269,7 @@ export class UpdatePlanPositionDto {
   @ApiProperty({ required: false })
   current_year_plan_count?: number
 
-  // @IsDecimal()
+  @IsDecimal()
   @IsOptional()
   @ApiProperty({ required: false })
   current_year_plan_avg_price?: number
@@ -279,7 +279,7 @@ export class UpdatePlanPositionDto {
   @ApiProperty({ required: false })
   first_year_plan_count?: number
 
-  // @IsDecimal()
+  @IsDecimal()
   @IsOptional()
   @ApiProperty({ required: false })
   first_year_plan_avg_price?: number
@@ -289,7 +289,7 @@ export class UpdatePlanPositionDto {
   @ApiProperty({ required: false })
   second_year_plan_count?: number
 
-  // @IsDecimal()
+  @IsDecimal()
   @IsOptional()
   @ApiProperty({ required: false })
   second_year_plan_avg_price?: number
@@ -299,12 +299,12 @@ export class UpdatePlanPositionDto {
   @ApiProperty({ required: false })
   next_years_plan_count?: number
 
-  // @IsDecimal()
+  @IsDecimal()
   @IsOptional()
   @ApiProperty({ required: false })
   next_years_plan_avg_price?: number
 
-  // @IsDecimal()
+  @IsDecimal()
   @IsOptional()
   @ApiProperty({ required: false })
   start_max_price?: number
@@ -349,12 +349,12 @@ export class UpdatePlanPositionDto {
   @ApiProperty({ required: false })
   branch_uuid?: string
 
-  // @IsDecimal()
+  @IsDecimal()
   @IsOptional()
   @ApiProperty()
   price_value?: number
 
-  // @IsDecimal()
+  @IsDecimal()
   @IsOptional()
   @ApiProperty({ required: false })
   savings?: number

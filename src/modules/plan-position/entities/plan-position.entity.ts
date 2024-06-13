@@ -2,9 +2,9 @@ import { ApiProperty } from '@nestjs/swagger'
 import { AppStrings } from 'src/common/constants/strings'
 import BaseModel from 'src/common/model'
 import { Okpd } from 'src/modules/okpd/entities/okpd.entity'
-import { Organization } from 'src/modules/organization/entities/organization.entity'
 import { PlanEvent } from 'src/modules/plan-event/entities/plan-event.entity'
 import { PlanWay } from 'src/modules/plan-way/entities/plan-way.entity'
+import { Plan } from 'src/modules/plan/entities/plan.entity'
 import { Purchase } from 'src/modules/purchase/entities/purchase.entity'
 import { User } from 'src/modules/user/entities/user.entity'
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm'
@@ -14,6 +14,15 @@ export class PlanPosition extends BaseModel {
   @PrimaryColumn()
   @ApiProperty()
   plan_position_uuid: string
+
+  @Column()
+  @ApiProperty()
+  plan_uuid: string
+
+  @ManyToOne(() => Plan, (plan) => plan.plan_positions)
+  @JoinColumn({ name: 'plan_uuid', referencedColumnName: 'plan_uuid' })
+  @ApiProperty()
+  plan: Plan
 
   @Column()
   @ApiProperty({ required: false, description: AppStrings.PLAN_PURCHASE_NAME })
@@ -176,15 +185,6 @@ export class PlanPosition extends BaseModel {
   @Column()
   @ApiProperty({ description: AppStrings.PLAN_INITIATOR })
   initiator: string
-
-  @Column()
-  @ApiProperty({ description: AppStrings.PLAN_BRANCH_UUID })
-  branch_uuid: string
-
-  @ManyToOne(() => Organization, (organization) => organization.plan_positions)
-  @JoinColumn({ name: 'branch_uuid', referencedColumnName: 'organization_uuid' })
-  @ApiProperty({ description: AppStrings.PLAN_BRANCH })
-  branch: Organization
 
   @Column({ type: 'decimal', nullable: true })
   @ApiProperty({

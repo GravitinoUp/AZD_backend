@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { AppStrings } from 'src/common/constants/strings'
 import { OkpdResponse } from 'src/modules/okpd/response'
-import { OrganizationResponse } from 'src/modules/organization/response'
 import { WayResponse } from 'src/modules/plan-way/response'
+import { PlanResponse } from 'src/modules/plan/response'
 import { PropertyValueResponse } from 'src/modules/properties/response'
 import { PurchaseResponse } from 'src/modules/purchase/response'
 import { UserResponse } from 'src/modules/user/response'
@@ -11,8 +11,11 @@ export class PlanPositionResponse {
   @ApiProperty()
   plan_position_uuid: string
 
+  @ApiProperty()
+  plan_uuid: string
+
   @ApiProperty({ required: false })
-  plan_uuid?: string
+  plan?: PlanResponse
 
   @ApiProperty({ required: false, description: AppStrings.PLAN_PURCHASE_NAME })
   purchase_name?: string
@@ -131,12 +134,6 @@ export class PlanPositionResponse {
 
   @ApiProperty({ description: AppStrings.PLAN_INITIATOR })
   initiator: string
-
-  @ApiProperty({ description: AppStrings.PLAN_BRANCH_UUID })
-  branch_uuid: string
-
-  @ApiProperty({ description: AppStrings.PLAN_BRANCH })
-  branch?: OrganizationResponse
 
   @ApiProperty({
     required: false,

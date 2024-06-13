@@ -17,20 +17,20 @@ import { StatusPlanPositionResponse, ArrayPlanPositionResponse } from './respons
 export class PlanPositionService {
   constructor(
     @InjectRepository(PlanPosition)
-    private planRepository: Repository<PlanPosition>,
+    private planPositionRepository: Repository<PlanPosition>,
     private readonly rolesPermissionsService: RolePermissionService,
     private readonly propertyService: PropertiesService,
     private readonly dataSource: DataSource,
     private readonly i18n: I18nService,
   ) {}
 
-  async create(plan: CreatePlanPositionDto): Promise<StatusPlanPositionResponse> {
+  async create(planPositions: CreatePlanPositionDto): Promise<StatusPlanPositionResponse> {
     try {
-      const newPlanPosition = await this.planRepository
+      const newPlanPosition = await this.planPositionRepository
         .createQueryBuilder()
         .insert()
         .values({
-          ...plan,
+          ...planPositions,
         })
         .returning('*')
         .execute()
@@ -50,8 +50,10 @@ export class PlanPositionService {
       const page = planFilter?.offset?.page ?? DefaultPagination.PAGE
       const filters = formatFilter(planFilter?.filter ?? {})
 
-      const plans = await this.planRepository.findAndCount({
-        relations: { purchase: true, branch: true, user: { person: true } },
+      console.log(filters)
+
+      const planPositions = await this.planPositionRepository.findAndCount({
+        relations: { purchase: true, plan: true, user: { person: true }, okpd: true },
         where: filters,
         order: planFilter.sorts,
         skip: count * (page - 1),
@@ -59,27 +61,27 @@ export class PlanPositionService {
       })
 
       if (includeProperties == true) {
-        for (const plan of plans[0]) {
-          if (plan.property_values.length > 0) {
-            const properties = await this.propertyService.findByIds(plan.property_values)
-            plan['properties'] = properties
+        for (const planPosition of planPositions[0]) {
+          if (planPosition.property_values.length > 0) {
+            const properties = await this.propertyService.findByIds(planPosition.property_values)
+            planPosition['properties'] = properties
           }
         }
       }
 
-      return { count: plans[1], data: plans[0] }
+      return { count: planPositions[1], data: planPositions[0] }
     } catch (error) {
       console.log(error)
       throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
     }
   }
 
-  async isExists(plan_uuid: string): Promise<boolean> {
+  async isExists(plan_position_uuid: string): Promise<boolean> {
     try {
-      const isExists = await this.planRepository
+      const isExists = await this.planPositionRepository
         .createQueryBuilder()
         .select()
-        .where({ plan_uuid })
+        .where({ plan_position_uuid })
         .getExists()
 
       return isExists
@@ -90,7 +92,7 @@ export class PlanPositionService {
   }
 
   async update(
-    plan: UpdatePlanPositionDto,
+    planPosition: UpdatePlanPositionDto,
     user_uuid: string,
   ): Promise<StatusPlanPositionResponse> {
     const queryRunner = this.dataSource.createQueryRunner()
@@ -98,11 +100,11 @@ export class PlanPositionService {
     await queryRunner.startTransaction()
 
     try {
-      for (const key of Object.keys(plan)) {
-        if (key == 'plan_uuid') continue
+      for (const key of Object.keys(planPosition)) {
+        if (key == 'plan_position_uuid') continue
 
         const isHasPermission = await this.rolesPermissionsService.checkPermission(
-          `plan.${key}`,
+          `plan_position.${key}`,
           user_uuid,
         )
         if (!isHasPermission) {
@@ -112,19 +114,19 @@ export class PlanPositionService {
 
       const oldPlanPosition = await queryRunner.manager
         .getRepository(PlanPosition)
-        .createQueryBuilder('plan')
+        .createQueryBuilder('plan_positions')
         .useTransaction(true)
-        .select(Object.keys(plan).map((key) => `plan.${key}`))
-        .where({ plan_uuid: plan.plan_uuid })
+        .select(Object.keys(planPosition).map((key) => `plan_position.${key}`))
+        .where({ plan_position_uuid: planPosition.plan_position_uuid })
         .getOne()
 
-      for (const key of Object.keys(plan)) {
-        if (plan[key] != oldPlanPosition[key]) {
+      for (const key of Object.keys(planPosition)) {
+        if (planPosition[key] != oldPlanPosition[key]) {
           const event = new CreatePlanEventDto()
           event.plan_event_name = this.i18n.t(`fields.update.${key}`)
           event.old_value = oldPlanPosition[key]
-          event.new_value = plan[key]
-          event.plan_uuid = plan.plan_uuid
+          event.new_value = planPosition[key]
+          event.plan_uuid = planPosition.plan_position_uuid
           event.user_uuid = user_uuid
 
           await queryRunner.manager
@@ -144,9 +146,9 @@ export class PlanPositionService {
         .createQueryBuilder()
         .useTransaction(true)
         .update()
-        .where({ plan_uuid: plan.plan_uuid })
+        .where({ plan_position_uuid: planPosition.plan_position_uuid })
         .set({
-          ...plan,
+          ...planPosition,
         })
         .execute()
 
@@ -162,12 +164,12 @@ export class PlanPositionService {
     }
   }
 
-  async delete(plan_uuid: string): Promise<StatusPlanPositionResponse> {
+  async delete(plan_position_uuid: string): Promise<StatusPlanPositionResponse> {
     try {
-      const deletePlanPosition = await this.planRepository
+      const deletePlanPosition = await this.planPositionRepository
         .createQueryBuilder()
         .delete()
-        .where({ plan_uuid })
+        .where({ plan_position_uuid })
         .execute()
 
       return { status: deletePlanPosition.affected !== 0 }

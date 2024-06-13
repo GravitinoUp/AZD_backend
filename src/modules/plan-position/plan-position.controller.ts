@@ -72,6 +72,10 @@ export class PlanPositionController {
         throw new HttpException(this.i18n.t('errors.purchase_not_found'), HttpStatus.NOT_FOUND)
     }
 
+    const isPlanExists = await this.planService.isExists(plan.plan_uuid)
+    if (!isPlanExists)
+      throw new HttpException(this.i18n.t('errors.plan_not_found'), HttpStatus.NOT_FOUND)
+
     const isUserExists = await this.userService.isExists({ user_uuid: plan.user_uuid })
     if (!isUserExists)
       throw new HttpException(this.i18n.t('errors.user_not_found'), HttpStatus.NOT_FOUND)
@@ -79,10 +83,6 @@ export class PlanPositionController {
     const isWayExists = await this.wayService.isExists(plan.way_id)
     if (!isWayExists)
       throw new HttpException(this.i18n.t('errors.way_not_found'), HttpStatus.NOT_FOUND)
-
-    const isBranchExists = await this.organizationService.isExists(plan.branch_uuid)
-    if (!isBranchExists)
-      throw new HttpException(this.i18n.t('errors.organization_not_found'), HttpStatus.NOT_FOUND)
 
     const result = await this.planService.create(plan)
     await this.clearCache()
@@ -153,6 +153,12 @@ export class PlanPositionController {
         throw new HttpException(this.i18n.t('errors.purchase_not_found'), HttpStatus.NOT_FOUND)
     }
 
+    if (plan.plan_uuid) {
+      const isPlanExists = await this.planService.isExists(plan.plan_uuid)
+      if (!isPlanExists)
+        throw new HttpException(this.i18n.t('errors.plan_not_found'), HttpStatus.NOT_FOUND)
+    }
+
     if (plan.user_uuid) {
       const isUserExists = await this.userService.isExists({ user_uuid: plan.user_uuid })
       if (!isUserExists)
@@ -163,12 +169,6 @@ export class PlanPositionController {
       const isWayExists = await this.wayService.isExists(plan.way_id)
       if (!isWayExists)
         throw new HttpException(this.i18n.t('errors.way_not_found'), HttpStatus.NOT_FOUND)
-    }
-
-    if (plan.branch_uuid) {
-      const isBranchExists = await this.organizationService.isExists(plan.branch_uuid)
-      if (!isBranchExists)
-        throw new HttpException(this.i18n.t('errors.organization_not_found'), HttpStatus.NOT_FOUND)
     }
 
     const result = await this.planService.update(plan, request.user.user_uuid)

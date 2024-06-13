@@ -2,7 +2,6 @@ import { ApiProperty } from '@nestjs/swagger'
 import BaseModel from 'src/common/model'
 import { OrganizationType } from 'src/modules/organization-type/entities/organization-type.entity'
 import { Person } from 'src/modules/person/entities/person.entity'
-import { PlanPosition } from 'src/modules/plan-position/entities/plan-position.entity'
 import { Purchase } from 'src/modules/purchase/entities/purchase.entity'
 import { Entity, Column, PrimaryColumn, JoinColumn, ManyToOne, OneToMany } from 'typeorm'
 
@@ -93,9 +92,6 @@ export class Organization extends BaseModel {
   @Column({ nullable: true })
   @ApiProperty({ required: false })
   web_site?: string
-
-  @OneToMany(() => PlanPosition, (plan) => plan.branch, { cascade: true })
-  plan_positions: PlanPosition[]
 
   @OneToMany(() => Purchase, (purchase) => purchase.executor, { cascade: true })
   purchases: Purchase[]

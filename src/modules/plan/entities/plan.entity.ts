@@ -1,8 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger'
 import BaseModel from 'src/common/model'
 import { Branch } from 'src/modules/branch/entities/branch.entity'
+import { PlanPosition } from 'src/modules/plan-position/entities/plan-position.entity'
 import { PlanStatus } from 'src/modules/plan-status/entities/plan-status.entity'
-import { Entity, Column, PrimaryColumn, JoinColumn, ManyToOne } from 'typeorm'
+import { Entity, Column, PrimaryColumn, JoinColumn, ManyToOne, OneToMany } from 'typeorm'
 
 @Entity({ name: 'Plans' })
 export class Plan extends BaseModel {
@@ -35,4 +36,9 @@ export class Plan extends BaseModel {
   @JoinColumn({ name: 'branch_uuid', referencedColumnName: 'branch_uuid' })
   @ApiProperty()
   branch: Branch
+
+  @OneToMany(() => PlanPosition, (plan_position) => plan_position.plan, {
+    cascade: true,
+  })
+  plan_positions: PlanPosition[]
 }

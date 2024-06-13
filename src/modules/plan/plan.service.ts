@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { DefaultPagination } from 'src/common/constants/constants'
+import { DefaultPagination, PlanStatusesEnum } from 'src/common/constants/constants'
 import { formatFilter } from 'src/utils/format-filter'
 import { Repository } from 'typeorm'
 import { CreatePlanDto } from './dto'
@@ -21,6 +21,7 @@ export class PlanService {
         .createQueryBuilder()
         .insert()
         .values({
+          plan_status_id: PlanStatusesEnum.IN_PREPARATION,
           ...plan,
         })
         .returning('*')
@@ -37,8 +38,6 @@ export class PlanService {
       const count = planFilter?.offset?.count ?? DefaultPagination.COUNT
       const page = planFilter?.offset?.page ?? DefaultPagination.PAGE
       const filters = formatFilter(planFilter?.filter ?? {})
-
-      console.log(filters)
 
       const plans = await this.planRepository.findAndCount({
         relations: { plan_status: true, branch: true },
