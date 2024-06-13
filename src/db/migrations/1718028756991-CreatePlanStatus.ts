@@ -2,6 +2,7 @@ import { MigrationInterface, QueryRunner, Table, TableColumn, TableForeignKey } 
 
 export class CreatePlanStatus1718028756991 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.manager.query('TRUNCATE "Plans" CASCADE')
     await queryRunner.addColumn('Plans', new TableColumn({ name: 'plan_status_id', type: 'int' }))
 
     await queryRunner.createTable(

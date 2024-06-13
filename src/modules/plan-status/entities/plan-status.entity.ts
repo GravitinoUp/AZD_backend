@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import BaseModel from 'src/common/model'
-import { Entity, Column, PrimaryColumn } from 'typeorm'
+import { Plan } from 'src/modules/plan/entities/plan.entity'
+import { Entity, Column, PrimaryColumn, OneToMany } from 'typeorm'
 
 @Entity({ name: 'PlanStatuses' })
 export class PlanStatus extends BaseModel {
@@ -12,6 +13,6 @@ export class PlanStatus extends BaseModel {
   @ApiProperty()
   plan_status_name: string
 
-  // @OneToMany(() => Plan, (plan) => plan.plan_status, { cascade: true })
-  // plans: Plan[]
+  @OneToMany(() => Plan, (plan) => plan.plan_status, { cascade: true })
+  plans: Plan[]
 }

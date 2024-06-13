@@ -36,6 +36,8 @@ import { LimitStatusModule } from '../limit-status/limit-status.module'
 import { PurchaseModule } from '../purchase/purchase.module'
 import { PlanStatusModule } from '../plan-status/plan-status.module'
 import { PlanPositionModule } from '../plan-position/plan-position.module'
+import { BranchModule } from '../branch/branch.module'
+import { PlanModule } from '../plan/plan.module'
 
 @Module({
   imports: [
@@ -111,6 +113,7 @@ import { PlanPositionModule } from '../plan-position/plan-position.module'
       }),
     }),
     AuthModule,
+    BranchModule,
     CurrencyModule,
     KbkModule,
     KosguModule,
@@ -123,6 +126,7 @@ import { PlanPositionModule } from '../plan-position/plan-position.module'
     OrganizationTypeModule,
     PermissionModule,
     PersonModule,
+    PlanModule,
     PlanPositionModule,
     PlanEventModule,
     PlanStatusModule,

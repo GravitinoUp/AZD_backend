@@ -44,7 +44,7 @@ import { PlanPositionService } from './plan-position.service'
 
 @ApiBearerAuth()
 @ApiTags('PlanPosition')
-@Controller('plan')
+@Controller('plan-position')
 @UseFilters(AllExceptionsFilter)
 export class PlanPositionController {
   constructor(
@@ -59,9 +59,9 @@ export class PlanPositionController {
 
   @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
   // @HasPermissions([PermissionEnum.PlanPositionCreate])
-  @ApiOperation({ summary: AppStrings.PLAN_CREATE_OPERATION })
+  @ApiOperation({ summary: AppStrings.PLAN_POSITION_CREATE_OPERATION })
   @ApiCreatedResponse({
-    description: AppStrings.PLAN_CREATE_RESPONSE,
+    description: AppStrings.PLAN_POSITION_CREATE_RESPONSE,
     type: StatusPlanPositionResponse,
   })
   @Post()
@@ -91,15 +91,15 @@ export class PlanPositionController {
 
   @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
   // @HasPermissions([PermissionEnum.PlanPositionGet])
-  @ApiOperation({ summary: AppStrings.PLAN_ALL_OPERATION })
+  @ApiOperation({ summary: AppStrings.PLAN_POSITION_ALL_OPERATION })
   @ApiOkResponse({
-    description: AppStrings.PLAN_ALL_RESPONSE,
+    description: AppStrings.PLAN_POSITION_ALL_RESPONSE,
     type: ArrayPlanPositionResponse,
   })
   @ApiBody({ required: false, type: PlanPositionFilter })
   @Post('all')
   async findAll(@Body() planFilter: PlanPositionFilter) {
-    const key = `${CacheRoutes.PLAN}/all-${JSON.stringify(planFilter)}`
+    const key = `${CacheRoutes.PLAN_POSITION}/all-${JSON.stringify(planFilter)}`
     let result: ArrayPlanPositionResponse = await this.cacheManager.get(key)
 
     if (result) {
@@ -112,9 +112,9 @@ export class PlanPositionController {
   }
   @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
   // @HasPermissions([PermissionEnum.PlanPositionGet])
-  @ApiOperation({ summary: AppStrings.PLAN_ONE_OPERATION })
+  @ApiOperation({ summary: AppStrings.PLAN_POSITION_ONE_OPERATION })
   @ApiOkResponse({
-    description: AppStrings.PLAN_ONE_RESPONSE,
+    description: AppStrings.PLAN_POSITION_ONE_RESPONSE,
     type: PlanPositionResponse,
   })
   @Get(':uuid')
@@ -122,7 +122,7 @@ export class PlanPositionController {
     const planFilter = new PlanPositionFilter()
     planFilter.filter = { plan_uuid: planUuid }
 
-    const key = `${CacheRoutes.PLAN}/${planUuid}-${JSON.stringify(planFilter)}`
+    const key = `${CacheRoutes.PLAN_POSITION}/${planUuid}-${JSON.stringify(planFilter)}`
     let result: PlanPositionResponse = await this.cacheManager.get(key)
 
     if (result) {
@@ -136,16 +136,16 @@ export class PlanPositionController {
 
   @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
   // @HasPermissions([PermissionEnum.PlanPositionUpdate])
-  @ApiOperation({ summary: AppStrings.PLAN_UPDATE_OPERATION })
+  @ApiOperation({ summary: AppStrings.PLAN_POSITION_UPDATE_OPERATION })
   @ApiOkResponse({
-    description: AppStrings.PLAN_UPDATE_RESPONSE,
+    description: AppStrings.PLAN_POSITION_UPDATE_RESPONSE,
     type: StatusPlanPositionResponse,
   })
   @Patch()
   async update(@Body() plan: UpdatePlanPositionDto, @Req() request) {
     const isPlanPositionExists = await this.planService.isExists(plan.plan_uuid)
     if (!isPlanPositionExists)
-      throw new HttpException(this.i18n.t('errors.plan_not_found'), HttpStatus.NOT_FOUND)
+      throw new HttpException(this.i18n.t('errors.plan_position_not_found'), HttpStatus.NOT_FOUND)
 
     if (plan.purchase_uuid) {
       const isPurchaseExists = await this.purchaseService.isExists(plan.purchase_uuid)
@@ -162,7 +162,7 @@ export class PlanPositionController {
     if (plan.way_id) {
       const isWayExists = await this.wayService.isExists(plan.way_id)
       if (!isWayExists)
-        throw new HttpException(this.i18n.t('errors.user_not_found'), HttpStatus.NOT_FOUND)
+        throw new HttpException(this.i18n.t('errors.way_not_found'), HttpStatus.NOT_FOUND)
     }
 
     if (plan.branch_uuid) {
@@ -178,16 +178,16 @@ export class PlanPositionController {
 
   @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
   // @HasPermissions([PermissionEnum.PlanPositionDelete])
-  @ApiOperation({ summary: AppStrings.PLAN_DELETE_OPERATION })
+  @ApiOperation({ summary: AppStrings.PLAN_POSITION_DELETE_OPERATION })
   @ApiOkResponse({
-    description: AppStrings.PLAN_DELETE_RESPONSE,
+    description: AppStrings.PLAN_POSITION_DELETE_RESPONSE,
     type: StatusPlanPositionResponse,
   })
   @Delete(':uuid')
   async delete(@Param('uuid') id: string) {
     const isExists = await this.planService.isExists(id)
     if (!isExists) {
-      throw new HttpException(this.i18n.t('errors.plan_not_found'), HttpStatus.NOT_FOUND)
+      throw new HttpException(this.i18n.t('errors.plan_position_not_found'), HttpStatus.NOT_FOUND)
     }
 
     const result = await this.planService.delete(id)
@@ -196,8 +196,13 @@ export class PlanPositionController {
   }
 
   async clearCache() {
-    const keys = await this.cacheManager.store.keys(`${CacheRoutes.PLAN}*`) // Удаление кэша
+    const keys = await this.cacheManager.store.keys(`${CacheRoutes.PLAN_POSITION}*`) // Удаление кэша
     for (const key of keys) {
+      await this.cacheManager.del(key)
+    }
+
+    const planKeys = await this.cacheManager.store.keys(`${CacheRoutes.PLAN}*`) // Удаление кэша
+    for (const key of planKeys) {
       await this.cacheManager.del(key)
     }
 

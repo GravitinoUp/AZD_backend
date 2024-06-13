@@ -34,6 +34,7 @@ export class UpdatePlan1718115539081 implements MigrationInterface {
           {
             name: 'plan_version',
             type: 'int',
+            default: 1,
           },
           {
             name: 'branch_uuid',

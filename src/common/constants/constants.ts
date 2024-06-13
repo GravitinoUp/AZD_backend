@@ -18,6 +18,7 @@ export const LimitStatusesEnum = {
 }
 
 export const CacheRoutes = {
+  BRANCH: 'branch',
   CURRENCY: 'currency',
   KOSGU: 'kosgu',
   LIMIT: 'limit',
@@ -30,6 +31,7 @@ export const CacheRoutes = {
   PURCHASE: 'purchase',
   PURCHASE_EVENT: 'purchase-event',
   PLAN: 'plan',
+  PLAN_POSITION: 'plan-position',
   PLAN_EVENT: 'plan-event',
   PLAN_STATUS: 'plan-status',
   PLAN_WAY: 'plan-way',
