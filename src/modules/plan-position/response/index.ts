@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { AppStrings } from 'src/common/constants/strings'
+import { KosguResponse } from 'src/modules/kosgu/response'
 import { OkpdResponse } from 'src/modules/okpd/response'
 import { WayResponse } from 'src/modules/plan-way/response'
 import { PlanResponse } from 'src/modules/plan/response'
@@ -33,7 +34,10 @@ export class PlanPositionResponse {
   purchase?: PurchaseResponse
 
   @ApiProperty({ description: AppStrings.PLAN_KOSGU })
-  kosgu: string
+  kosgu_uuid: string
+
+  @ApiProperty()
+  kosgu?: KosguResponse
 
   @ApiProperty()
   user_uuid: string

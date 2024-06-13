@@ -5,6 +5,12 @@ export class UpdatePlan1718115539081 implements MigrationInterface {
     await queryRunner.renameTable('Plans', 'PlanPositions')
     await queryRunner.renameColumn('PlanPositions', 'plan_uuid', 'plan_position_uuid')
     await queryRunner.dropColumn('PlanPositions', 'plan_status_id')
+    await queryRunner.changeColumn(
+      'PlanPositions',
+      'kosgu',
+      new TableColumn({ name: 'kosgu_uuid', type: 'uuid' }),
+    )
+
     await queryRunner.addColumn(
       'PlanPositions',
       new TableColumn({ name: 'plan_uuid', type: 'uuid' }),
@@ -56,6 +62,18 @@ export class UpdatePlan1718115539081 implements MigrationInterface {
     )
 
     await queryRunner.createForeignKey(
+      'PlanPositions',
+      new TableForeignKey({
+        name: 'FK_kosgu_uuid',
+        columnNames: ['kosgu_uuid'],
+        referencedColumnNames: ['kosgu_uuid'],
+        referencedTableName: 'Kosgu',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      }),
+    )
+
+    await queryRunner.createForeignKey(
       'Plans',
       new TableForeignKey({
         name: 'FK_plan_status_id',
@@ -93,14 +111,15 @@ export class UpdatePlan1718115539081 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropForeignKey('PlanPositions', 'FK_plan_uuid')
+    await queryRunner.dropColumn('PlanPositions', 'plan_uuid')
+    await queryRunner.renameColumn('PlanPositions', 'plan_position_uuid', 'plan_uuid')
     await queryRunner.dropForeignKey('Plans', 'FK_branch_uuid')
     await queryRunner.dropForeignKey('Plans', 'FK_plan_status_id')
-    await queryRunner.dropForeignKey('PlanPositions', 'FK_plan_uuid')
 
     await queryRunner.dropTable('Plans')
 
     await queryRunner.renameTable('PlanPositions', 'Plans')
-    await queryRunner.renameColumn('Plans', 'plan_position_uuid', 'plan_uuid')
     await queryRunner.addColumn('Plans', new TableColumn({ name: 'plan_status_id', type: 'int' }))
   }
 }

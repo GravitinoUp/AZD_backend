@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { FilterOffset } from 'src/common/classes/filter_offset'
 import { AppStrings } from 'src/common/constants/strings'
+import { KosguFilters, KosguSorts } from 'src/modules/kosgu/filters'
 import { OkpdFilters, OkpdSorts } from 'src/modules/okpd/filters'
 import { PlanFilters, PlanSorts } from 'src/modules/plan/filters'
 
@@ -27,7 +28,7 @@ export class PlanPositionSorts {
   purchase_uuid?: 'ASC' | 'DESC'
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
-  kosgu?: 'ASC' | 'DESC'
+  kosgu?: KosguSorts
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
   user_uuid?: 'ASC' | 'DESC'
@@ -155,7 +156,7 @@ export class PlanPositionFilters {
   purchase_uuid?: string
 
   @ApiProperty({ required: false })
-  kosgu?: string
+  kosgu?: KosguFilters
 
   @ApiProperty({ required: false })
   user_uuid?: string

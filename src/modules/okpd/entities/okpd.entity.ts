@@ -9,7 +9,7 @@ export class Okpd extends BaseModel {
   @ApiProperty()
   okpd_uuid: string
 
-  @ApiProperty()
+  @Column()
   okpd_code: string
 
   @Column()

@@ -35,9 +35,9 @@ export class CreatePlanPositionDto {
   @ApiProperty({ required: false })
   purchase_uuid?: string
 
-  @IsString()
+  @IsUUID()
   @ApiProperty()
-  kosgu: string
+  kosgu_uuid: string
 
   @IsUUID()
   @ApiProperty()
@@ -154,10 +154,6 @@ export class CreatePlanPositionDto {
   @ApiProperty()
   initiator: string
 
-  @IsUUID()
-  @ApiProperty()
-  branch_uuid: string
-
   @IsDecimal()
   @IsOptional()
   @ApiProperty()
@@ -223,6 +219,10 @@ export class UpdatePlanPositionDto {
   @IsOptional()
   @ApiProperty({ required: false })
   purchase_uuid?: string
+
+  @IsUUID()
+  @ApiProperty()
+  kosgu_uuid: string
 
   @IsUUID()
   @IsOptional()
@@ -343,11 +343,6 @@ export class UpdatePlanPositionDto {
   @IsOptional()
   @ApiProperty({ required: false })
   initiator?: string
-
-  @IsUUID()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  branch_uuid?: string
 
   @IsDecimal()
   @IsOptional()
