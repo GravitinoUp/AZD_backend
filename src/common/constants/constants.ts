@@ -17,8 +17,21 @@ export const LimitStatusesEnum = {
   DECLINED: 4,
 }
 
+export const PlanStatusesEnum = {
+  IN_PREPARATION: 1,
+  ON_APPROVAL: 2,
+  FOR_REVISION: 3,
+  SENT_FOR_CONTROL: 4,
+  NOT_ACCEPTED_FOR_CONTROL: 5,
+  AT_CONTROL: 6,
+  CONTROL_FAILED: 7,
+  POSTED: 8,
+}
+
 export const CacheRoutes = {
+  BRANCH: 'branch',
   CURRENCY: 'currency',
+  KBK: 'kbk',
   KOSGU: 'kosgu',
   LIMIT: 'limit',
   LIMIT_EVENT: 'limit-event',
@@ -30,6 +43,7 @@ export const CacheRoutes = {
   PURCHASE: 'purchase',
   PURCHASE_EVENT: 'purchase-event',
   PLAN: 'plan',
+  PLAN_POSITION: 'plan-position',
   PLAN_EVENT: 'plan-event',
   PLAN_STATUS: 'plan-status',
   PLAN_WAY: 'plan-way',

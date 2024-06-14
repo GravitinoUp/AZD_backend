@@ -1,13 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { FilterOffset } from 'src/common/classes/filter_offset'
 import { AppStrings } from 'src/common/constants/strings'
+import { KosguFilters, KosguSorts } from 'src/modules/kosgu/filters'
 import { OkpdFilters, OkpdSorts } from 'src/modules/okpd/filters'
-import { OrganizationFilters, OrganizationSorts } from 'src/modules/organization/filters'
-import { PlanStatusFilters, PlanStatusSorts } from 'src/modules/plan-status/filter'
+import { PlanFilters, PlanSorts } from 'src/modules/plan/filters'
 
-export class PlanSorts {
+export class PlanPositionSorts {
+  @ApiProperty({ default: AppStrings.ASC, required: false })
+  plan_position_uuid?: 'ASC' | 'DESC'
+
   @ApiProperty({ default: AppStrings.ASC, required: false })
   plan_uuid?: 'ASC' | 'DESC'
+
+  @ApiProperty({ required: false })
+  plan?: PlanSorts
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
   purchase_name?: 'ASC' | 'DESC'
@@ -22,10 +28,7 @@ export class PlanSorts {
   purchase_uuid?: 'ASC' | 'DESC'
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
-  plan_status?: PlanStatusSorts
-
-  @ApiProperty({ default: AppStrings.ASC, required: false })
-  kosgu?: 'ASC' | 'DESC'
+  kosgu?: KosguSorts
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
   user_uuid?: 'ASC' | 'DESC'
@@ -33,7 +36,7 @@ export class PlanSorts {
   @ApiProperty({ default: AppStrings.ASC, required: false })
   purchase_offer_number?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @ApiProperty({ required: false })
   okpd?: OkpdSorts
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
@@ -111,9 +114,6 @@ export class PlanSorts {
   @ApiProperty({ default: AppStrings.ASC, required: false })
   initiator?: 'ASC' | 'DESC'
 
-  @ApiProperty({ required: false })
-  branch?: OrganizationSorts
-
   @ApiProperty({ default: AppStrings.ASC, required: false })
   price_value?: 'ASC' | 'DESC'
 
@@ -133,9 +133,15 @@ export class PlanSorts {
   approval_letter?: 'ASC' | 'DESC'
 }
 
-export class PlanFilters {
+export class PlanPositionFilters {
+  @ApiProperty({ required: false })
+  plan_position_uuid?: string
+
   @ApiProperty({ required: false })
   plan_uuid?: string
+
+  @ApiProperty({ required: false })
+  plan?: PlanFilters
 
   @ApiProperty({ required: false })
   purchase_name?: string
@@ -150,10 +156,7 @@ export class PlanFilters {
   purchase_uuid?: string
 
   @ApiProperty({ required: false })
-  plan_status?: PlanStatusFilters
-
-  @ApiProperty({ required: false })
-  kosgu?: string
+  kosgu?: KosguFilters
 
   @ApiProperty({ required: false })
   user_uuid?: string
@@ -240,9 +243,6 @@ export class PlanFilters {
   initiator?: string
 
   @ApiProperty({ required: false })
-  branch?: OrganizationFilters
-
-  @ApiProperty({ required: false })
   price_value?: number
 
   @ApiProperty({ required: false })
@@ -261,13 +261,13 @@ export class PlanFilters {
   approval_letter?: string
 }
 
-export class PlanFilter {
+export class PlanPositionFilter {
   @ApiProperty({ required: false })
   offset?: FilterOffset
 
   @ApiProperty({ required: false })
-  filter?: PlanFilters
+  filter?: PlanPositionFilters
 
   @ApiProperty({ required: false })
-  sorts?: PlanSorts
+  sorts?: PlanPositionSorts
 }

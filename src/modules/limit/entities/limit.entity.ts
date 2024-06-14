@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import BaseModel from 'src/common/model'
+import { Branch } from 'src/modules/branch/entities/branch.entity'
 import { Currency } from 'src/modules/currency/entities/currency.entity'
 import { KBK } from 'src/modules/kbk/entities/kbk.entity'
 import { Kosgu } from 'src/modules/kosgu/entities/kosgu.entity'
@@ -102,6 +103,15 @@ export class Limit extends BaseModel {
   @JoinColumn({ name: 'second_year_currency_code', referencedColumnName: 'currency_code' })
   @ApiProperty()
   second_year_currency: Currency
+
+  @Column()
+  @ApiProperty()
+  branch_uuid: string
+
+  @ManyToOne(() => Branch, (branch) => branch.limits)
+  @JoinColumn({ name: 'branch_uuid', referencedColumnName: 'branch_uuid' })
+  @ApiProperty()
+  branch: Branch
 
   @OneToMany(() => LimitEvent, (limitEvent) => limitEvent.limit, { cascade: true })
   limit_events: LimitEvent[]

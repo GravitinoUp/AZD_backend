@@ -4,7 +4,7 @@ import { Auth } from 'src/modules/auth/entities/auth.entity'
 import { LimitEvent } from 'src/modules/limit-event/entities/limit-event.entity'
 import { Person } from 'src/modules/person/entities/person.entity'
 import { PlanEvent } from 'src/modules/plan-event/entities/plan-event.entity'
-import { Plan } from 'src/modules/plan/entities/plan.entity'
+import { PlanPosition } from 'src/modules/plan-position/entities/plan-position.entity'
 import { PurchaseEvent } from 'src/modules/purchase-event/entities/purchase-event.entity'
 import { Purchase } from 'src/modules/purchase/entities/purchase.entity'
 import { RolePermission } from 'src/modules/role-permission/entities/role-permission.entity'
@@ -54,8 +54,8 @@ export class User extends BaseModel {
   @OneToMany(() => Auth, (auth) => auth.user, { cascade: true })
   auths: Auth[]
 
-  @OneToMany(() => Plan, (plan) => plan.user, { cascade: true })
-  plans: Plan[]
+  @OneToMany(() => PlanPosition, (plan) => plan.user, { cascade: true })
+  plan_positions: PlanPosition[]
 
   @OneToMany(() => RolePermission, (rolePermission) => rolePermission.user, {
     cascade: true,

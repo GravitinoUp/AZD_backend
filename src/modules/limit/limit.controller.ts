@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   HttpException,
   HttpStatus,
   Inject,
@@ -27,7 +28,7 @@ import { CacheRoutes } from 'src/common/constants/constants'
 import { AppStrings } from 'src/common/constants/strings'
 import { ActiveGuard } from '../auth/guards/active.guard'
 import { JwtAuthGuard } from '../auth/guards/auth.guard'
-import { ArrayLimitResponse, StatusLimitResponse } from './response'
+import { ArrayLimitResponse, LimitResponse, StatusLimitResponse } from './response'
 import { CreateLimitDto, UpdateLimitDto } from './dto'
 import { LimitFilter } from './filters'
 import { CurrencyService } from '../currency/currency.service'
@@ -113,6 +114,30 @@ export class LimitController {
       return result
     } else {
       result = await this.limitService.findAll(limitFilter)
+      await this.cacheManager.set(key, result)
+      return result
+    }
+  }
+
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.LimitGet])
+  @ApiOperation({ summary: AppStrings.LIMIT_ONE_OPERATION })
+  @ApiOkResponse({
+    description: AppStrings.LIMIT_ONE_RESPONSE,
+    type: LimitResponse,
+  })
+  @Get(':uuid')
+  async findOne(@Param('uuid') limitUuid: string) {
+    const limitFilter = new LimitFilter()
+    limitFilter.filter = { limit_uuid: limitUuid }
+
+    const key = `${CacheRoutes.LIMIT}/${limitUuid}-${JSON.stringify(limitFilter)}`
+    let result: LimitResponse = await this.cacheManager.get(key)
+
+    if (result) {
+      return result
+    } else {
+      result = (await this.limitService.findAll(limitFilter)).data[0]
       await this.cacheManager.set(key, result)
       return result
     }

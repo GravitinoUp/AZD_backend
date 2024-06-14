@@ -44,16 +44,16 @@ export class KBKSorts {
   @ApiProperty({ default: AppStrings.ASC, required: false })
   kbk_name?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @ApiProperty({ required: false })
   kbk_section?: KBKValueSorts
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @ApiProperty({ required: false })
   kbk_subsection?: KBKValueSorts
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @ApiProperty({ required: false })
   kbk_target_article?: KBKValueSorts
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @ApiProperty({ required: false })
   kbk_expenses_type?: KBKValueSorts
 }
 

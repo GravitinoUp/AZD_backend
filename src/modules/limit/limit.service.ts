@@ -45,7 +45,7 @@ export class LimitService {
       const filters = formatFilter(limitFilter?.filter ?? {})
 
       const limits = await this.limitRepository.findAndCount({
-        relations: { limit_status: true },
+        relations: { limit_status: true, branch: true },
         where: filters,
         order: limitFilter.sorts,
         skip: count * (page - 1),

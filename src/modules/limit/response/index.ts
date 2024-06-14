@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
+import { BranchResponse } from 'src/modules/branch/response'
 import { KBKResponse } from 'src/modules/kbk/response'
 import { KosguResponse } from 'src/modules/kosgu/response'
 import { LimitStatusResponse } from 'src/modules/limit-status/response'
@@ -60,6 +61,12 @@ export class LimitResponse {
 
   @ApiProperty({ required: false })
   second_year_currency_code?: string
+
+  @ApiProperty()
+  branch_uuid: string
+
+  @ApiProperty({ required: false })
+  branch?: BranchResponse
 }
 
 export class ArrayLimitResponse {

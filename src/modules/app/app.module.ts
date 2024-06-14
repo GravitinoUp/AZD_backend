@@ -21,7 +21,6 @@ import { OrganizationModule } from '../organization/organization.module'
 import { OrganizationTypeModule } from '../organization-type/organization-type.module'
 import { PropertiesModule } from '../properties/properties.module'
 import { PlanWayModule } from '../plan-way/plan-way.module'
-import { PlanModule } from '../plan/plan.module'
 import { RedisClientOptions } from 'redis'
 import { OkpdModule } from '../okpd/okpd.module'
 import { PlanEventModule } from '../plan-event/plan-event.module'
@@ -36,6 +35,9 @@ import { TechnicalTaskModule } from '../technical-task/technical-task.module'
 import { LimitStatusModule } from '../limit-status/limit-status.module'
 import { PurchaseModule } from '../purchase/purchase.module'
 import { PlanStatusModule } from '../plan-status/plan-status.module'
+import { PlanPositionModule } from '../plan-position/plan-position.module'
+import { BranchModule } from '../branch/branch.module'
+import { PlanModule } from '../plan/plan.module'
 
 @Module({
   imports: [
@@ -111,6 +113,7 @@ import { PlanStatusModule } from '../plan-status/plan-status.module'
       }),
     }),
     AuthModule,
+    BranchModule,
     CurrencyModule,
     KbkModule,
     KosguModule,
@@ -124,6 +127,7 @@ import { PlanStatusModule } from '../plan-status/plan-status.module'
     PermissionModule,
     PersonModule,
     PlanModule,
+    PlanPositionModule,
     PlanEventModule,
     PlanStatusModule,
     PlanWayModule,

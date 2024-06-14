@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { FilterOffset } from 'src/common/classes/filter_offset'
 import { AppStrings } from 'src/common/constants/strings'
+import { BranchFilters, BranchSorts } from 'src/modules/branch/filters'
 import { CurrencyFilter, CurrencySorts } from 'src/modules/currency/filters'
 import { KBKFilters, KBKSorts } from 'src/modules/kbk/filters'
 import { KosguFilters, KosguSorts } from 'src/modules/kosgu/filters'
@@ -16,13 +17,13 @@ export class LimitSorts {
   @ApiProperty({ default: AppStrings.ASC, required: false })
   kbk_uuid?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @ApiProperty({ required: false })
   kbk?: KBKSorts
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
   kosgu_uuid?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @ApiProperty({ required: false })
   kosgu?: KosguSorts
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
@@ -31,7 +32,7 @@ export class LimitSorts {
   @ApiProperty({ default: AppStrings.ASC, required: false })
   limit_status_id?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @ApiProperty({ required: false })
   limit_status?: LimitStatusSorts
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
@@ -60,6 +61,12 @@ export class LimitSorts {
 
   @ApiProperty({ required: false })
   second_year_currency?: CurrencySorts
+
+  @ApiProperty({ default: AppStrings.ASC, required: false })
+  branch_uuid?: 'ASC' | 'DESC'
+
+  @ApiProperty({ required: false })
+  branch?: BranchSorts
 }
 
 export class LimitFilters {
@@ -116,6 +123,12 @@ export class LimitFilters {
 
   @ApiProperty({ required: false })
   second_year_currency_code?: CurrencyFilter
+
+  @ApiProperty({ required: false })
+  branch_uuid?: string
+
+  @ApiProperty({ required: false })
+  branch?: BranchFilters
 }
 
 export class LimitFilter {

@@ -14,7 +14,7 @@ export class PlanEventResponse {
   new_value?: string
 
   @ApiProperty()
-  plan_uuid: string
+  plan_position_uuid: string
 
   @ApiProperty()
   user_uuid: string

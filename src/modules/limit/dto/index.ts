@@ -59,6 +59,10 @@ export class CreateLimitDto {
   @IsOptional()
   @ApiProperty({ required: false })
   second_year_currency_code?: string
+
+  @IsUUID()
+  @ApiProperty()
+  branch_uuid: string
 }
 
 export class UpdateLimitDto {
@@ -125,4 +129,9 @@ export class UpdateLimitDto {
   @IsOptional()
   @ApiProperty({ required: false })
   second_year_currency_code?: string
+
+  @IsUUID()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  branch_uuid?: string
 }

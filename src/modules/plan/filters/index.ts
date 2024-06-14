@@ -1,62 +1,65 @@
 import { ApiProperty } from '@nestjs/swagger'
+import { IsUUID } from 'class-validator'
 import { FilterOffset } from 'src/common/classes/filter_offset'
 import { AppStrings } from 'src/common/constants/strings'
-import { PlanPositionFilters, PlanPositionSorts } from 'src/modules/plan-position/filter'
-import { UserFilters, UserSorts } from 'src/modules/user/filters'
+import { BranchFilters, BranchSorts } from 'src/modules/branch/filters'
+import { PlanStatusSorts, PlanStatusFilters } from 'src/modules/plan-status/filter'
 
-export class PlanEventSorts {
+export class PlanSorts {
+  @IsUUID()
   @ApiProperty({ default: AppStrings.ASC, required: false })
-  plan_event_uuid?: 'ASC' | 'DESC'
-
-  @ApiProperty({ default: AppStrings.ASC, required: false })
-  plan_event_name?: 'ASC' | 'DESC'
+  plan_uuid?: 'ASC' | 'DESC'
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
-  old_value?: 'ASC' | 'DESC'
+  plan_number?: 'ASC' | 'DESC'
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
-  new_value?: 'ASC' | 'DESC'
+  plan_status_id?: 'ASC' | 'DESC'
+
+  @ApiProperty({ required: false })
+  plan_status?: PlanStatusSorts
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
-  plan?: PlanPositionSorts
+  plan_version?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
-  user?: UserSorts
+  @ApiProperty({ required: false })
+  branch?: BranchSorts
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
   created_at?: 'ASC' | 'DESC'
 }
 
-export class PlanEventFilters {
+export class PlanFilters {
+  @IsUUID()
   @ApiProperty({ required: false })
-  plan_event_uuid?: string
+  plan_uuid?: string
 
   @ApiProperty({ required: false })
-  plan_event_name?: string
+  plan_number?: number
 
   @ApiProperty({ required: false })
-  old_value?: string
+  plan_status_id?: number
 
   @ApiProperty({ required: false })
-  new_value?: string
+  plan_status?: PlanStatusFilters
 
   @ApiProperty({ required: false })
-  plan?: PlanPositionFilters
+  plan_version?: number
 
   @ApiProperty({ required: false })
-  user?: UserFilters
+  branch?: BranchFilters
 
   @ApiProperty({ required: false })
   created_at?: Date
 }
 
-export class PlanEventFilter {
+export class PlanFilter {
   @ApiProperty({ required: false })
   offset?: FilterOffset
 
   @ApiProperty({ required: false })
-  filter?: PlanEventFilters
+  filter?: PlanFilters
 
   @ApiProperty({ required: false })
-  sorts?: PlanEventSorts
+  sorts?: PlanSorts
 }

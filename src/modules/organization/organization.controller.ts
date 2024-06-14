@@ -25,15 +25,13 @@ import { I18nService } from 'nestjs-i18n'
 import { AppStrings } from 'src/common/constants/strings'
 import { ActiveGuard } from '../auth/guards/active.guard'
 import { JwtAuthGuard } from '../auth/guards/auth.guard'
-import { StatusRoleResponse } from '../role/response'
 import { CacheRoutes } from 'src/common/constants/constants'
 import { CreateOrganizationDto, UpdateOrganizationDto } from './dto'
 import { AllExceptionsFilter } from 'src/common/exception.filter'
 import { PersonService } from '../person/person.service'
 import { OrganizationTypeService } from '../organization-type/organization-type.service'
-import { ArrayOrganizationResponse } from './response'
+import { ArrayOrganizationResponse, StatusOrganizationResponse } from './response'
 import { OrganizationFilter } from './filters'
-import { ArrayOrganizationTypeResponse } from '../organization-type/response'
 import { PermissionsGuard } from '../role-permission/guards/permission.guard'
 
 @ApiBearerAuth()
@@ -54,7 +52,7 @@ export class OrganizationController {
   @ApiOperation({ summary: AppStrings.ORGANIZATION_CREATE_OPERATION })
   @ApiCreatedResponse({
     description: AppStrings.ORGANIZATION_CREATED_RESPONSE,
-    type: StatusRoleResponse,
+    type: StatusOrganizationResponse,
   })
   @Post()
   async create(@Body() organization: CreateOrganizationDto) {
@@ -99,7 +97,7 @@ export class OrganizationController {
   @ApiOperation({ summary: AppStrings.ORGANIZATION_ALL_OPERATION })
   @ApiOkResponse({
     description: AppStrings.ORGANIZATION_ALL_RESPONSE,
-    type: ArrayOrganizationTypeResponse,
+    type: ArrayOrganizationResponse,
   })
   @Get('all')
   async getAll() {
@@ -120,7 +118,7 @@ export class OrganizationController {
   @ApiOperation({ summary: AppStrings.ORGANIZATION_UPDATE_OPERATION })
   @ApiOkResponse({
     description: AppStrings.ORGANIZATION_UPDATE_RESPONSE,
-    type: StatusRoleResponse,
+    type: StatusOrganizationResponse,
   })
   @Patch()
   async update(@Body() organization: UpdateOrganizationDto) {
@@ -150,7 +148,7 @@ export class OrganizationController {
   @ApiOperation({ summary: AppStrings.ORGANIZATION_DELETE_OPERATION })
   @ApiOkResponse({
     description: AppStrings.ORGANIZATION_DELETE_RESPONSE,
-    type: StatusRoleResponse,
+    type: StatusOrganizationResponse,
   })
   @Delete(':uuid')
   async delete(@Param('uuid') organization_uuid: string) {

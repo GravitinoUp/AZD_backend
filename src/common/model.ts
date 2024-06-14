@@ -1,6 +1,6 @@
 import { BaseEntity, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 
-export default class Model extends BaseEntity {
+export default class BaseModel extends BaseEntity {
   @CreateDateColumn()
   created_at: Date
 

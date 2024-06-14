@@ -39,7 +39,11 @@ export class KbkService {
 
   async isExists(kbk_uuid: string): Promise<boolean> {
     try {
-      const isExists = await this.kbkRepository.createQueryBuilder().select().where({ kbk_uuid }).getExists()
+      const isExists = await this.kbkRepository
+        .createQueryBuilder()
+        .select()
+        .where({ kbk_uuid })
+        .getExists()
 
       return isExists
     } catch (error) {
