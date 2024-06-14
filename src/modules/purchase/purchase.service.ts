@@ -154,4 +154,14 @@ export class PurchaseService {
       throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
     }
   }
+
+  async getStartMaxPrice(prices: number[]): Promise<number> {
+    try {
+      const startMaxPrice = prices.reduce((a, b) => Number(a) + Number(b)) / prices.length
+
+      return startMaxPrice
+    } catch (error) {
+      throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
 }

@@ -8,6 +8,7 @@ import {
   Inject,
   Param,
   Post,
+  Query,
   Req,
   UseFilters,
   UseGuards,
@@ -23,6 +24,7 @@ import {
   ApiOkResponse,
   ApiBearerAuth,
   ApiTags,
+  ApiQuery,
 } from '@nestjs/swagger'
 import { AppStrings } from 'src/common/constants/strings'
 import { ActiveGuard } from '../auth/guards/active.guard'
@@ -134,6 +136,20 @@ export class PurchaseController {
 
     const result = await this.purchaseService.delete(id)
     await this.clearCache()
+    return result
+  }
+
+  //@UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.PurchaseDelete])
+  // @ApiOperation({ summary: AppStrings.PURCHASE_DELETE_OPERATION })
+  // @ApiOkResponse({
+  //   description: AppStrings.PURCHASE_DELETE_RESPONSE,
+  //   type: StatusPurchaseResponse,
+  // })
+  @ApiQuery({ type: [Number], name: 'prices' })
+  @Get('get/start-max-price')
+  async getStartMaxPrice(@Query('prices') prices: number[]) {
+    const result = await this.purchaseService.getStartMaxPrice(prices)
     return result
   }
 
