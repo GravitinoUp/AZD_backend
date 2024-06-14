@@ -19,6 +19,9 @@ export const AppStrings = {
   CURRENCY_ALL_RESPONSE: 'Список валют получен',
   CURRENCY_ALL_OPERATION: 'Получение списка всех валют',
 
+  KBK_ALL_RESPONSE: 'КБК получены',
+  KBK_ALL_OPERATION: 'Получение списка кодов КБК',
+
   KOSGU_ALL_RESPONSE: 'КОСГУ получены',
   KOSGU_ALL_OPERATION: 'Получение списка кодов КОСГУ',
 

@@ -168,8 +168,8 @@ export class SeedPlans1718269239933 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.clearTable('PlanPositions')
-    await queryRunner.clearTable('Plans')
-    await queryRunner.clearTable('Branches')
+    await queryRunner.manager.query('TRUNCATE "PlanPositions" CASCADE')
+    await queryRunner.manager.query('TRUNCATE "Plans" CASCADE')
+    await queryRunner.manager.query('TRUNCATE "Branches" CASCADE')
   }
 }
