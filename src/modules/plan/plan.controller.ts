@@ -31,7 +31,7 @@ import { JwtAuthGuard } from '../auth/guards/auth.guard'
 import { PermissionsGuard } from '../role-permission/guards/permission.guard'
 import { CreatePlanDto } from './dto'
 import { PlanFilter } from './filters'
-import { StatusPlanResponse, ArrayPlanResponse } from './response'
+import { StatusPlanResponse, ArrayPlanResponse, PlanResponse } from './response'
 import { BranchService } from '../branch/branch.service'
 
 @ApiBearerAuth()
@@ -104,6 +104,30 @@ export class PlanController {
       plans = await this.planService.findAll({})
       await this.cacheManager.set(key, plans)
       return plans
+    }
+  }
+
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.PlanGet])
+  @ApiOperation({ summary: AppStrings.PLAN_ONE_OPERATION })
+  @ApiOkResponse({
+    description: AppStrings.PLAN_ONE_RESPONSE,
+    type: PlanResponse,
+  })
+  @Get(':uuid')
+  async findOne(@Param('uuid') planUuid: string) {
+    const planFilter = new PlanFilter()
+    planFilter.filter = { plan_uuid: planUuid }
+
+    const key = `${CacheRoutes.PLAN}/${planUuid}-${JSON.stringify(planFilter)}`
+    let result: PlanResponse = await this.cacheManager.get(key)
+
+    if (result) {
+      return result
+    } else {
+      result = (await this.planService.findAll(planFilter)).data[0]
+      await this.cacheManager.set(key, result)
+      return result
     }
   }
 
