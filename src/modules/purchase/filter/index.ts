@@ -14,13 +14,13 @@ export class PurchaseSorts {
   @ApiProperty({ default: AppStrings.ASC, required: false })
   purchase_name?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @ApiProperty({ required: false })
   purchase_type?: PurchaseTypeSorts
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @ApiProperty({ required: false })
   initiator?: UserSorts
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @ApiProperty({ required: false })
   executor?: OrganizationSorts
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
@@ -47,10 +47,10 @@ export class PurchaseSorts {
   @ApiProperty({ default: AppStrings.ASC, required: false })
   end_price?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @ApiProperty({ required: false })
   currency?: CurrencySorts
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @ApiProperty({ required: false })
   purchase_step?: PurchaseStepSorts
 
   @ApiProperty({ default: AppStrings.ASC, required: false })

@@ -1,6 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { FilterOffset } from 'src/common/classes/filter_offset'
 import { AppStrings } from 'src/common/constants/strings'
+import { OrganizationType } from 'src/modules/organization-type/entities/organization-type.entity'
+import { OrganizationTypeSorts } from 'src/modules/organization-type/filters'
+import { PersonSorts } from 'src/modules/person/filters'
 
 export class OrganizationSorts {
   @ApiProperty({ default: AppStrings.ASC, required: false })
@@ -9,8 +12,14 @@ export class OrganizationSorts {
   @ApiProperty({ default: AppStrings.ASC, required: false })
   organization_type_id?: 'ASC' | 'DESC'
 
+  @ApiProperty({ required: false })
+  organization_type?: OrganizationTypeSorts
+
   @ApiProperty({ default: AppStrings.ASC, required: false })
   contact_person_uuid?: 'ASC' | 'DESC'
+
+  @ApiProperty({ required: false })
+  contact_person?: PersonSorts
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
   full_name?: 'ASC' | 'DESC'

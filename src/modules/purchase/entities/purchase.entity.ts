@@ -10,6 +10,7 @@ import { TechnicalTask } from 'src/modules/technical-task/entities/technical_tas
 import { User } from 'src/modules/user/entities/user.entity'
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm'
 import { PurchaseProduct } from './purchase-products.entity'
+import { Document } from 'src/modules/document/entities/document.entity'
 
 @Entity({ name: 'Purchases' })
 export class Purchase extends BaseModel {
@@ -147,4 +148,9 @@ export class Purchase extends BaseModel {
     cascade: true,
   })
   purchase_products: PurchaseProduct[]
+
+  @OneToMany(() => Document, (document) => document.purchase, {
+    cascade: true,
+  })
+  documents: Document[]
 }

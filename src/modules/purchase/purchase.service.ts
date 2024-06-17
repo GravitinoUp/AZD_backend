@@ -165,7 +165,7 @@ export class PurchaseService {
         const startMaxPrice = prices.reduce((a, b) => Number(a) + Number(b)) / prices.length
         return startMaxPrice
       } else {
-        throw new BadRequestException(this.i18n.t('errors.formula-not-found'))
+        throw new BadRequestException(this.i18n.t('errors.formula_not_found'))
       }
     } catch (error) {
       throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)

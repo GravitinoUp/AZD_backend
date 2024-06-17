@@ -19,7 +19,7 @@ export class PersonSorts {
   @ApiProperty({ default: AppStrings.ASC, required: false })
   post?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @ApiProperty({ required: false })
   legal_basis?: LegalBasisSorts
 }
 

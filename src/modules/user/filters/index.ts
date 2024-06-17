@@ -8,10 +8,10 @@ export class UserSorts {
   @ApiProperty({ default: AppStrings.ASC, required: false })
   user_uuid?: 'ASC' | 'DESC'
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @ApiProperty({ required: false })
   person?: PersonSorts
 
-  @ApiProperty({ default: AppStrings.ASC, required: false })
+  @ApiProperty({ required: false })
   role?: RoleSorts
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
