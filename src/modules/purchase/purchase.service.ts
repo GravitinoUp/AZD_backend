@@ -54,6 +54,7 @@ export class PurchaseService {
           executor: true,
           currency: true,
           purchase_step: true,
+          purchase_products: { product: true },
         },
         where: filters,
         order: purchaseFilter.sorts,
