@@ -139,13 +139,13 @@ export class PurchaseController {
     return result
   }
 
-  //@UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
   // @HasPermissions([PermissionEnum.PurchaseDelete])
-  // @ApiOperation({ summary: AppStrings.PURCHASE_DELETE_OPERATION })
-  // @ApiOkResponse({
-  //   description: AppStrings.PURCHASE_DELETE_RESPONSE,
-  //   type: StatusPurchaseResponse,
-  // })
+  @ApiOperation({ summary: AppStrings.PURCHASE_GET_CSMP_OPERATION })
+  @ApiOkResponse({
+    description: AppStrings.PURCHASE_GET_CSMP_RESPONSE,
+    type: StatusPurchaseResponse,
+  })
   @ApiQuery({ type: [Number], name: 'prices' })
   @ApiQuery({ type: String, name: 'formula', description: AppStrings.SMPC })
   @Get('get/start-max-price')

@@ -132,6 +132,8 @@ export const AppStrings = {
   PURCHASE_UPDATE_OPERATION: 'Изменение закупки',
   PURCHASE_DELETE_RESPONSE: 'Закупка удалена',
   PURCHASE_DELETE_OPERATION: 'Удаление закупки',
+  PURCHASE_GET_CSMP_RESPONSE: 'НМЦК расчитан',
+  PURCHASE_GET_CSMP_OPERATION: 'Расчет НМЦК',
 
   PURCHASE_EVENT_ALL_RESPONSE: 'Список событий закупки получен',
   PURCHASE_EVENT_ALL_OPERATION: 'Получение списка всех событий закупки',

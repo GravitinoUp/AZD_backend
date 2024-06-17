@@ -60,14 +60,19 @@ export class CreateProducts1718627429590 implements MigrationInterface {
         name: 'PurchaseProducts',
         columns: [
           {
-            name: 'purchase_uuid',
+            name: 'purchase_product_uuid',
             type: 'uuid',
             isPrimary: true,
+            isGenerated: true,
+            generationStrategy: 'uuid',
+          },
+          {
+            name: 'purchase_uuid',
+            type: 'uuid',
           },
           {
             name: 'product_uuid',
             type: 'uuid',
-            isPrimary: true,
           },
           {
             name: 'quantity',
@@ -114,9 +119,9 @@ export class CreateProducts1718627429590 implements MigrationInterface {
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropForeignKey('Products', 'FK_okei_uuid')
-    await queryRunner.dropTable('Products')
     await queryRunner.dropForeignKey('PurchaseProducts', 'FK_purchase_uuid')
     await queryRunner.dropForeignKey('PurchaseProducts', 'FK_product_uuid')
+    await queryRunner.dropTable('Products')
     await queryRunner.dropTable('PurchaseProducts')
   }
 }
