@@ -43,6 +43,12 @@ export const AppStrings = {
   LIMIT_STATUS_ALL_RESPONSE: 'Список статусов лимитов получен',
   LIMIT_STATUS_ALL_OPERATION: 'Получение списка всех статусов лимитов',
 
+  OKEI_ALL_RESPONSE: 'Список ОКЕИ получен',
+  OKEI_ALL_OPERATION: 'Получение списка всех ОКЕИ',
+
+  OKPD_ALL_RESPONSE: 'Список ОКПД получен',
+  OKPD_ALL_OPERATION: 'Получение списка всех ОКПД',
+
   ORGANIZATION_CREATED_RESPONSE: 'Организация создана',
   ORGANIZATION_CREATE_OPERATION: 'Создание организации',
   ORGANIZATION_ALL_RESPONSE: 'Список организаций получен',
@@ -98,6 +104,15 @@ export const AppStrings = {
   PLAN_WAY_ALL_RESPONSE: 'Список способов получен',
   PLAN_WAY_ALL_OPERATION: 'Получение списка всех способов',
 
+  PRODUCT_CREATED_RESPONSE: 'Товар создан',
+  PRODUCT_CREATE_OPERATION: 'Создание товара',
+  PRODUCT_ALL_RESPONSE: 'Список товаров получен',
+  PRODUCT_ALL_OPERATION: 'Получение списка всех товаров',
+  PRODUCT_UPDATE_RESPONSE: 'Товар изменен',
+  PRODUCT_UPDATE_OPERATION: 'Изменение товара',
+  PRODUCT_DELETE_RESPONSE: 'Товар удален',
+  PRODUCT_DELETE_OPERATION: 'Удаление товара',
+
   PROPERTY_CREATE_RESPONSE: 'Характеристика создана',
   PROPERTY_CREATE_OPERATION: 'Создание характеристики',
   PROPERTY_ALL_RESPONSE: 'Список характеристик получен',
@@ -117,6 +132,8 @@ export const AppStrings = {
   PURCHASE_UPDATE_OPERATION: 'Изменение закупки',
   PURCHASE_DELETE_RESPONSE: 'Закупка удалена',
   PURCHASE_DELETE_OPERATION: 'Удаление закупки',
+  PURCHASE_GET_CSMP_RESPONSE: 'НМЦК расчитан',
+  PURCHASE_GET_CSMP_OPERATION: 'Расчет НМЦК',
 
   PURCHASE_EVENT_ALL_RESPONSE: 'Список событий закупки получен',
   PURCHASE_EVENT_ALL_OPERATION: 'Получение списка всех событий закупки',

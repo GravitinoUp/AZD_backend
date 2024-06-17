@@ -38,6 +38,8 @@ import { PlanStatusModule } from '../plan-status/plan-status.module'
 import { PlanPositionModule } from '../plan-position/plan-position.module'
 import { BranchModule } from '../branch/branch.module'
 import { PlanModule } from '../plan/plan.module'
+import { OkeiModule } from '../okei/okei.module'
+import { ProductModule } from '../product/product.module'
 
 @Module({
   imports: [
@@ -121,6 +123,7 @@ import { PlanModule } from '../plan/plan.module'
     LimitModule,
     LimitEventModule,
     LimitStatusModule,
+    OkeiModule,
     OkpdModule,
     OrganizationModule,
     OrganizationTypeModule,
@@ -131,6 +134,7 @@ import { PlanModule } from '../plan/plan.module'
     PlanEventModule,
     PlanStatusModule,
     PlanWayModule,
+    ProductModule,
     PropertiesModule,
     PurchaseModule,
     PurchaseStepModule,

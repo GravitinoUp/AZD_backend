@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger'
 import { AppStrings } from 'src/common/constants/strings'
 import BaseModel from 'src/common/model'
 import { Kosgu } from 'src/modules/kosgu/entities/kosgu.entity'
+import { Okei } from 'src/modules/okei/entities/okei.entity'
 import { Okpd } from 'src/modules/okpd/entities/okpd.entity'
 import { PlanEvent } from 'src/modules/plan-event/entities/plan-event.entity'
 import { PlanWay } from 'src/modules/plan-way/entities/plan-way.entity'
@@ -84,6 +85,11 @@ export class PlanPosition extends BaseModel {
   @Column()
   @ApiProperty({ description: AppStrings.PLAN_OKEI })
   okei_uuid: string
+
+  @ManyToOne(() => Okei, (okei) => okei.plan_positions)
+  @JoinColumn({ name: 'okei_uuid', referencedColumnName: 'okei_uuid' })
+  @ApiProperty()
+  okei: Okei
 
   @Column()
   @ApiProperty({ description: AppStrings.PLAN_RESULT_NAME })

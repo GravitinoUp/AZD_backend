@@ -9,6 +9,7 @@ import { PurchaseType } from 'src/modules/purchase-type/entities/purchase-type.e
 import { TechnicalTask } from 'src/modules/technical-task/entities/technical_task.entity'
 import { User } from 'src/modules/user/entities/user.entity'
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm'
+import { PurchaseProduct } from './purchase-products.entity'
 
 @Entity({ name: 'Purchases' })
 export class Purchase extends BaseModel {
@@ -141,4 +142,9 @@ export class Purchase extends BaseModel {
 
   @OneToMany(() => PlanPosition, (plan) => plan.purchase, { cascade: true })
   plan_positions: PlanPosition[]
+
+  @OneToMany(() => PurchaseProduct, (purchaseProduct) => purchaseProduct.purchase, {
+    cascade: true,
+  })
+  purchase_products: PurchaseProduct[]
 }
