@@ -53,6 +53,8 @@ export const AppStrings = {
   ORGANIZATION_CREATE_OPERATION: 'Создание организации',
   ORGANIZATION_ALL_RESPONSE: 'Список организаций получен',
   ORGANIZATION_ALL_OPERATION: 'Получение списка всех организаций',
+  ORGANIZATION_ALL_BY_TYPE_RESPONSE: 'Список организаций по типу получен',
+  ORGANIZATION_ALL_BY_TYPE_OPERATION: 'Получение списка всех организаций по типу',
   ORGANIZATION_UPDATE_RESPONSE: 'Организация изменена',
   ORGANIZATION_UPDATE_OPERATION: 'Изменение организации',
   ORGANIZATION_DELETE_RESPONSE: 'Организация удалена',

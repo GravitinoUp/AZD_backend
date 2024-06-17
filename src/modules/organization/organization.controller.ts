@@ -94,6 +94,37 @@ export class OrganizationController {
 
   @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
   // @HasPermissions([PermissionEnum.OrganizationGet])
+  @ApiOperation({ summary: AppStrings.ORGANIZATION_ALL_BY_TYPE_OPERATION })
+  @ApiOkResponse({
+    description: AppStrings.ORGANIZATION_ALL_BY_TYPE_RESPONSE,
+    type: ArrayOrganizationResponse,
+  })
+  @ApiBody({ required: false, type: OrganizationFilter })
+  @Post('all/type/:type_id')
+  async findAllByType(
+    @Body() organizationFilter: OrganizationFilter,
+    @Param('type_id') typeId: number,
+  ) {
+    if (organizationFilter.filter) {
+      organizationFilter.filter.organization_type_id = Number(typeId)
+    } else {
+      organizationFilter.filter = { organization_type_id: Number(typeId) }
+    }
+
+    const key = `${CacheRoutes.ORGANIZATION}/all-type-${typeId}-${JSON.stringify(organizationFilter)}`
+    let organizations: ArrayOrganizationResponse = await this.cacheManager.get(key)
+
+    if (organizations) {
+      return organizations
+    } else {
+      organizations = await this.organizationService.findAll(organizationFilter)
+      await this.cacheManager.set(key, organizations)
+      return organizations
+    }
+  }
+
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.OrganizationGet])
   @ApiOperation({ summary: AppStrings.ORGANIZATION_ALL_OPERATION })
   @ApiOkResponse({
     description: AppStrings.ORGANIZATION_ALL_RESPONSE,
