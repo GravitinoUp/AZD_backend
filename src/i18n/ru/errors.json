@@ -22,6 +22,7 @@
   "purchase_type_not_found": "Тип закупки не найден!",
   "initiator_not_found": "Инициатор закупки не найден!",
   "executor_not_found": "Исполнитель закупки не найден!",
+  "formula-not-found": "Формула НМЦК не найдена!",
   "technical_task_not_found": "Техническое задание не найдено!",
   "cannot_change_field": "Вы не можете изменить данное поле",
   "role_or_permission_null": "Необходимо выбрать роль или пользователя",

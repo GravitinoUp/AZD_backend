@@ -4,6 +4,7 @@ export const AppStrings = {
   APP_VERSION: '1.0',
 
   ASC: 'ASC',
+  SMPC: 'min / avg', //Формула НМЦК
 
   PROPERTY_VALUES: 'Дополнительные характеристики',
 

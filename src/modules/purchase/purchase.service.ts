@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
+import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { I18nService } from 'nestjs-i18n'
 import { Repository, DataSource } from 'typeorm'
@@ -150,6 +150,22 @@ export class PurchaseService {
         .execute()
 
       return { status: deletePurchase.affected !== 0 }
+    } catch (error) {
+      throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
+
+  async getStartMaxPrice(prices: number[], formula: string): Promise<number> {
+    try {
+      if (formula == 'min') {
+        const startMaxPrice = Math.min(...prices)
+        return startMaxPrice
+      } else if (formula == 'avg') {
+        const startMaxPrice = prices.reduce((a, b) => Number(a) + Number(b)) / prices.length
+        return startMaxPrice
+      } else {
+        throw new BadRequestException(this.i18n.t('errors.formula-not-found'))
+      }
     } catch (error) {
       throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
     }
