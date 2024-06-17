@@ -14,7 +14,7 @@ export class OkpdResponse {
   okpd_data_json: string
 }
 
-export class ArrayOrganizationResponse {
+export class ArrayOkpdResponse {
   @ApiProperty()
   count: number
 
@@ -22,7 +22,7 @@ export class ArrayOrganizationResponse {
   data: OkpdResponse[]
 }
 
-export class StatusOrganizationResponse {
+export class StatusOkpdResponse {
   @ApiProperty()
   status: boolean
 

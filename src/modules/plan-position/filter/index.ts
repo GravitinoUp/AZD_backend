@@ -2,8 +2,12 @@ import { ApiProperty } from '@nestjs/swagger'
 import { FilterOffset } from 'src/common/classes/filter_offset'
 import { AppStrings } from 'src/common/constants/strings'
 import { KosguFilters, KosguSorts } from 'src/modules/kosgu/filters'
+import { OkeiFilters, OkeiSorts } from 'src/modules/okei/filters'
 import { OkpdFilters, OkpdSorts } from 'src/modules/okpd/filters'
+import { PlanWayFilters, PlanWaySorts } from 'src/modules/plan-way/filter'
 import { PlanFilters, PlanSorts } from 'src/modules/plan/filters'
+import { PurchaseFilters, PurchaseSorts } from 'src/modules/purchase/filter'
+import { UserFilters, UserSorts } from 'src/modules/user/filters'
 
 export class PlanPositionSorts {
   @ApiProperty({ default: AppStrings.ASC, required: false })
@@ -25,13 +29,13 @@ export class PlanPositionSorts {
   purchase_date?: 'ASC' | 'DESC'
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
-  purchase_uuid?: 'ASC' | 'DESC'
+  purchase?: PurchaseSorts
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
   kosgu?: KosguSorts
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
-  user_uuid?: 'ASC' | 'DESC'
+  user?: UserSorts
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
   purchase_offer_number?: 'ASC' | 'DESC'
@@ -43,7 +47,7 @@ export class PlanPositionSorts {
   object_name?: 'ASC' | 'DESC'
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
-  okei_uuid?: 'ASC' | 'DESC'
+  okei?: OkeiSorts
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
   result_name?: 'ASC' | 'DESC'
@@ -106,7 +110,7 @@ export class PlanPositionSorts {
   placement_month?: 'ASC' | 'DESC'
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
-  way_id?: 'ASC' | 'DESC'
+  way?: PlanWaySorts
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
   small_business?: 'ASC' | 'DESC'
@@ -153,13 +157,13 @@ export class PlanPositionFilters {
   purchase_price?: number
 
   @ApiProperty({ required: false })
-  purchase_uuid?: string
+  purchase?: PurchaseFilters
 
   @ApiProperty({ required: false })
   kosgu?: KosguFilters
 
   @ApiProperty({ required: false })
-  user_uuid?: string
+  user?: UserFilters
 
   @ApiProperty({ required: false })
   purchase_offer_number?: string
@@ -171,7 +175,7 @@ export class PlanPositionFilters {
   object_name?: string
 
   @ApiProperty({ required: false })
-  okei_uuid?: string // TODO UUID
+  okei?: OkeiFilters
 
   @ApiProperty({ required: false })
   result_name?: string
@@ -234,7 +238,7 @@ export class PlanPositionFilters {
   placement_month?: string
 
   @ApiProperty({ required: false })
-  way_id?: number
+  way?: PlanWayFilters
 
   @ApiProperty({ required: false })
   small_business?: boolean

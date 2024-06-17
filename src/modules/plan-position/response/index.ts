@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { AppStrings } from 'src/common/constants/strings'
 import { KosguResponse } from 'src/modules/kosgu/response'
+import { OkeiResponse } from 'src/modules/okei/response'
 import { OkpdResponse } from 'src/modules/okpd/response'
 import { WayResponse } from 'src/modules/plan-way/response'
 import { PlanResponse } from 'src/modules/plan/response'
@@ -59,6 +60,9 @@ export class PlanPositionResponse {
 
   @ApiProperty({ description: AppStrings.PLAN_OKEI })
   okei_uuid: string
+
+  @ApiProperty({ description: AppStrings.PLAN_OKEI })
+  okei: OkeiResponse
 
   @ApiProperty({ description: AppStrings.PLAN_RESULT_NAME })
   result_name: string
