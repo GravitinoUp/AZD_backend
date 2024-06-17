@@ -147,9 +147,13 @@ export class PurchaseController {
   //   type: StatusPurchaseResponse,
   // })
   @ApiQuery({ type: [Number], name: 'prices' })
+  @ApiQuery({ type: String, name: 'formula', description: AppStrings.SMPC })
   @Get('get/start-max-price')
-  async getStartMaxPrice(@Query('prices') prices: number[]) {
-    const result = await this.purchaseService.getStartMaxPrice(prices)
+  async getStartMaxPrice(
+    @Query('prices') prices: number[],
+    @Query('formula') formula: 'avg' | 'min',
+  ) {
+    const result = await this.purchaseService.getStartMaxPrice(prices, formula)
     return result
   }
 
