@@ -22,9 +22,16 @@
   "purchase_type_not_found": "Тип закупки не найден!",
   "initiator_not_found": "Инициатор закупки не найден!",
   "executor_not_found": "Исполнитель закупки не найден!",
-  "formula-not-found": "Формула НМЦК не найдена!",
+  "formula_not_found": "Формула НМЦК не найдена!",
+  "document_not_found": "Документ не найден!",
+  "document_type_not_found": "тип документа не найден!",
+  "document_executor_not_found": "Исполнитель не найден!",
+  "document_customer_not_found": "Покупатель не найден!",
+  "document_executor_person_not_found": "Исполнитель (лицо) не найден!",
+  "document_customer_person_not_found": "Покупатель (лицо) не найден!",
   "technical_task_not_found": "Техническое задание не найдено!",
   "cannot_change_field": "Вы не можете изменить данное поле",
   "role_or_permission_null": "Необходимо выбрать роль или пользователя",
-  "role_and_user_permissions": "Необходимо выборать или роль или пользователя"
+  "role_and_user_permissions": "Необходимо выборать или роль или пользователя",
+  "document_name_length_limit": "Длина названия документа должны быть меньше 1000 символов"
 }

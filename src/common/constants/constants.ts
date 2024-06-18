@@ -31,6 +31,8 @@ export const PlanStatusesEnum = {
 export const CacheRoutes = {
   BRANCH: 'branch',
   CURRENCY: 'currency',
+  DOCUMENT_TYPE: 'document-type',
+  DOCUMENT: 'document',
   KBK: 'kbk',
   KOSGU: 'kosgu',
   LIMIT: 'limit',

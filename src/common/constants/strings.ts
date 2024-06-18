@@ -20,6 +20,20 @@ export const AppStrings = {
   CURRENCY_ALL_RESPONSE: 'Список валют получен',
   CURRENCY_ALL_OPERATION: 'Получение списка всех валют',
 
+  DOCUMENT_CREATED_RESPONSE: 'Документ создан',
+  DOCUMENT_CREATE_OPERATION: 'Создание документа',
+  DOCUMENT_ALL_RESPONSE: 'Список документов получен',
+  DOCUMENT_ALL_OPERATION: 'Получение списка всех документов',
+  DOCUMENT_ALL_BY_TYPE_RESPONSE: 'Список документов по типу получен',
+  DOCUMENT_ALL_BY_TYPE_OPERATION: 'Получение списка всех документов по типу',
+  DOCUMENT_UPDATE_RESPONSE: 'Документ изменен',
+  DOCUMENT_UPDATE_OPERATION: 'Изменение документа',
+  DOCUMENT_DELETE_RESPONSE: 'Документ удален',
+  DOCUMENT_DELETE_OPERATION: 'Удаление документа',
+
+  DOCUMENT_TYPE_ALL_RESPONSE: 'Список типов документов получен',
+  DOCUMENT_TYPE_ALL_OPERATION: 'Получение списка всех типов документов',
+
   KBK_ALL_RESPONSE: 'КБК получены',
   KBK_ALL_OPERATION: 'Получение списка кодов КБК',
 

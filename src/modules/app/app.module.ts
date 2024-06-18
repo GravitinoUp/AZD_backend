@@ -40,6 +40,8 @@ import { BranchModule } from '../branch/branch.module'
 import { PlanModule } from '../plan/plan.module'
 import { OkeiModule } from '../okei/okei.module'
 import { ProductModule } from '../product/product.module'
+import { DocumentModule } from '../document/document.module'
+import { DocumentTypeModule } from '../document-type/document-type.module'
 
 @Module({
   imports: [
@@ -117,6 +119,8 @@ import { ProductModule } from '../product/product.module'
     AuthModule,
     BranchModule,
     CurrencyModule,
+    DocumentModule,
+    DocumentTypeModule,
     KbkModule,
     KosguModule,
     LegalBasis,

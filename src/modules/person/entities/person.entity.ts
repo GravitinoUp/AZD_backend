@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import BaseModel from 'src/common/model'
+import { Document } from 'src/modules/document/entities/document.entity'
 import { LegalBasis } from 'src/modules/legal-basis/entities/legal-basis.entity'
 import { Organization } from 'src/modules/organization/entities/organization.entity'
 import { User } from 'src/modules/user/entities/user.entity'
@@ -49,4 +50,14 @@ export class Person extends BaseModel {
 
   @OneToMany(() => Organization, (organization) => organization.contact_person, { cascade: true })
   organizations: Organization[]
+
+  @OneToMany(() => Document, (document) => document.executor_person, {
+    cascade: true,
+  })
+  executor_documents: Document[]
+
+  @OneToMany(() => Document, (document) => document.customer_person, {
+    cascade: true,
+  })
+  customer_documents: Document[]
 }
