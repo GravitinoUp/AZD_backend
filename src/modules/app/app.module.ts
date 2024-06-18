@@ -42,6 +42,8 @@ import { OkeiModule } from '../okei/okei.module'
 import { ProductModule } from '../product/product.module'
 import { DocumentModule } from '../document/document.module'
 import { DocumentTypeModule } from '../document-type/document-type.module'
+import { EntityModule } from '../entity/entity.module'
+import { AgreementStatusModule } from '../agreement-status/agreement-status.module'
 
 @Module({
   imports: [
@@ -116,11 +118,13 @@ import { DocumentTypeModule } from '../document-type/document-type.module'
         logging: true,
       }),
     }),
+    AgreementStatusModule,
     AuthModule,
     BranchModule,
     CurrencyModule,
     DocumentModule,
     DocumentTypeModule,
+    EntityModule,
     KbkModule,
     KosguModule,
     LegalBasis,

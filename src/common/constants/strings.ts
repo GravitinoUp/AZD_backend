@@ -8,6 +8,15 @@ export const AppStrings = {
 
   PROPERTY_VALUES: 'Дополнительные характеристики',
 
+  AGREEMENT_STATUS_CREATED_RESPONSE: 'Статус согласования создан',
+  AGREEMENT_STATUS_CREATE_OPERATION: 'Создание статуса согласования',
+  AGREEMENT_STATUS_ALL_RESPONSE: 'Список статусов получен',
+  AGREEMENT_STATUS_ALL_OPERATION: 'Получение списка всех статусов согласнований',
+  AGREEMENT_STATUS_UPDATE_RESPONSE: 'Статус изменен',
+  AGREEMENT_STATUS_UPDATE_OPERATION: 'Изменение статуса согласования',
+  AGREEMENT_STATUS_DELETE_RESPONSE: 'Статус удален',
+  AGREEMENT_STATUS_DELETE_OPERATION: 'Удаление статуса согласования',
+
   BRANCH_CREATED_RESPONSE: 'Филиал создан',
   BRANCH_CREATE_OPERATION: 'Создание филиала',
   BRANCH_ALL_RESPONSE: 'Список филиалов получен',
@@ -33,6 +42,9 @@ export const AppStrings = {
 
   DOCUMENT_TYPE_ALL_RESPONSE: 'Список типов документов получен',
   DOCUMENT_TYPE_ALL_OPERATION: 'Получение списка всех типов документов',
+
+  ENTITY_ALL_RESPONSE: 'Список сущностей получен',
+  ENTITY_ALL_OPERATION: 'Получение списка всех сущностей',
 
   KBK_ALL_RESPONSE: 'КБК получены',
   KBK_ALL_OPERATION: 'Получение списка кодов КБК',
