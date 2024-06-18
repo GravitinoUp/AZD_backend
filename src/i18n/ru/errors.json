@@ -32,6 +32,8 @@
   "technical_task_not_found": "Техническое задание не найдено!",
   "entity_not_found": "Сущность не найдена!",
   "agreement_status_not_found": "Статус согласования не найден!",
+  "parent_role_not_found": "Родительская роль не найдена!",
+  "role_not_found": "Роль не найдена!",
   "cannot_change_field": "Вы не можете изменить данное поле",
   "role_or_permission_null": "Необходимо выбрать роль или пользователя",
   "role_and_user_permissions": "Необходимо выборать или роль или пользователя",

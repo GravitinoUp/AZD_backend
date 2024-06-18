@@ -106,6 +106,32 @@ export class AgreementStatusController {
   }
 
   @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.AgreementStatusGet])
+  @ApiOperation({ summary: AppStrings.AGREEMENT_STATUS_ALL_OPERATION })
+  @ApiOkResponse({
+    description: AppStrings.AGREEMENT_STATUS_ALL_RESPONSE,
+    type: ArrayAgreementStatusResponse,
+  })
+  @Get('all/entity/:id')
+  async getAllByEntity(@Param('id') entity_id: number) {
+    const agreementStatusFilter = new AgreementStatusFilter()
+    agreementStatusFilter.filter = {
+      entity_id: entity_id,
+    }
+
+    const key = `${CacheRoutes.AGREEMENT_STATUS}/all-${JSON.stringify(agreementStatusFilter)}`
+    let agreementStatuses: ArrayAgreementStatusResponse = await this.cacheManager.get(key)
+
+    if (agreementStatuses) {
+      return agreementStatuses
+    } else {
+      agreementStatuses = await this.agreementStatusService.findAll(agreementStatusFilter)
+      await this.cacheManager.set(key, agreementStatuses)
+      return agreementStatuses
+    }
+  }
+
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
   // @HasPermissions([PermissionEnum.AgreementStatusUpdate])
   @ApiOperation({ summary: AppStrings.AGREEMENT_STATUS_UPDATE_OPERATION })
   @ApiOkResponse({

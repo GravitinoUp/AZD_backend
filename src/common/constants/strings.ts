@@ -181,6 +181,15 @@ export const AppStrings = {
   ROLE_DELETE_RESPONSE: 'Роль удалена',
   ROLE_DELETE_OPERATION: 'Удаление роли',
 
+  ROLE_AGREEMENT_CREATED_RESPONSE: 'Роль-согласование создана',
+  ROLE_AGREEMENT_CREATE_OPERATION: 'Создание роли-согласования',
+  ROLE_AGREEMENT_ALL_RESPONSE: 'Список ролей-согласований получен',
+  ROLE_AGREEMENT_ALL_OPERATION: 'Получение списка всех ролей-согласований',
+  ROLE_AGREEMENT_UPDATE_RESPONSE: 'Роль-согласование изменена',
+  ROLE_AGREEMENT_UPDATE_OPERATION: 'Изменение роли-согласования',
+  ROLE_AGREEMENT_DELETE_RESPONSE: 'Роль-согласование удалена',
+  ROLE_AGREEMENT_DELETE_OPERATION: 'Удаление роли-согласования',
+
   ROLE_PERMISSION_CREATED_RESPONSE: 'Разрешение добавлено',
   ROLE_PERMISSION_CREATE_OPERATION: 'Добавление разрешения',
   ROLE_PERMISSIONS_CREATED_RESPONSE: 'Разрешения добавлены',

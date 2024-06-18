@@ -44,6 +44,8 @@ import { DocumentModule } from '../document/document.module'
 import { DocumentTypeModule } from '../document-type/document-type.module'
 import { EntityModule } from '../entity/entity.module'
 import { AgreementStatusModule } from '../agreement-status/agreement-status.module'
+import { RoleAgreementModule } from '../role-agreement/role-agreement.module'
+import { AgreementModule } from '../agreement/agreement.module'
 
 @Module({
   imports: [
@@ -118,6 +120,7 @@ import { AgreementStatusModule } from '../agreement-status/agreement-status.modu
         logging: true,
       }),
     }),
+    AgreementModule,
     AgreementStatusModule,
     AuthModule,
     BranchModule,
@@ -148,6 +151,7 @@ import { AgreementStatusModule } from '../agreement-status/agreement-status.modu
     PurchaseStepModule,
     PurchaseTypeModule,
     RoleModule,
+    RoleAgreementModule,
     RolePermissionModule,
     TechnicalTaskModule,
     UserModule,

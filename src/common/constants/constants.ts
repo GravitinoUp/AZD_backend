@@ -67,6 +67,7 @@ export const CacheRoutes = {
   PURCHASE_STEP: 'purchase-step',
   PURCHASE_TYPE: 'purchase-type',
   ROLE: 'role',
+  ROLE_AGREEMENT: 'role-agreement',
   ROLE_PERMISSION: 'role-permission',
   TECHNICAL_TASK: 'technical-task',
   USER: 'user',
