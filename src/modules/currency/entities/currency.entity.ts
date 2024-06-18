@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import BaseModel from 'src/common/model'
-import { Limit } from 'src/modules/limit/entities/limit.entity'
+import { LimitValue } from 'src/modules/limit/entities/limit-value.entity'
 import { Purchase } from 'src/modules/purchase/entities/purchase.entity'
 import { Entity, Column, PrimaryColumn, OneToMany } from 'typeorm'
 
@@ -14,14 +14,8 @@ export class Currency extends BaseModel {
   @ApiProperty()
   currency_name: string
 
-  @OneToMany(() => Limit, (limit) => limit.current_year_currency, { cascade: true })
-  current_year_limits: Limit[]
-
-  @OneToMany(() => Limit, (limit) => limit.first_year_currency, { cascade: true })
-  first_year_limits: Limit[]
-
-  @OneToMany(() => Limit, (limit) => limit.second_year_currency, { cascade: true })
-  second_year_limits: Limit[]
+  @OneToMany(() => LimitValue, (limitValue) => limitValue.currency, { cascade: true })
+  limit_values: LimitValue[]
 
   @OneToMany(() => Purchase, (purchase) => purchase.currency, { cascade: true })
   purchases: Purchase[]

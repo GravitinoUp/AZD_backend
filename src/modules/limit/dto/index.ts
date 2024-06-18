@@ -1,5 +1,34 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsString, IsOptional, IsDecimal, IsUUID } from 'class-validator'
+import {
+  IsString,
+  IsOptional,
+  IsDecimal,
+  IsUUID,
+  IsInt,
+  ArrayMinSize,
+  IsEmpty,
+} from 'class-validator'
+
+export class LimitValueDto {
+  @IsEmpty()
+  limit_uuid?: string
+
+  @IsInt()
+  @ApiProperty()
+  limit_value_year: number
+
+  @IsDecimal()
+  @ApiProperty()
+  rub_value: number
+
+  @IsDecimal()
+  @ApiProperty({ required: false })
+  currency_value?: number
+
+  @IsString()
+  @ApiProperty({ required: false })
+  currency_code?: string
+}
 
 export class CreateLimitDto {
   @IsString()
@@ -18,47 +47,9 @@ export class CreateLimitDto {
   @ApiProperty()
   kosgu_uuid: string
 
-  @IsDecimal()
-  @ApiProperty({ default: '0.0' })
-  current_year_rub_value: number
-
-  @IsDecimal()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  current_year_currency_value?: number
-
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  current_year_currency_code?: string
-
-  @IsDecimal()
+  @ArrayMinSize(3)
   @ApiProperty()
-  first_year_rub_value: number
-
-  @IsDecimal()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  first_year_currency_value?: number
-
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  first_year_currency_code?: string
-
-  @IsDecimal()
-  @ApiProperty()
-  second_year_rub_value: number
-
-  @IsDecimal()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  second_year_currency_value?: number
-
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  second_year_currency_code?: string
+  years: LimitValueDto[]
 
   @IsUUID()
   @ApiProperty()
@@ -85,50 +76,9 @@ export class UpdateLimitDto {
   @ApiProperty({ required: false })
   kosgu_uuid?: string
 
-  @IsDecimal()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  current_year_rub_value?: number
-
-  @IsDecimal()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  current_year_currency_value?: number
-
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  current_year_currency_code?: string
-
-  @IsDecimal()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  first_year_rub_value?: number
-
-  @IsDecimal()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  first_year_currency_value?: number
-
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  first_year_currency_code?: string
-
-  @IsDecimal()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  second_year_rub_value?: number
-
-  @IsDecimal()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  second_year_currency_value?: number
-
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  second_year_currency_code?: string
+  @ArrayMinSize(3)
+  @ApiProperty()
+  years: LimitValueDto[]
 
   @IsUUID()
   @IsOptional()

@@ -1,8 +1,32 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { BranchResponse } from 'src/modules/branch/response'
+import { CurrencyResponse } from 'src/modules/currency/response'
 import { KBKResponse } from 'src/modules/kbk/response'
 import { KosguResponse } from 'src/modules/kosgu/response'
 import { LimitStatusResponse } from 'src/modules/limit-status/response'
+
+export class LimitValueResponse {
+  @ApiProperty()
+  limit_value_uuid: string
+
+  @ApiProperty()
+  limit_uuid: string
+
+  @ApiProperty()
+  limit_value_year: number
+
+  @ApiProperty()
+  rub_value: number
+
+  @ApiProperty({ required: false })
+  currency_value?: number
+
+  @ApiProperty({ required: false })
+  currency_code?: string
+
+  @ApiProperty({ required: false })
+  currency?: CurrencyResponse
+}
 
 export class LimitResponse {
   @ApiProperty()
@@ -36,31 +60,7 @@ export class LimitResponse {
   limit_status?: LimitStatusResponse
 
   @ApiProperty()
-  current_year_rub_value: number
-
-  @ApiProperty({ required: false })
-  current_year_currency_value?: number
-
-  @ApiProperty({ required: false })
-  current_year_currency_code?: string
-
-  @ApiProperty()
-  first_year_rub_value: number
-
-  @ApiProperty({ required: false })
-  first_year_currency_value?: number
-
-  @ApiProperty({ required: false })
-  first_year_currency_code?: string
-
-  @ApiProperty()
-  second_year_rub_value: number
-
-  @ApiProperty({ required: false })
-  second_year_currency_value?: number
-
-  @ApiProperty({ required: false })
-  second_year_currency_code?: string
+  years: LimitValueResponse[]
 
   @ApiProperty()
   branch_uuid: string
