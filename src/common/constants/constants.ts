@@ -28,11 +28,22 @@ export const PlanStatusesEnum = {
   POSTED: 8,
 }
 
+export const EntitiesEnum = {
+  PLANS: 1,
+  LIMITS: 2,
+  PURCHASES: 3,
+  TECH_TASKS: 4,
+  DOCUMENTS: 5,
+}
+
 export const CacheRoutes = {
+  AGREEMENT: 'agreement',
+  AGREEMENT_STATUS: 'agreement-status',
   BRANCH: 'branch',
   CURRENCY: 'currency',
   DOCUMENT_TYPE: 'document-type',
   DOCUMENT: 'document',
+  ENTITY: 'entity',
   KBK: 'kbk',
   KOSGU: 'kosgu',
   LIMIT: 'limit',
@@ -56,6 +67,7 @@ export const CacheRoutes = {
   PURCHASE_STEP: 'purchase-step',
   PURCHASE_TYPE: 'purchase-type',
   ROLE: 'role',
+  ROLE_AGREEMENT: 'role-agreement',
   ROLE_PERMISSION: 'role-permission',
   TECHNICAL_TASK: 'technical-task',
   USER: 'user',
