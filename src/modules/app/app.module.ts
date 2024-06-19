@@ -42,6 +42,10 @@ import { OkeiModule } from '../okei/okei.module'
 import { ProductModule } from '../product/product.module'
 import { DocumentModule } from '../document/document.module'
 import { DocumentTypeModule } from '../document-type/document-type.module'
+import { EntityModule } from '../entity/entity.module'
+import { AgreementStatusModule } from '../agreement-status/agreement-status.module'
+import { RoleAgreementModule } from '../role-agreement/role-agreement.module'
+import { AgreementModule } from '../agreement/agreement.module'
 
 @Module({
   imports: [
@@ -116,11 +120,14 @@ import { DocumentTypeModule } from '../document-type/document-type.module'
         logging: true,
       }),
     }),
+    AgreementModule,
+    AgreementStatusModule,
     AuthModule,
     BranchModule,
     CurrencyModule,
     DocumentModule,
     DocumentTypeModule,
+    EntityModule,
     KbkModule,
     KosguModule,
     LegalBasis,
@@ -144,6 +151,7 @@ import { DocumentTypeModule } from '../document-type/document-type.module'
     PurchaseStepModule,
     PurchaseTypeModule,
     RoleModule,
+    RoleAgreementModule,
     RolePermissionModule,
     TechnicalTaskModule,
     UserModule,
