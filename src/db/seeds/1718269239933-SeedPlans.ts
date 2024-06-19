@@ -132,7 +132,7 @@ export class SeedPlans1718269239933 implements MigrationInterface {
           purchase_offer_number: '111',
           okpd_uuid: okpd.raw[0].okpd_uuid,
           object_name: 'TEST',
-          okei_uuid: 'df33e1fe-664d-4bd1-bf14-12e8cf99e5ac', // TODO UUID
+          okei_uuid: 'df33e1fe-664d-4bd1-bf14-12e8cf99e5ac',
           result_name: 'NAME',
           npa_date: '06-13-2024',
           npa_number: '111',

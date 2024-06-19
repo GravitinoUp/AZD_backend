@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
+import { HttpException, HttpStatus, Injectable, InternalServerErrorException } from '@nestjs/common'
 import { Limit } from './entities/limit.entity'
 import { InjectRepository } from '@nestjs/typeorm'
 import { I18nService } from 'nestjs-i18n'
@@ -10,6 +10,7 @@ import { DefaultPagination, LimitStatusesEnum } from 'src/common/constants/const
 import { formatFilter } from 'src/utils/format-filter'
 import { CreateLimitEventDto } from '../limit-event/dto'
 import { LimitEvent } from '../limit-event/entities/limit-event.entity'
+import { LimitValue } from './entities/limit-value.entity'
 
 @Injectable()
 export class LimitService {
@@ -21,9 +22,14 @@ export class LimitService {
   ) {}
 
   async create(limit: CreateLimitDto): Promise<StatusLimitResponse> {
+    const queryRunner = this.dataSource.createQueryRunner()
+    await queryRunner.connect()
+    await queryRunner.startTransaction()
     try {
-      const newRole = await this.limitRepository
+      const newLimit = await queryRunner.manager
+        .getRepository(Limit)
         .createQueryBuilder()
+        .useTransaction(true)
         .insert()
         .values({
           ...limit,
@@ -32,9 +38,33 @@ export class LimitService {
         .returning('*')
         .execute()
 
-      return { status: true, data: newRole.raw[0] }
+      if (newLimit?.raw[0]?.limit_uuid) {
+        const limitUuid = newLimit.raw[0].limit_uuid
+
+        for (const year of limit.years) {
+          year.limit_uuid = limitUuid
+        }
+
+        await queryRunner.manager
+          .getRepository(LimitValue)
+          .createQueryBuilder()
+          .useTransaction(true)
+          .insert()
+          .values(limit.years)
+          .returning('*')
+          .execute()
+
+        await queryRunner.commitTransaction()
+        return { status: true, data: newLimit.raw[0] }
+      } else {
+        throw new InternalServerErrorException(newLimit)
+      }
     } catch (error) {
+      console.log(error)
+      await queryRunner.rollbackTransaction()
       throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
+    } finally {
+      await queryRunner.release()
     }
   }
 
@@ -45,7 +75,7 @@ export class LimitService {
       const filters = formatFilter(limitFilter?.filter ?? {})
 
       const limits = await this.limitRepository.findAndCount({
-        relations: { limit_status: true, branch: true },
+        relations: { limit_status: true, branch: true, years: { currency: true } },
         where: filters,
         order: limitFilter.sorts,
         skip: count * (page - 1),
@@ -80,15 +110,17 @@ export class LimitService {
     await queryRunner.startTransaction()
 
     try {
+      const limitYears = limit.years
+      delete limit['years']
+      const keys = Object.keys(limit).map((key) => `"${key}"`)
       const oldLimit = await queryRunner.manager
         .getRepository(Limit)
-        .createQueryBuilder('limit')
-        .useTransaction(true)
-        .select(Object.keys(limit).map((key) => `limit.${key}`))
+        .createQueryBuilder()
+        .select()
         .where({ limit_uuid: limit.limit_uuid })
         .getOne()
 
-      for (const key of Object.keys(limit)) {
+      for (const key of keys) {
         if (limit[key] != oldLimit[key]) {
           const event = new CreateLimitEventDto()
           event.limit_event_name = this.i18n.t(`fields.update.${key}`)
@@ -119,6 +151,31 @@ export class LimitService {
           ...limit,
         })
         .execute()
+
+      if (limitYears) {
+        console.log(true)
+
+        await queryRunner.manager
+          .getRepository(LimitValue)
+          .createQueryBuilder()
+          .useTransaction(true)
+          .delete()
+          .where({ limit_uuid: limit.limit_uuid })
+          .execute()
+
+        for (const year of limitYears) {
+          year.limit_uuid = limit.limit_uuid
+        }
+
+        await queryRunner.manager
+          .getRepository(LimitValue)
+          .createQueryBuilder()
+          .useTransaction(true)
+          .insert()
+          .values(limitYears)
+          .returning('*')
+          .execute()
+      }
 
       await queryRunner.commitTransaction()
       return { status: updateLimit.affected !== 0 }

@@ -72,11 +72,6 @@ export class SeedLimits1718365222304 implements MigrationInterface {
       {
         limit_name: 'TEST LIMIT',
         line_code: '0001',
-        current_year_rub_value: 100,
-        current_year_currency_value: 1200,
-        current_year_currency_code: 'cny',
-        first_year_rub_value: 100,
-        second_year_rub_value: 100,
         kbk_uuid: kbk.raw[0].kbk_uuid,
         kosgu_uuid: kosgu.raw[0].kosgu_uuid,
         limit_status_id: LimitStatusesEnum.CREATED,

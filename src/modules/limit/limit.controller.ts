@@ -60,36 +60,20 @@ export class LimitController {
   })
   @Post()
   async create(@Body() limit: CreateLimitDto): Promise<StatusLimitResponse> {
-    const isKBKExists = await this.kbkService.isExists(limit.kbk_uuid) // ADD IF NOT EXISTS
+    const isKBKExists = await this.kbkService.isExists(limit.kbk_uuid) //TODO DD IF NOT EXISTS
     if (!isKBKExists)
       throw new HttpException(this.i18n.t('errors.kbk_not_found'), HttpStatus.NOT_FOUND)
 
-    const isKosguExists = await this.kosguService.isExists(limit.kosgu_uuid) // ADD IF NOT EXISTS
+    const isKosguExists = await this.kosguService.isExists(limit.kosgu_uuid) //TODO ADD IF NOT EXISTS
     if (!isKosguExists)
       throw new HttpException(this.i18n.t('errors.kosgu_not_found'), HttpStatus.NOT_FOUND)
 
-    if (limit.current_year_currency_code) {
-      const isCurrencyCodeExists = await this.currencyService.isExists(
-        limit.current_year_currency_code,
-      )
-      if (!isCurrencyCodeExists)
-        throw new HttpException(this.i18n.t('errors.currency_code_not_found'), HttpStatus.NOT_FOUND)
-    }
-
-    if (limit.first_year_currency_code) {
-      const isCurrencyCodeExists = await this.currencyService.isExists(
-        limit.first_year_currency_code,
-      )
-      if (!isCurrencyCodeExists)
-        throw new HttpException(this.i18n.t('errors.currency_code_not_found'), HttpStatus.NOT_FOUND)
-    }
-
-    if (limit.second_year_currency_code) {
-      const isCurrencyCodeExists = await this.currencyService.isExists(
-        limit.second_year_currency_code,
-      )
-      if (!isCurrencyCodeExists)
-        throw new HttpException(this.i18n.t('errors.currency_code_not_found'), HttpStatus.NOT_FOUND)
+    for (const year of limit.years) {
+      if (year.currency_code) {
+        const isCurrencyCodeExists = await this.currencyService.isExists(year.currency_code)
+        if (!isCurrencyCodeExists)
+          throw new HttpException(this.i18n.t('errors.currency_not_found'), HttpStatus.NOT_FOUND)
+      }
     }
 
     const result = await this.limitService.create(limit)
@@ -167,28 +151,14 @@ export class LimitController {
         throw new HttpException(this.i18n.t('errors.kosgu_not_found'), HttpStatus.NOT_FOUND)
     }
 
-    if (limit.current_year_currency_code) {
-      const isCurrencyCodeExists = await this.currencyService.isExists(
-        limit.current_year_currency_code,
-      )
-      if (!isCurrencyCodeExists)
-        throw new HttpException(this.i18n.t('errors.currency_code_not_found'), HttpStatus.NOT_FOUND)
-    }
-
-    if (limit.first_year_currency_code) {
-      const isCurrencyCodeExists = await this.currencyService.isExists(
-        limit.first_year_currency_code,
-      )
-      if (!isCurrencyCodeExists)
-        throw new HttpException(this.i18n.t('errors.currency_code_not_found'), HttpStatus.NOT_FOUND)
-    }
-
-    if (limit.second_year_currency_code) {
-      const isCurrencyCodeExists = await this.currencyService.isExists(
-        limit.second_year_currency_code,
-      )
-      if (!isCurrencyCodeExists)
-        throw new HttpException(this.i18n.t('errors.currency_code_not_found'), HttpStatus.NOT_FOUND)
+    if (limit?.years) {
+      for (const year of limit.years) {
+        if (year.currency_code) {
+          const isCurrencyCodeExists = await this.currencyService.isExists(year.currency_code)
+          if (!isCurrencyCodeExists)
+            throw new HttpException(this.i18n.t('errors.currency_not_found'), HttpStatus.NOT_FOUND)
+        }
+      }
     }
 
     const result = await this.limitService.update(limit, request.user.user_uuid)
