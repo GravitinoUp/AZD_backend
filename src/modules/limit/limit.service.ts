@@ -54,6 +54,7 @@ export class LimitService {
           .returning('*')
           .execute()
 
+        await queryRunner.commitTransaction()
         return { status: true, data: newLimit.raw[0] }
       } else {
         throw new InternalServerErrorException(newLimit)
@@ -109,15 +110,19 @@ export class LimitService {
     await queryRunner.startTransaction()
 
     try {
+      const limitYears = limit.years
+      delete limit['years']
+      const keys = Object.keys(limit).map((key) => `"${key}"`)
       const oldLimit = await queryRunner.manager
         .getRepository(Limit)
-        .createQueryBuilder('limit')
-        .useTransaction(true)
-        .select(Object.keys(limit).map((key) => `limit.${key}`))
+        .createQueryBuilder()
+        .select()
         .where({ limit_uuid: limit.limit_uuid })
         .getOne()
 
-      for (const key of Object.keys(limit)) {
+      console.log(oldLimit)
+
+      for (const key of keys) {
         if (limit[key] != oldLimit[key]) {
           const event = new CreateLimitEventDto()
           event.limit_event_name = this.i18n.t(`fields.update.${key}`)
@@ -148,6 +153,31 @@ export class LimitService {
           ...limit,
         })
         .execute()
+
+      if (limitYears) {
+        console.log(true)
+
+        await queryRunner.manager
+          .getRepository(LimitValue)
+          .createQueryBuilder()
+          .useTransaction(true)
+          .delete()
+          .where({ limit_uuid: limit.limit_uuid })
+          .execute()
+
+        for (const year of limitYears) {
+          year.limit_uuid = limit.limit_uuid
+        }
+
+        await queryRunner.manager
+          .getRepository(LimitValue)
+          .createQueryBuilder()
+          .useTransaction(true)
+          .insert()
+          .values(limitYears)
+          .returning('*')
+          .execute()
+      }
 
       await queryRunner.commitTransaction()
       return { status: updateLimit.affected !== 0 }

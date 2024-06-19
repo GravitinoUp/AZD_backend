@@ -151,11 +151,13 @@ export class LimitController {
         throw new HttpException(this.i18n.t('errors.kosgu_not_found'), HttpStatus.NOT_FOUND)
     }
 
-    for (const year of limit.years) {
-      if (year.currency_code) {
-        const isCurrencyCodeExists = await this.currencyService.isExists(year.currency_code)
-        if (!isCurrencyCodeExists)
-          throw new HttpException(this.i18n.t('errors.currency_not_found'), HttpStatus.NOT_FOUND)
+    if (limit?.years) {
+      for (const year of limit.years) {
+        if (year.currency_code) {
+          const isCurrencyCodeExists = await this.currencyService.isExists(year.currency_code)
+          if (!isCurrencyCodeExists)
+            throw new HttpException(this.i18n.t('errors.currency_not_found'), HttpStatus.NOT_FOUND)
+        }
       }
     }
 

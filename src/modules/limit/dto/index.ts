@@ -48,7 +48,7 @@ export class CreateLimitDto {
   kosgu_uuid: string
 
   @ArrayMinSize(3)
-  @ApiProperty()
+  @ApiProperty({ type: [LimitValueDto] })
   years: LimitValueDto[]
 
   @IsUUID()
@@ -77,8 +77,9 @@ export class UpdateLimitDto {
   kosgu_uuid?: string
 
   @ArrayMinSize(3)
+  @IsOptional()
   @ApiProperty()
-  years: LimitValueDto[]
+  years?: LimitValueDto[]
 
   @IsUUID()
   @IsOptional()
