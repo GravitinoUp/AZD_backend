@@ -120,8 +120,6 @@ export class LimitService {
         .where({ limit_uuid: limit.limit_uuid })
         .getOne()
 
-      console.log(oldLimit)
-
       for (const key of keys) {
         if (limit[key] != oldLimit[key]) {
           const event = new CreateLimitEventDto()
