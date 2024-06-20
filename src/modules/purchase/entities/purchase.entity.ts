@@ -11,6 +11,7 @@ import { User } from 'src/modules/user/entities/user.entity'
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm'
 import { PurchaseProduct } from './purchase-products.entity'
 import { Document } from 'src/modules/document/entities/document.entity'
+import { CommercialOffer } from 'src/modules/commercial-offer/entities/commercial-offer.entity'
 
 @Entity({ name: 'Purchases' })
 export class Purchase extends BaseModel {
@@ -153,4 +154,9 @@ export class Purchase extends BaseModel {
     cascade: true,
   })
   documents: Document[]
+
+  @OneToMany(() => CommercialOffer, (offer) => offer.purchase, {
+    cascade: true,
+  })
+  commercial_offers: CommercialOffer[]
 }

@@ -46,6 +46,7 @@ import { EntityModule } from '../entity/entity.module'
 import { AgreementStatusModule } from '../agreement-status/agreement-status.module'
 import { RoleAgreementModule } from '../role-agreement/role-agreement.module'
 import { AgreementModule } from '../agreement/agreement.module'
+import { CommercialOfferModule } from '../commercial-offer/commercial-offer.module'
 
 @Module({
   imports: [
@@ -124,6 +125,7 @@ import { AgreementModule } from '../agreement/agreement.module'
     AgreementStatusModule,
     AuthModule,
     BranchModule,
+    CommercialOfferModule,
     CurrencyModule,
     DocumentModule,
     DocumentTypeModule,

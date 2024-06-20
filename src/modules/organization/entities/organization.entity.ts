@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import BaseModel from 'src/common/model'
+import { CommercialOffer } from 'src/modules/commercial-offer/entities/commercial-offer.entity'
 import { Document } from 'src/modules/document/entities/document.entity'
 import { OrganizationType } from 'src/modules/organization-type/entities/organization-type.entity'
 import { Person } from 'src/modules/person/entities/person.entity'
@@ -106,4 +107,9 @@ export class Organization extends BaseModel {
     cascade: true,
   })
   customer_documents: Document[]
+
+  @OneToMany(() => CommercialOffer, (offer) => offer.organization, {
+    cascade: true,
+  })
+  commercial_offers: CommercialOffer[]
 }
