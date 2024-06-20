@@ -19,7 +19,7 @@ export class CommercialOfferResponse {
   organization?: OrganizationResponse
 
   @ApiProperty({ required: false })
-  sum?: string
+  sum?: number
 }
 
 export class ArrayCommercialOfferResponse {

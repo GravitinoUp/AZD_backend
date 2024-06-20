@@ -28,6 +28,8 @@ export const AppStrings = {
 
   COMMERCIAL_OFFER_CREATED_RESPONSE: 'Коммерческие предложения отправлены ',
   COMMERCIAL_OFFER_CREATE_OPERATION: 'Отправка комерческих предложений',
+  COMMERCIAL_OFFER_ALL_RESPONSE: 'Список коммерческих предложений получен',
+  COMMERCIAL_OFFER_ALL_OPERATION: 'Получение списка коммерческих предложений закупки',
   COMMERCIAL_OFFER_UPDATE_RESPONSE: 'Коммерческое предложение изменено',
   COMMERCIAL_OFFER_UPDATE_OPERATION: 'Изменение коммерческого предложения',
 
