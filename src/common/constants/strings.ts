@@ -26,6 +26,11 @@ export const AppStrings = {
   BRANCH_DELETE_RESPONSE: 'Филиал удален',
   BRANCH_DELETE_OPERATION: 'Удаление филиала',
 
+  COMMERCIAL_OFFER_CREATED_RESPONSE: 'Коммерческие предложения отправлены ',
+  COMMERCIAL_OFFER_CREATE_OPERATION: 'Отправка комерческих предложений',
+  COMMERCIAL_OFFER_UPDATE_RESPONSE: 'Коммерческое предложение изменено',
+  COMMERCIAL_OFFER_UPDATE_OPERATION: 'Изменение коммерческого предложения',
+
   CURRENCY_ALL_RESPONSE: 'Список валют получен',
   CURRENCY_ALL_OPERATION: 'Получение списка всех валют',
 

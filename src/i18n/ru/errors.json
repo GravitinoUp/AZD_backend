@@ -34,6 +34,7 @@
   "agreement_status_not_found": "Статус согласования не найден!",
   "parent_role_not_found": "Родительская роль не найдена!",
   "role_not_found": "Роль не найдена!",
+  "commercial_offer_not_found": "Коммерческое предложение не найдено!",
   "cannot_change_field": "Вы не можете изменить данное поле",
   "role_or_permission_null": "Необходимо выбрать роль или пользователя",
   "role_and_user_permissions": "Необходимо выборать или роль или пользователя",
