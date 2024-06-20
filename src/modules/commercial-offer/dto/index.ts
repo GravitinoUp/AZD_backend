@@ -23,6 +23,7 @@ export class UpdateCommercialOfferDto {
 }
 
 export class BulkUpdateCommercialOfferDto {
+  // @ArrayMinSize(3)
   @IsArray()
   @ApiProperty({ type: [UpdateCommercialOfferDto] })
   offers: UpdateCommercialOfferDto[]

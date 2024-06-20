@@ -5,6 +5,7 @@ import {
   NotFoundException,
   Patch,
   Post,
+  Query,
   UseFilters,
   UseGuards,
 } from '@nestjs/common'
@@ -14,6 +15,7 @@ import {
   ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
+  ApiQuery,
   ApiTags,
 } from '@nestjs/swagger'
 import { AllExceptionsFilter } from 'src/common/exception.filter'
@@ -74,8 +76,12 @@ export class CommercialOfferController {
     description: AppStrings.COMMERCIAL_OFFER_UPDATE_RESPONSE,
     type: StatusCommercialOfferResponse,
   })
+  @ApiQuery({ type: String, name: 'formula', description: AppStrings.SMPC })
   @Patch()
-  async update(@Body() commercialOffers: BulkUpdateCommercialOfferDto) {
+  async update(
+    @Body() commercialOffers: BulkUpdateCommercialOfferDto,
+    @Query('formula') formula: 'avg' | 'min',
+  ) {
     for (const offer of commercialOffers.offers) {
       const isExists = await this.commercialOfferService.isExists(offer.commercial_offer_uuid)
       if (!isExists)
@@ -84,7 +90,7 @@ export class CommercialOfferController {
         )
     }
 
-    const result = await this.commercialOfferService.bulkUpdate(commercialOffers)
+    const result = await this.commercialOfferService.bulkUpdate(commercialOffers, formula)
     await this.clearCache()
     return result
   }

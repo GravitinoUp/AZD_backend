@@ -8,10 +8,11 @@ import {
   SendCommercialOfferDto,
   UpdateCommercialOfferDto,
 } from './dto'
-import { StatusCommercialOfferResponse } from './response'
+import { StatusCommercialOfferResponse, StatusUpdateCommercialOfferResponse } from './response'
 import { I18nService } from 'nestjs-i18n'
 import { MailService } from '../mail/mail.service'
 import { Organization } from '../organization/entities/organization.entity'
+import { PurchaseService } from '../purchase/purchase.service'
 
 @Injectable()
 export class CommercialOfferService {
@@ -19,6 +20,7 @@ export class CommercialOfferService {
     @InjectRepository(CommercialOffer)
     private commercialOfferRepository: Repository<CommercialOffer>,
     private readonly mailService: MailService,
+    private readonly purchaseService: PurchaseService,
     private readonly i18n: I18nService,
     private dataSource: DataSource,
   ) {}
@@ -103,8 +105,10 @@ export class CommercialOfferService {
 
   async bulkUpdate(
     commercialOffers: BulkUpdateCommercialOfferDto,
-  ): Promise<StatusCommercialOfferResponse> {
+    formula: 'avg' | 'min',
+  ): Promise<StatusUpdateCommercialOfferResponse> {
     try {
+      const prices = []
       for (const offer of commercialOffers.offers) {
         await this.commercialOfferRepository
           .createQueryBuilder()
@@ -114,9 +118,13 @@ export class CommercialOfferService {
             ...offer,
           })
           .execute()
+
+        prices.push(offer.sum)
       }
 
-      return { status: true }
+      const startMaxPrice = await this.purchaseService.getStartMaxPrice(prices, formula)
+
+      return { status: true, start_max_price: startMaxPrice }
     } catch (error) {
       throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
     }

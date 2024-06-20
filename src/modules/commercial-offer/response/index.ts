@@ -37,3 +37,11 @@ export class StatusCommercialOfferResponse {
   @ApiProperty({ required: false })
   data?: CommercialOfferResponse
 }
+
+export class StatusUpdateCommercialOfferResponse {
+  @ApiProperty()
+  status: boolean
+
+  @ApiProperty()
+  start_max_price: number
+}
