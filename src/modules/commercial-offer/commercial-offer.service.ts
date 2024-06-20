@@ -8,7 +8,11 @@ import {
   SendCommercialOfferDto,
   UpdateCommercialOfferDto,
 } from './dto'
-import { StatusCommercialOfferResponse, StatusUpdateCommercialOfferResponse } from './response'
+import {
+  ArrayCommercialOfferResponse,
+  StatusCommercialOfferResponse,
+  StatusUpdateCommercialOfferResponse,
+} from './response'
 import { I18nService } from 'nestjs-i18n'
 import { MailService } from '../mail/mail.service'
 import { Organization } from '../organization/entities/organization.entity'
@@ -68,6 +72,20 @@ export class CommercialOfferService {
       throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
     } finally {
       await queryRunner.release()
+    }
+  }
+
+  async findAllByPurchase(purchase_uuid: string): Promise<ArrayCommercialOfferResponse> {
+    try {
+      const commercialOffers = await this.commercialOfferRepository.findAndCount({
+        relations: { organization: true },
+        where: { purchase_uuid },
+      })
+
+      return { count: commercialOffers[1], data: commercialOffers[0] }
+    } catch (error) {
+      console.log(error)
+      throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
     }
   }
 

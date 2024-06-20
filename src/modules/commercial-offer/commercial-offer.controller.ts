@@ -1,8 +1,10 @@
 import {
   Body,
   Controller,
+  Get,
   Inject,
   NotFoundException,
+  Param,
   Patch,
   Post,
   Query,
@@ -26,7 +28,7 @@ import { ActiveGuard } from '../auth/guards/active.guard'
 import { JwtAuthGuard } from '../auth/guards/auth.guard'
 import { PermissionsGuard } from '../role-permission/guards/permission.guard'
 import { BulkUpdateCommercialOfferDto, CreateCommercialOfferDto } from './dto'
-import { StatusCommercialOfferResponse } from './response'
+import { ArrayCommercialOfferResponse, StatusCommercialOfferResponse } from './response'
 import { CacheRoutes } from 'src/common/constants/constants'
 import { PurchaseService } from '../purchase/purchase.service'
 import { OrganizationService } from '../organization/organization.service'
@@ -70,7 +72,28 @@ export class CommercialOfferController {
   }
 
   @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
-  // @HasPermissions([PermissionEnum.OrganizationUpdate])
+  // @HasPermissions([PermissionEnum.CommercialOfferGet])
+  @ApiOperation({ summary: AppStrings.COMMERCIAL_OFFER_ALL_OPERATION })
+  @ApiOkResponse({
+    description: AppStrings.COMMERCIAL_OFFER_ALL_RESPONSE,
+    type: ArrayCommercialOfferResponse,
+  })
+  @Get('purchase/:purchase_uuid')
+  async getAll(@Param('purchase_uuid') purchaseUuid: string) {
+    const key = `${CacheRoutes.COMMERCIAL_OFFER}/purchase-${purchaseUuid}`
+    let offers: ArrayCommercialOfferResponse = await this.cacheManager.get(key)
+
+    if (offers) {
+      return offers
+    } else {
+      offers = await this.commercialOfferService.findAllByPurchase(purchaseUuid)
+      await this.cacheManager.set(key, offers)
+      return offers
+    }
+  }
+
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.CommercialOfferUpdate])
   @ApiOperation({ summary: AppStrings.COMMERCIAL_OFFER_UPDATE_OPERATION })
   @ApiOkResponse({
     description: AppStrings.COMMERCIAL_OFFER_UPDATE_RESPONSE,
@@ -96,8 +119,13 @@ export class CommercialOfferController {
   }
 
   async clearCache() {
-    const keys = await this.cacheManager.store.keys(`${CacheRoutes.PURCHASE}*`) // Удаление кэша закупок
+    const keys = await this.cacheManager.store.keys(`${CacheRoutes.COMMERCIAL_OFFER}*`) // Удаление кэша
     for (const key of keys) {
+      await this.cacheManager.del(key)
+    }
+
+    const purchaseKeys = await this.cacheManager.store.keys(`${CacheRoutes.PURCHASE}*`) // Удаление кэша закупок
+    for (const key of purchaseKeys) {
       await this.cacheManager.del(key)
     }
   }

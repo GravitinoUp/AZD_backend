@@ -40,6 +40,7 @@ export const CacheRoutes = {
   AGREEMENT: 'agreement',
   AGREEMENT_STATUS: 'agreement-status',
   BRANCH: 'branch',
+  COMMERCIAL_OFFER: 'commercial-offer',
   CURRENCY: 'currency',
   DOCUMENT_TYPE: 'document-type',
   DOCUMENT: 'document',
