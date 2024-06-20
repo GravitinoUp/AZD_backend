@@ -153,8 +153,6 @@ export class LimitService {
         .execute()
 
       if (limitYears) {
-        console.log(true)
-
         await queryRunner.manager
           .getRepository(LimitValue)
           .createQueryBuilder()

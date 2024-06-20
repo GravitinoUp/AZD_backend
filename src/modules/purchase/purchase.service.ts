@@ -55,6 +55,7 @@ export class PurchaseService {
           currency: true,
           purchase_step: true,
           purchase_products: { product: true },
+          commercial_offers: true,
         },
         where: filters,
         order: purchaseFilter.sorts,

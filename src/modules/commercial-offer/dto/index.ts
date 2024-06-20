@@ -1,14 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsDecimal, IsOptional, IsUUID } from 'class-validator'
+import { ArrayMinSize, IsArray, IsDecimal, IsEmail, IsString, IsUUID } from 'class-validator'
 
 export class CreateCommercialOfferDto {
   @IsUUID()
   @ApiProperty()
   purchase_uuid: string
 
-  @IsUUID()
+  @ArrayMinSize(1) // TODO
+  @IsArray()
   @ApiProperty()
-  organization_uuid: string
+  organizations: string[]
 }
 
 export class UpdateCommercialOfferDto {
@@ -17,7 +18,23 @@ export class UpdateCommercialOfferDto {
   commercial_offer_uuid: string
 
   @IsDecimal()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  sum?: number
+  @ApiProperty()
+  sum: number
+}
+
+export class BulkUpdateCommercialOfferDto {
+  // @ArrayMinSize(3)
+  @IsArray()
+  @ApiProperty({ type: [UpdateCommercialOfferDto] })
+  offers: UpdateCommercialOfferDto[]
+}
+
+export class SendCommercialOfferDto {
+  @IsEmail()
+  @ApiProperty()
+  email: string
+
+  @IsString()
+  @ApiProperty()
+  purchase_name: string
 }

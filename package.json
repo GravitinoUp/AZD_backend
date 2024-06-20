@@ -27,6 +27,7 @@
     "seed:revert:last": "npm run seed:revert "
   },
   "dependencies": {
+    "@nestjs-modules/mailer": "^2.0.2",
     "@nestjs/cache-manager": "^2.2.2",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.2.2",
@@ -45,6 +46,7 @@
     "jsonwebtoken": "^9.0.2",
     "nestjs-i18n": "^10.4.5",
     "nestjs-throttler-storage-redis": "^0.4.4",
+    "nodemailer": "^6.9.14",
     "npm": "^10.8.0",
     "passport-jwt": "^4.0.1",
     "pg": "^8.11.5",
