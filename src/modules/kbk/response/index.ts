@@ -43,12 +43,6 @@ export class KBKResponse {
   kbk_section?: KBKValueResponse
 
   @ApiProperty()
-  kbk_subsection_uuid: string
-
-  @ApiProperty({ required: false })
-  kbk_subsection?: KBKValueResponse
-
-  @ApiProperty()
   kbk_target_article_uuid: string
 
   @ApiProperty({ required: false })

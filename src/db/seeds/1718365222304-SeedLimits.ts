@@ -54,7 +54,6 @@ export class SeedLimits1718365222304 implements MigrationInterface {
         {
           kbk_name: 'TEST KBK',
           kbk_section_uuid: kbkValues.raw[0].kbk_value_uuid,
-          kbk_subsection_uuid: kbkValues.raw[1].kbk_value_uuid,
           kbk_target_article_uuid: kbkValues.raw[2].kbk_value_uuid,
           kbk_expenses_type_uuid: kbkValues.raw[3].kbk_value_uuid,
         },
