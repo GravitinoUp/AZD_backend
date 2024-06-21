@@ -25,15 +25,6 @@ export class KBK extends BaseModel {
 
   @Column()
   @ApiProperty()
-  kbk_subsection_uuid: string
-
-  @ManyToOne(() => KBKValue, (value) => value.kbk_subsections)
-  @JoinColumn({ name: 'kbk_subsection_uuid', referencedColumnName: 'kbk_value_uuid' })
-  @ApiProperty()
-  kbk_subsection: KBKValue
-
-  @Column()
-  @ApiProperty()
   kbk_target_article_uuid: string
 
   @ManyToOne(() => KBKValue, (value) => value.kbk_target_articles)

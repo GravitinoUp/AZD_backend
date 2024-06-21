@@ -48,9 +48,6 @@ export class KBKSorts {
   kbk_section?: KBKValueSorts
 
   @ApiProperty({ required: false })
-  kbk_subsection?: KBKValueSorts
-
-  @ApiProperty({ required: false })
   kbk_target_article?: KBKValueSorts
 
   @ApiProperty({ required: false })
@@ -66,9 +63,6 @@ export class KBKFilters {
 
   @ApiProperty({ required: false })
   kbk_section?: KBKValueFilters
-
-  @ApiProperty({ required: false })
-  kbk_subsection?: KBKValueFilters
 
   @ApiProperty({ required: false })
   kbk_target_article?: KBKValueFilters

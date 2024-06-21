@@ -20,9 +20,6 @@ export class KBKValue extends BaseModel {
   @OneToMany(() => KBK, (kbk) => kbk.kbk_section, { cascade: true })
   kbk_sections: KBK[]
 
-  @OneToMany(() => KBK, (kbk) => kbk.kbk_subsection, { cascade: true })
-  kbk_subsections: KBK[]
-
   @OneToMany(() => KBK, (kbk) => kbk.kbk_target_article, { cascade: true })
   kbk_target_articles: KBK[]
 

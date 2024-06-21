@@ -24,6 +24,7 @@ export class KbkService {
       const filters = formatFilter(kbkFilter?.filter ?? {})
 
       const data = await this.kbkRepository.findAndCount({
+        relations: { kbk_section: true, kbk_target_article: true, kbk_expenses_type: true },
         where: filters,
         order: kbkFilter.sorts,
         skip: count * (page - 1),
