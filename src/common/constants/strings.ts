@@ -223,8 +223,10 @@ export const AppStrings = {
   TECHNICAL_TASK_DELETE_RESPONSE: 'Техническое задание удалено',
   TECHNICAL_TASK_DELETE_OPERATION: 'Удаление технического задания',
 
-  USERS_CREATE_OPERATION: 'Регистрация пользователя',
-  USERS_CREATE_RESPONSE: 'Пользователь успешно зарегистрирован',
+  USERS_CREATE_OPERATION: 'Создание пользователя',
+  USERS_CREATE_RESPONSE: 'Пользователь успешно создан',
+  USERS_REGISTER_OPERATION: 'Регистрация пользователя',
+  USERS_REGISTER_RESPONSE: 'Пользователь успешно зарегистрирован',
   USERS_CHECK_EXISTS_OPERATION: 'Проверка существования пользователя',
   USERS_CHECK_EXISTS_RESPONSE: 'Пользователь (не)зарегистрирован',
   USERS_GET_CURRENT_OPERATION: 'Получение данных текущего пользователя',

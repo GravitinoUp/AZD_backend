@@ -12,7 +12,13 @@ import {
   Inject,
 } from '@nestjs/common'
 import { UserService } from './user.service'
-import { CreateUserDto, UpdateUserDto, UpdateUserPasswordDto, UpdateUserStatusDto } from './dto'
+import {
+  CreateUserDto,
+  RegisterUserDto,
+  UpdateUserDto,
+  UpdateUserPasswordDto,
+  UpdateUserStatusDto,
+} from './dto'
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { AllExceptionsFilter } from 'src/common/exception.filter'
 import { I18nService } from 'nestjs-i18n'
@@ -23,7 +29,7 @@ import { Throttle } from '@nestjs/throttler'
 import { ActiveGuard } from '../auth/guards/active.guard'
 import { JwtAuthGuard } from '../auth/guards/auth.guard'
 import { UserFilter } from './filters'
-import { CacheRoutes } from 'src/common/constants/constants'
+import { CacheRoutes, RolesEnum } from 'src/common/constants/constants'
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager'
 
 @ApiBearerAuth()
@@ -54,6 +60,31 @@ export class UserController {
     if (isUserExists) {
       throw new HttpException(await this.i18n.t('errors.user_exists'), HttpStatus.CONFLICT)
     }
+
+    const result = await this.userService.create(createUserDto)
+    await this.clearCache()
+    return result
+  }
+
+  @ApiOperation({ summary: AppStrings.USERS_REGISTER_OPERATION })
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: AppStrings.USERS_REGISTER_RESPONSE,
+    type: StatusUserResponse,
+  })
+  @Throttle({ default: { limit: 1, ttl: 1000 } })
+  @Post('register')
+  async register(@Body() user: RegisterUserDto) {
+    const isUserExists = await this.userService.isExists({
+      phone: user.phone,
+      email: user.email,
+    })
+
+    if (isUserExists) {
+      throw new HttpException(await this.i18n.t('errors.user_exists'), HttpStatus.CONFLICT)
+    }
+
+    const createUserDto: CreateUserDto = { ...user, role_id: RolesEnum.USER }
 
     const result = await this.userService.create(createUserDto)
     await this.clearCache()

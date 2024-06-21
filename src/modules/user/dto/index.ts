@@ -43,6 +43,44 @@ export class CreateUserDto {
   password: string
 }
 
+export class RegisterUserDto {
+  @IsString()
+  @ApiProperty()
+  last_name: string
+
+  @IsString()
+  @ApiProperty()
+  first_name: string
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  patronymic?: string
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  post?: string
+
+  @IsUUID()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  legal_basis_uuid?: string
+
+  @IsString()
+  @ApiProperty()
+  email: string
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty()
+  phone?: string
+
+  @IsString()
+  @ApiProperty()
+  password: string
+}
+
 export class CheckUserExistsDto {
   @IsString()
   @ApiProperty()
