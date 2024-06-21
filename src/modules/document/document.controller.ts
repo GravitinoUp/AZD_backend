@@ -22,7 +22,7 @@ import {
   ApiBearerAuth,
   ApiTags,
 } from '@nestjs/swagger'
-import { I18nService } from 'nestjs-i18n'
+import { I18nContext, I18nService } from 'nestjs-i18n'
 import { CacheRoutes } from 'src/common/constants/constants'
 import { AppStrings } from 'src/common/constants/strings'
 import { ActiveGuard } from '../auth/guards/active.guard'
@@ -61,20 +61,29 @@ export class DocumentController {
   @Post()
   async create(@Body() document: CreateDocumentDto) {
     if (document.document_name.length > 1000) {
-      throw new NotFoundException(this.i18n.t('errors.document_name_length_limit'))
+      throw new NotFoundException(
+        this.i18n.t('errors.document_name_length_limit', { lang: I18nContext.current().lang }),
+      )
     }
 
     const isDocumentTypeExists = await this.documentTypeService.isExists(document.document_type_id)
     if (!isDocumentTypeExists)
-      throw new NotFoundException(this.i18n.t('errors.document_type_not_found'))
+      throw new NotFoundException(
+        this.i18n.t('errors.document_type_not_found', { lang: I18nContext.current().lang }),
+      )
 
     const isPurchaseExists = await this.purchaseService.isExists(document.purchase_uuid)
-    if (!isPurchaseExists) throw new NotFoundException(this.i18n.t('errors.purchase_not_found'))
+    if (!isPurchaseExists)
+      throw new NotFoundException(
+        this.i18n.t('errors.purchase_not_found', { lang: I18nContext.current().lang }),
+      )
 
     if (document.executor_uuid) {
       const isExecutorExists = await this.organizationService.isExists(document.executor_uuid)
       if (!isExecutorExists)
-        throw new NotFoundException(this.i18n.t('errors.document_executor_not_found'))
+        throw new NotFoundException(
+          this.i18n.t('errors.document_executor_not_found', { lang: I18nContext.current().lang }),
+        )
     }
 
     if (document.executor_person_uuid) {
@@ -82,13 +91,19 @@ export class DocumentController {
         document.executor_person_uuid,
       )
       if (!isExecutorPersonExists)
-        throw new NotFoundException(this.i18n.t('errors.document_executor_person_not_found'))
+        throw new NotFoundException(
+          this.i18n.t('errors.document_executor_person_not_found', {
+            lang: I18nContext.current().lang,
+          }),
+        )
     }
 
     if (document.customer_uuid) {
       const isCustomerExists = await this.organizationService.isExists(document.customer_uuid)
       if (!isCustomerExists)
-        throw new NotFoundException(this.i18n.t('errors.document_customer_not_found'))
+        throw new NotFoundException(
+          this.i18n.t('errors.document_customer_not_found', { lang: I18nContext.current().lang }),
+        )
     }
 
     if (document.customer_person_uuid) {
@@ -96,7 +111,11 @@ export class DocumentController {
         document.customer_person_uuid,
       )
       if (!isCustomerPersonExists)
-        throw new NotFoundException(this.i18n.t('errors.document_customer_person_not_found'))
+        throw new NotFoundException(
+          this.i18n.t('errors.document_customer_person_not_found', {
+            lang: I18nContext.current().lang,
+          }),
+        )
     }
 
     const result = await this.documentService.create(document)
@@ -185,29 +204,41 @@ export class DocumentController {
   @Patch()
   async update(@Body() document: UpdateDocumentDto) {
     if (document.document_name.length > 1000) {
-      throw new NotFoundException(this.i18n.t('errors.document_name_length_limit'))
+      throw new NotFoundException(
+        this.i18n.t('errors.document_name_length_limit', { lang: I18nContext.current().lang }),
+      )
     }
 
     const isExists = await this.documentService.isExists(document.document_uuid)
-    if (!isExists) throw new NotFoundException(this.i18n.t('errors.document_not_found'))
+    if (!isExists)
+      throw new NotFoundException(
+        this.i18n.t('errors.document_not_found', { lang: I18nContext.current().lang }),
+      )
 
     if (document.document_type_id) {
       const isDocumentTypeExists = await this.documentTypeService.isExists(
         document.document_type_id,
       )
       if (!isDocumentTypeExists)
-        throw new NotFoundException(this.i18n.t('errors.document_type_not_found'))
+        throw new NotFoundException(
+          this.i18n.t('errors.document_type_not_found', { lang: I18nContext.current().lang }),
+        )
     }
 
     if (document.purchase_uuid) {
       const isPurchaseExists = await this.purchaseService.isExists(document.purchase_uuid)
-      if (!isPurchaseExists) throw new NotFoundException(this.i18n.t('errors.purchase_not_found'))
+      if (!isPurchaseExists)
+        throw new NotFoundException(
+          this.i18n.t('errors.purchase_not_found', { lang: I18nContext.current().lang }),
+        )
     }
 
     if (document.executor_uuid) {
       const isExecutorExists = await this.organizationService.isExists(document.executor_uuid)
       if (!isExecutorExists)
-        throw new NotFoundException(this.i18n.t('errors.document_executor_not_found'))
+        throw new NotFoundException(
+          this.i18n.t('errors.document_executor_not_found', { lang: I18nContext.current().lang }),
+        )
     }
 
     if (document.executor_person_uuid) {
@@ -215,13 +246,19 @@ export class DocumentController {
         document.executor_person_uuid,
       )
       if (!isExecutorPersonExists)
-        throw new NotFoundException(this.i18n.t('errors.document_executor_person_not_found'))
+        throw new NotFoundException(
+          this.i18n.t('errors.document_executor_person_not_found', {
+            lang: I18nContext.current().lang,
+          }),
+        )
     }
 
     if (document.customer_uuid) {
       const isCustomerExists = await this.organizationService.isExists(document.customer_uuid)
       if (!isCustomerExists)
-        throw new NotFoundException(this.i18n.t('errors.document_customer_not_found'))
+        throw new NotFoundException(
+          this.i18n.t('errors.document_customer_not_found', { lang: I18nContext.current().lang }),
+        )
     }
 
     if (document.customer_person_uuid) {
@@ -229,7 +266,11 @@ export class DocumentController {
         document.customer_person_uuid,
       )
       if (!isCustomerPersonExists)
-        throw new NotFoundException(this.i18n.t('errors.document_customer_person_not_found'))
+        throw new NotFoundException(
+          this.i18n.t('errors.document_customer_person_not_found', {
+            lang: I18nContext.current().lang,
+          }),
+        )
     }
 
     const result = await this.documentService.update(document)
@@ -247,7 +288,10 @@ export class DocumentController {
   @Delete(':uuid')
   async delete(@Param('uuid') document_uuid: string) {
     const isExists = await this.documentService.isExists(document_uuid)
-    if (!isExists) throw new NotFoundException(this.i18n.t('errors.document_not_found'))
+    if (!isExists)
+      throw new NotFoundException(
+        this.i18n.t('errors.document_not_found', { lang: I18nContext.current().lang }),
+      )
 
     const result = await this.documentService.delete(document_uuid)
     await this.clearCache()

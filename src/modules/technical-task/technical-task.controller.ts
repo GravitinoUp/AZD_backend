@@ -13,10 +13,17 @@ import {
   UseGuards,
 } from '@nestjs/common'
 import { TechnicalTaskService } from './technical-task.service'
-import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger'
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger'
 import { AllExceptionsFilter } from 'src/common/exception.filter'
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager'
-import { I18nService } from 'nestjs-i18n'
+import { I18nContext, I18nService } from 'nestjs-i18n'
 import { AppStrings } from 'src/common/constants/strings'
 import { ActiveGuard } from '../auth/guards/active.guard'
 import { JwtAuthGuard } from '../auth/guards/auth.guard'
@@ -47,7 +54,11 @@ export class TechnicalTaskController {
   @Post()
   async create(@Body() techTask: CreateTechnicalTaskDto) {
     const isPurchaseExists = await this.purchaseService.isExists(techTask.purchase_uuid)
-    if (!isPurchaseExists) throw new HttpException(this.i18n.t('errors.purchase_not_found'), HttpStatus.NOT_FOUND)
+    if (!isPurchaseExists)
+      throw new HttpException(
+        this.i18n.t('errors.purchase_not_found', { lang: I18nContext.current().lang }),
+        HttpStatus.NOT_FOUND,
+      )
 
     const result = await this.technicalTaskService.create(techTask)
     await this.clearCache()
@@ -106,9 +117,14 @@ export class TechnicalTaskController {
   })
   @Patch()
   async update(@Body() technicalTask: UpdateTechnicalTaskDto) {
-    const isTechnicalTaskExists = await this.technicalTaskService.isExists(technicalTask.technical_task_uuid)
+    const isTechnicalTaskExists = await this.technicalTaskService.isExists(
+      technicalTask.technical_task_uuid,
+    )
     if (!isTechnicalTaskExists)
-      throw new HttpException(this.i18n.t('errors.technical_task_not_found'), HttpStatus.NOT_FOUND)
+      throw new HttpException(
+        this.i18n.t('errors.technical_task_not_found', { lang: I18nContext.current().lang }),
+        HttpStatus.NOT_FOUND,
+      )
 
     const result = await this.technicalTaskService.update(technicalTask)
     await this.clearCache()
@@ -125,7 +141,10 @@ export class TechnicalTaskController {
   async delete(@Param('uuid') id: string) {
     const isExists = await this.technicalTaskService.isExists(id)
     if (!isExists) {
-      throw new HttpException(this.i18n.t('errors.technical_task_not_found'), HttpStatus.NOT_FOUND)
+      throw new HttpException(
+        this.i18n.t('errors.technical_task_not_found', { lang: I18nContext.current().lang }),
+        HttpStatus.NOT_FOUND,
+      )
     }
 
     const result = await this.technicalTaskService.delete(id)

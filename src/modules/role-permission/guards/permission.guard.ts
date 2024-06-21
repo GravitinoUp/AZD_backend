@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { RolePermissionService } from '../role-permission.service'
-import { I18nService } from 'nestjs-i18n'
+import { I18nContext, I18nService } from 'nestjs-i18n'
 import { PermissionEnum } from 'src/common/constants/permission.enum'
 
 @Injectable()
@@ -30,7 +30,9 @@ export class PermissionsGuard implements CanActivate {
     if (result) {
       return result
     } else {
-      throw new ForbiddenException(this.i18n.t('errors.access_denied'))
+      throw new ForbiddenException(
+        this.i18n.t('errors.access_denied', { lang: I18nContext.current().lang }),
+      )
     }
   }
 }

@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common'
 import { PropertiesService } from './properties.service'
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager'
-import { I18nService } from 'nestjs-i18n'
+import { I18nContext, I18nService } from 'nestjs-i18n'
 import {
   ApiOperation,
   ApiCreatedResponse,
@@ -89,7 +89,10 @@ export class PropertiesController {
   async delete(@Param('uuid') id: string) {
     const isExists = await this.propertiesService.isExists(id)
     if (!isExists) {
-      throw new HttpException(this.i18n.t('errors.property_not_found'), HttpStatus.NOT_FOUND)
+      throw new HttpException(
+        this.i18n.t('errors.property_not_found', { lang: I18nContext.current().lang }),
+        HttpStatus.NOT_FOUND,
+      )
     }
 
     const result = await this.propertiesService.delete(id)

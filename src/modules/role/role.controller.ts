@@ -21,7 +21,7 @@ import {
 } from '@nestjs/swagger'
 import { AllExceptionsFilter } from 'src/common/exception.filter'
 import { RoleService } from './role.service'
-import { I18nService } from 'nestjs-i18n'
+import { I18nContext, I18nService } from 'nestjs-i18n'
 import { AppStrings } from 'src/common/constants/strings'
 import { ActiveGuard } from '../auth/guards/active.guard'
 import { JwtAuthGuard } from '../auth/guards/auth.guard'
@@ -60,7 +60,7 @@ export class RoleController {
       const isPermissionExists = await this.permissionService.isExists(id)
       if (!isPermissionExists) {
         throw new HttpException(
-          `${this.i18n.t('errors.permission_not_found')} (ID: ${id})`,
+          `${this.i18n.t('errors.permission_not_found', { lang: I18nContext.current().lang })} (ID: ${id})`,
           HttpStatus.NOT_FOUND,
         )
       }
@@ -121,14 +121,16 @@ export class RoleController {
   async update(@Body() updateRoleDto: UpdateRoleDto) {
     const isExists = await this.roleService.isExists(updateRoleDto.role_id)
     if (!isExists) {
-      throw new NotFoundException(this.i18n.t('errors.role_not_found'))
+      throw new NotFoundException(
+        this.i18n.t('errors.role_not_found', { lang: I18nContext.current().lang }),
+      )
     }
 
     for (const id of updateRoleDto.permission_ids) {
       const isPermissionExists = await this.permissionService.isExists(id)
       if (!isPermissionExists) {
         throw new HttpException(
-          `${this.i18n.t('errors.permission_not_found')} (ID: ${id})`,
+          `${this.i18n.t('errors.permission_not_found', { lang: I18nContext.current().lang })} (ID: ${id})`,
           HttpStatus.NOT_FOUND,
         )
       }

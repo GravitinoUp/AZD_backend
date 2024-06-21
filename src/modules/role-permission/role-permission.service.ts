@@ -12,7 +12,7 @@ import {
 import { User } from '../user/entities/user.entity'
 import { RolesEnum } from 'src/common/constants/constants'
 import { PermissionService } from '../permission/permission.service'
-import { I18nService } from 'nestjs-i18n'
+import { I18nContext, I18nService } from 'nestjs-i18n'
 
 @Injectable()
 export class RolePermissionService {
@@ -78,7 +78,7 @@ export class RolePermissionService {
         await queryRunner.manager.delete(RolePermission, { user_uuid: rolePermissionDto.user_uuid })
       } else {
         throw new HttpException(
-          this.i18n.t('errors.role_and_user_permissions'),
+          this.i18n.t('errors.role_and_user_permissions', { lang: I18nContext.current().lang }),
           HttpStatus.INTERNAL_SERVER_ERROR,
         )
       }

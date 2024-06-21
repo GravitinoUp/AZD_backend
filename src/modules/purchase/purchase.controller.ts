@@ -15,7 +15,7 @@ import {
 } from '@nestjs/common'
 import { PurchaseService } from './purchase.service'
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager'
-import { I18nService } from 'nestjs-i18n'
+import { I18nContext, I18nService } from 'nestjs-i18n'
 import { CacheRoutes } from 'src/common/constants/constants'
 import {
   ApiOperation,
@@ -63,11 +63,17 @@ export class PurchaseController {
   async create(@Body() purchase: CreatePurchaseDto, @Req() request) {
     const isPurchaseTypeExists = await this.purchaseTypeService.isExists(purchase.purchase_type_id)
     if (!isPurchaseTypeExists)
-      throw new HttpException(this.i18n.t('errors.purchase_type_not_found'), HttpStatus.NOT_FOUND)
+      throw new HttpException(
+        this.i18n.t('errors.purchase_type_not_found', { lang: I18nContext.current().lang }),
+        HttpStatus.NOT_FOUND,
+      )
 
     const isExecutorExists = await this.organizationService.isExists(purchase.executor_uuid)
     if (!isExecutorExists)
-      throw new HttpException(this.i18n.t('errors.executor_not_found'), HttpStatus.NOT_FOUND)
+      throw new HttpException(
+        this.i18n.t('errors.executor_not_found', { lang: I18nContext.current().lang }),
+        HttpStatus.NOT_FOUND,
+      )
 
     const result = await this.purchaseService.create(purchase, request.user.user_uuid)
     await this.clearCache()
@@ -131,7 +137,10 @@ export class PurchaseController {
   async delete(@Param('uuid') id: string) {
     const isExists = await this.purchaseService.isExists(id)
     if (!isExists) {
-      throw new HttpException(this.i18n.t('errors.purchase_not_found'), HttpStatus.NOT_FOUND)
+      throw new HttpException(
+        this.i18n.t('errors.purchase_not_found', { lang: I18nContext.current().lang }),
+        HttpStatus.NOT_FOUND,
+      )
     }
 
     const result = await this.purchaseService.delete(id)

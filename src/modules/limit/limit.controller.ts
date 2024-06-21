@@ -14,7 +14,7 @@ import {
   UseGuards,
 } from '@nestjs/common'
 import { LimitService } from './limit.service'
-import { I18nService } from 'nestjs-i18n'
+import { I18nContext, I18nService } from 'nestjs-i18n'
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager'
 import {
   ApiOperation,
@@ -62,17 +62,26 @@ export class LimitController {
   async create(@Body() limit: CreateLimitDto): Promise<StatusLimitResponse> {
     const isKBKExists = await this.kbkService.isExists(limit.kbk_uuid) //TODO DD IF NOT EXISTS
     if (!isKBKExists)
-      throw new HttpException(this.i18n.t('errors.kbk_not_found'), HttpStatus.NOT_FOUND)
+      throw new HttpException(
+        this.i18n.t('errors.kbk_not_found', { lang: I18nContext.current().lang }),
+        HttpStatus.NOT_FOUND,
+      )
 
     const isKosguExists = await this.kosguService.isExists(limit.kosgu_uuid) //TODO ADD IF NOT EXISTS
     if (!isKosguExists)
-      throw new HttpException(this.i18n.t('errors.kosgu_not_found'), HttpStatus.NOT_FOUND)
+      throw new HttpException(
+        this.i18n.t('errors.kosgu_not_found', { lang: I18nContext.current().lang }),
+        HttpStatus.NOT_FOUND,
+      )
 
     for (const year of limit.years) {
       if (year.currency_code) {
         const isCurrencyCodeExists = await this.currencyService.isExists(year.currency_code)
         if (!isCurrencyCodeExists)
-          throw new HttpException(this.i18n.t('errors.currency_not_found'), HttpStatus.NOT_FOUND)
+          throw new HttpException(
+            this.i18n.t('errors.currency_not_found', { lang: I18nContext.current().lang }),
+            HttpStatus.NOT_FOUND,
+          )
       }
     }
 
@@ -138,17 +147,26 @@ export class LimitController {
   async update(@Body() limit: UpdateLimitDto, @Req() request) {
     const isLimitExists = await this.limitService.isExists(limit.limit_uuid)
     if (!isLimitExists)
-      throw new HttpException(this.i18n.t('errors.limit_not_found'), HttpStatus.NOT_FOUND)
+      throw new HttpException(
+        this.i18n.t('errors.limit_not_found', { lang: I18nContext.current().lang }),
+        HttpStatus.NOT_FOUND,
+      )
 
     if (limit.kbk_uuid) {
       const isKBKExists = await this.kbkService.isExists(limit.kbk_uuid) // ADD IF NOT EXISTS
       if (!isKBKExists)
-        throw new HttpException(this.i18n.t('errors.kbk_not_found'), HttpStatus.NOT_FOUND)
+        throw new HttpException(
+          this.i18n.t('errors.kbk_not_found', { lang: I18nContext.current().lang }),
+          HttpStatus.NOT_FOUND,
+        )
     }
     if (limit.kosgu_uuid) {
       const isKosguExists = await this.kosguService.isExists(limit.kosgu_uuid) // ADD IF NOT EXISTS
       if (!isKosguExists)
-        throw new HttpException(this.i18n.t('errors.kosgu_not_found'), HttpStatus.NOT_FOUND)
+        throw new HttpException(
+          this.i18n.t('errors.kosgu_not_found', { lang: I18nContext.current().lang }),
+          HttpStatus.NOT_FOUND,
+        )
     }
 
     if (limit?.years) {
@@ -156,7 +174,10 @@ export class LimitController {
         if (year.currency_code) {
           const isCurrencyCodeExists = await this.currencyService.isExists(year.currency_code)
           if (!isCurrencyCodeExists)
-            throw new HttpException(this.i18n.t('errors.currency_not_found'), HttpStatus.NOT_FOUND)
+            throw new HttpException(
+              this.i18n.t('errors.currency_not_found', { lang: I18nContext.current().lang }),
+              HttpStatus.NOT_FOUND,
+            )
         }
       }
     }
@@ -177,7 +198,10 @@ export class LimitController {
   async delete(@Param('uuid') id: string) {
     const isExists = await this.limitService.isExists(id)
     if (!isExists) {
-      throw new HttpException(this.i18n.t('errors.limit_not_found'), HttpStatus.NOT_FOUND)
+      throw new HttpException(
+        this.i18n.t('errors.limit_not_found', { lang: I18nContext.current().lang }),
+        HttpStatus.NOT_FOUND,
+      )
     }
 
     const result = await this.limitService.delete(id)

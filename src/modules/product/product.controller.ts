@@ -21,7 +21,7 @@ import {
   ApiBearerAuth,
   ApiTags,
 } from '@nestjs/swagger'
-import { I18nService } from 'nestjs-i18n'
+import { I18nContext, I18nService } from 'nestjs-i18n'
 import { CacheRoutes } from 'src/common/constants/constants'
 import { AppStrings } from 'src/common/constants/strings'
 import { ActiveGuard } from '../auth/guards/active.guard'
@@ -111,7 +111,10 @@ export class ProductController {
   @Patch()
   async update(@Body() product: UpdateProductDto) {
     const isExists = await this.productService.isExists(product.product_uuid)
-    if (!isExists) throw new NotFoundException(this.i18n.t('errors.product_not_found'))
+    if (!isExists)
+      throw new NotFoundException(
+        this.i18n.t('errors.product_not_found', { lang: I18nContext.current().lang }),
+      )
 
     const result = await this.productService.update(product)
     await this.clearCache()
@@ -128,7 +131,10 @@ export class ProductController {
   @Delete(':uuid')
   async delete(@Param('uuid') product_uuid: string) {
     const isExists = await this.productService.isExists(product_uuid)
-    if (!isExists) throw new NotFoundException(this.i18n.t('errors.product_not_found'))
+    if (!isExists)
+      throw new NotFoundException(
+        this.i18n.t('errors.product_not_found', { lang: I18nContext.current().lang }),
+      )
 
     const result = await this.productService.delete(product_uuid)
     await this.clearCache()

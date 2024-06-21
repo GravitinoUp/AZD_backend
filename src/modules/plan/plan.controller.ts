@@ -23,7 +23,7 @@ import {
 } from '@nestjs/swagger'
 import { AllExceptionsFilter } from 'src/common/exception.filter'
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager'
-import { I18nService } from 'nestjs-i18n'
+import { I18nContext, I18nService } from 'nestjs-i18n'
 import { CacheRoutes } from 'src/common/constants/constants'
 import { AppStrings } from 'src/common/constants/strings'
 import { ActiveGuard } from '../auth/guards/active.guard'
@@ -57,7 +57,10 @@ export class PlanController {
   async create(@Body() plan: CreatePlanDto) {
     const isBranchExists = await this.branchService.isExists(plan.branch_uuid)
     if (!isBranchExists)
-      throw new HttpException(this.i18n.t('errors.branch_not_found'), HttpStatus.NOT_FOUND)
+      throw new HttpException(
+        this.i18n.t('errors.branch_not_found', { lang: I18nContext.current().lang }),
+        HttpStatus.NOT_FOUND,
+      )
 
     const result = await this.planService.create(plan)
     await this.clearCache()
@@ -141,7 +144,7 @@ export class PlanController {
   // @Patch()
   // async update(@Body() plan: UpdatePlanDto) {
   //   const isExists = await this.planService.isExists(plan.plan_uuid)
-  //   if (!isExists) throw new NotFoundException(this.i18n.t('errors.plan_not_found'))
+  //   if (!isExists) throw new NotFoundException(this.i18n.t('errors.plan_not_found', { lang: I18nContext.current().lang }))
 
   //   const result = await this.planService.update(plan)
   //   await this.clearCache()
@@ -158,7 +161,10 @@ export class PlanController {
   @Delete(':uuid')
   async delete(@Param('uuid') plan_uuid: string) {
     const isExists = await this.planService.isExists(plan_uuid)
-    if (!isExists) throw new NotFoundException(this.i18n.t('errors.plan_not_found'))
+    if (!isExists)
+      throw new NotFoundException(
+        this.i18n.t('errors.plan_not_found', { lang: I18nContext.current().lang }),
+      )
 
     const result = await this.planService.delete(plan_uuid)
     await this.clearCache()

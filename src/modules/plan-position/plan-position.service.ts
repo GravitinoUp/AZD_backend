@@ -4,7 +4,7 @@ import { DataSource, Repository } from 'typeorm'
 import { DefaultPagination } from 'src/common/constants/constants'
 import { formatFilter } from 'src/utils/format-filter'
 import { RolePermissionService } from '../role-permission/role-permission.service'
-import { I18nService } from 'nestjs-i18n'
+import { I18nContext, I18nService } from 'nestjs-i18n'
 import { PlanEvent } from '../plan-event/entities/plan-event.entity'
 import { CreatePlanEventDto } from '../plan-event/dto'
 import { PropertiesService } from '../properties/properties.service'
@@ -108,7 +108,9 @@ export class PlanPositionService {
           user_uuid,
         )
         if (!isHasPermission) {
-          throw new ForbiddenException(`${this.i18n.t('errors.cannot_change_field')} (${key})`)
+          throw new ForbiddenException(
+            `${this.i18n.t('errors.cannot_change_field', { lang: I18nContext.current().lang })} (${key})`,
+          )
         }
       }
 
@@ -123,7 +125,9 @@ export class PlanPositionService {
       for (const key of Object.keys(planPosition)) {
         if (planPosition[key] != oldPlanPosition[key]) {
           const event = new CreatePlanEventDto()
-          event.plan_event_name = this.i18n.t(`fields.update.${key}`)
+          event.plan_event_name = this.i18n.t(`fields.update.${key}`, {
+            lang: I18nContext.current().lang,
+          })
           event.old_value = oldPlanPosition[key]
           event.new_value = planPosition[key]
           event.plan_uuid = planPosition.plan_position_uuid

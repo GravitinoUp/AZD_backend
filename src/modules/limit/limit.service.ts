@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable, InternalServerErrorException } from '@nestjs/common'
 import { Limit } from './entities/limit.entity'
 import { InjectRepository } from '@nestjs/typeorm'
-import { I18nService } from 'nestjs-i18n'
+import { I18nContext, I18nService } from 'nestjs-i18n'
 import { Repository, DataSource } from 'typeorm'
 import { CreateLimitDto, UpdateLimitDto } from './dto'
 import { ArrayLimitResponse, StatusLimitResponse } from './response'
@@ -123,7 +123,9 @@ export class LimitService {
       for (const key of keys) {
         if (limit[key] != oldLimit[key]) {
           const event = new CreateLimitEventDto()
-          event.limit_event_name = this.i18n.t(`fields.update.${key}`)
+          event.limit_event_name = this.i18n.t(`fields.update.${key}`, {
+            lang: I18nContext.current().lang,
+          })
           event.old_value = oldLimit[key]
           event.new_value = limit[key]
           event.limit_uuid = limit.limit_uuid

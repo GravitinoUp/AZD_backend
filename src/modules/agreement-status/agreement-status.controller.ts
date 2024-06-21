@@ -22,7 +22,7 @@ import {
   ApiBearerAuth,
   ApiTags,
 } from '@nestjs/swagger'
-import { I18nService } from 'nestjs-i18n'
+import { I18nContext, I18nService } from 'nestjs-i18n'
 import { CacheRoutes } from 'src/common/constants/constants'
 import { AppStrings } from 'src/common/constants/strings'
 import { ActiveGuard } from '../auth/guards/active.guard'
@@ -55,7 +55,10 @@ export class AgreementStatusController {
   @Post()
   async create(@Body() agreementStatus: CreateAgreementStatusDto) {
     const isEntityExists = await this.entityService.isExists(agreementStatus.entity_id)
-    if (!isEntityExists) throw new NotFoundException(this.i18n.t('errors.entity_not_found'))
+    if (!isEntityExists)
+      throw new NotFoundException(
+        this.i18n.t('errors.entity_not_found', { lang: I18nContext.current().lang }),
+      )
 
     const result = await this.agreementStatusService.create(agreementStatus)
     await this.clearCache()
@@ -141,11 +144,17 @@ export class AgreementStatusController {
   @Patch()
   async update(@Body() agreementStatus: UpdateAgreementStatusDto) {
     const isExists = await this.agreementStatusService.isExists(agreementStatus.agreement_status_id)
-    if (!isExists) throw new NotFoundException(this.i18n.t('errors.agreement_status_not_found'))
+    if (!isExists)
+      throw new NotFoundException(
+        this.i18n.t('errors.agreement_status_not_found', { lang: I18nContext.current().lang }),
+      )
 
     if (agreementStatus.entity_id) {
       const isEntityExists = await this.entityService.isExists(agreementStatus.entity_id)
-      if (!isEntityExists) throw new NotFoundException(this.i18n.t('errors.entity_not_found'))
+      if (!isEntityExists)
+        throw new NotFoundException(
+          this.i18n.t('errors.entity_not_found', { lang: I18nContext.current().lang }),
+        )
     }
 
     const result = await this.agreementStatusService.update(agreementStatus)
@@ -163,7 +172,10 @@ export class AgreementStatusController {
   @Delete(':id')
   async delete(@Param('id') agreement_status_id: number) {
     const isExists = await this.agreementStatusService.isExists(agreement_status_id)
-    if (!isExists) throw new NotFoundException(this.i18n.t('errors.agreement_status_not_found'))
+    if (!isExists)
+      throw new NotFoundException(
+        this.i18n.t('errors.agreement_status_not_found', { lang: I18nContext.current().lang }),
+      )
 
     const result = await this.agreementStatusService.delete(agreement_status_id)
     await this.clearCache()

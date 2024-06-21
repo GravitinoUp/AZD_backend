@@ -21,7 +21,7 @@ import {
   ApiBody,
   ApiOkResponse,
 } from '@nestjs/swagger'
-import { I18nService } from 'nestjs-i18n'
+import { I18nContext, I18nService } from 'nestjs-i18n'
 import { AppStrings } from 'src/common/constants/strings'
 import { ActiveGuard } from '../auth/guards/active.guard'
 import { JwtAuthGuard } from '../auth/guards/auth.guard'
@@ -60,10 +60,15 @@ export class OrganizationController {
       organization.organization_type_id,
     )
     if (!isOrganizationTypeExists)
-      throw new NotFoundException(this.i18n.t('errors.organization_type_not_found'))
+      throw new NotFoundException(
+        this.i18n.t('errors.organization_type_not_found', { lang: I18nContext.current().lang }),
+      )
 
     const isPersonExists = await this.personService.isExists(organization.contact_person_uuid)
-    if (!isPersonExists) throw new NotFoundException(this.i18n.t('errors.person_not_found'))
+    if (!isPersonExists)
+      throw new NotFoundException(
+        this.i18n.t('errors.person_not_found', { lang: I18nContext.current().lang }),
+      )
 
     const result = await this.organizationService.create(organization)
     await this.clearCache()
@@ -154,19 +159,27 @@ export class OrganizationController {
   @Patch()
   async update(@Body() organization: UpdateOrganizationDto) {
     const isExists = await this.organizationService.isExists(organization.organization_uuid)
-    if (!isExists) throw new NotFoundException(this.i18n.t('errors.organization_not_found'))
+    if (!isExists)
+      throw new NotFoundException(
+        this.i18n.t('errors.organization_not_found', { lang: I18nContext.current().lang }),
+      )
 
     if (organization.organization_type_id) {
       const isOrganizationTypeExists = await this.organizationTypeService.isExists(
         organization.organization_type_id,
       )
       if (!isOrganizationTypeExists)
-        throw new NotFoundException(this.i18n.t('errors.organization_type_not_found'))
+        throw new NotFoundException(
+          this.i18n.t('errors.organization_type_not_found', { lang: I18nContext.current().lang }),
+        )
     }
 
     if (organization.contact_person_uuid) {
       const isPersonExists = await this.personService.isExists(organization.contact_person_uuid)
-      if (!isPersonExists) throw new NotFoundException(this.i18n.t('errors.person_not_found'))
+      if (!isPersonExists)
+        throw new NotFoundException(
+          this.i18n.t('errors.person_not_found', { lang: I18nContext.current().lang }),
+        )
     }
 
     const result = await this.organizationService.update(organization)
@@ -184,7 +197,10 @@ export class OrganizationController {
   @Delete(':uuid')
   async delete(@Param('uuid') organization_uuid: string) {
     const isExists = await this.organizationService.isExists(organization_uuid)
-    if (!isExists) throw new NotFoundException(this.i18n.t('errors.organization_not_found'))
+    if (!isExists)
+      throw new NotFoundException(
+        this.i18n.t('errors.organization_not_found', { lang: I18nContext.current().lang }),
+      )
 
     const result = await this.organizationService.delete(organization_uuid)
     await this.clearCache()

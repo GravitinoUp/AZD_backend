@@ -1,6 +1,6 @@
 import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { I18nService } from 'nestjs-i18n'
+import { I18nContext, I18nService } from 'nestjs-i18n'
 import { Repository, DataSource } from 'typeorm'
 import { CreatePurchaseDto, UpdatePurchaseDto } from '../purchase/dto'
 import { Purchase } from '../purchase/entities/purchase.entity'
@@ -102,7 +102,9 @@ export class PurchaseService {
       for (const key of Object.keys(purchase)) {
         if (purchase[key] != oldPurchase[key]) {
           const event = new CreatePurchaseEventDto()
-          event.purchase_event_name = this.i18n.t(`fields.update.${key}`) // TODO FIELDS LOCALE
+          event.purchase_event_name = this.i18n.t(`fields.update.${key}`, {
+            lang: I18nContext.current().lang,
+          }) // TODO FIELDS LOCALE
           event.old_value = oldPurchase[key]
           event.new_value = purchase[key]
           event.purchase_uuid = purchase.purchase_uuid
@@ -166,7 +168,9 @@ export class PurchaseService {
         const startMaxPrice = prices.reduce((a, b) => Number(a) + Number(b)) / prices.length
         return startMaxPrice
       } else {
-        throw new BadRequestException(this.i18n.t('errors.formula_not_found'))
+        throw new BadRequestException(
+          this.i18n.t('errors.formula_not_found', { lang: I18nContext.current().lang }),
+        )
       }
     } catch (error) {
       throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)

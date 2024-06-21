@@ -22,7 +22,7 @@ import {
 } from '@nestjs/swagger'
 import { AllExceptionsFilter } from 'src/common/exception.filter'
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager'
-import { I18nService } from 'nestjs-i18n'
+import { I18nContext, I18nService } from 'nestjs-i18n'
 import { CacheRoutes } from 'src/common/constants/constants'
 import { AppStrings } from 'src/common/constants/strings'
 import { ActiveGuard } from '../auth/guards/active.guard'
@@ -110,7 +110,10 @@ export class BranchController {
   @Patch()
   async update(@Body() branch: UpdateBranchDto) {
     const isExists = await this.branchService.isExists(branch.branch_uuid)
-    if (!isExists) throw new NotFoundException(this.i18n.t('errors.branch_not_found'))
+    if (!isExists)
+      throw new NotFoundException(
+        this.i18n.t('errors.branch_not_found', { lang: I18nContext.current().lang }),
+      )
 
     const result = await this.branchService.update(branch)
     await this.clearCache()
@@ -127,7 +130,10 @@ export class BranchController {
   @Delete(':uuid')
   async delete(@Param('uuid') branch_uuid: string) {
     const isExists = await this.branchService.isExists(branch_uuid)
-    if (!isExists) throw new NotFoundException(this.i18n.t('errors.branch_not_found'))
+    if (!isExists)
+      throw new NotFoundException(
+        this.i18n.t('errors.branch_not_found', { lang: I18nContext.current().lang }),
+      )
 
     const result = await this.branchService.delete(branch_uuid)
     await this.clearCache()

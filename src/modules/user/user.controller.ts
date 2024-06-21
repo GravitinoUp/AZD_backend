@@ -21,7 +21,7 @@ import {
 } from './dto'
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { AllExceptionsFilter } from 'src/common/exception.filter'
-import { I18nService } from 'nestjs-i18n'
+import { I18nContext, I18nService } from 'nestjs-i18n'
 import { ArrayUserResponse, StatusUserResponse } from './response'
 import { AppStrings } from 'src/common/constants/strings'
 import { User } from './entities/user.entity'
@@ -58,7 +58,10 @@ export class UserController {
     })
 
     if (isUserExists) {
-      throw new HttpException(await this.i18n.t('errors.user_exists'), HttpStatus.CONFLICT)
+      throw new HttpException(
+        await this.i18n.t('errors.user_exists', { lang: I18nContext.current().lang }),
+        HttpStatus.CONFLICT,
+      )
     }
 
     const result = await this.userService.create(createUserDto)
@@ -81,7 +84,10 @@ export class UserController {
     })
 
     if (isUserExists) {
-      throw new HttpException(await this.i18n.t('errors.user_exists'), HttpStatus.CONFLICT)
+      throw new HttpException(
+        await this.i18n.t('errors.user_exists', { lang: I18nContext.current().lang }),
+        HttpStatus.CONFLICT,
+      )
     }
 
     const createUserDto: CreateUserDto = { ...user, role_id: RolesEnum.USER }
@@ -138,7 +144,10 @@ export class UserController {
   async update(@Body() user: UpdateUserDto) {
     const isUserExists = await this.userService.isExists({ user_uuid: user.user_uuid })
     if (!isUserExists) {
-      throw new HttpException(await this.i18n.t('errors.user_not_found'), HttpStatus.NOT_FOUND)
+      throw new HttpException(
+        await this.i18n.t('errors.user_not_found', { lang: I18nContext.current().lang }),
+        HttpStatus.NOT_FOUND,
+      )
     }
 
     const result = await this.userService.update(user)
@@ -156,7 +165,10 @@ export class UserController {
   @Patch('status')
   async updateStatus(@Body() updateUserStatusDto: UpdateUserStatusDto, @Req() request) {
     if (request.user.user_uuid == updateUserStatusDto.user_uuid) {
-      throw new HttpException(await this.i18n.t('errors.self_status_change'), HttpStatus.NOT_FOUND)
+      throw new HttpException(
+        await this.i18n.t('errors.self_status_change', { lang: I18nContext.current().lang }),
+        HttpStatus.NOT_FOUND,
+      )
     }
     const result = await this.userService.updateStatus(updateUserStatusDto)
     await this.clearCache()

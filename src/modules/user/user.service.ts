@@ -7,7 +7,7 @@ import { CreateUserDto, UpdateUserDto, UpdateUserPasswordDto, UpdateUserStatusDt
 import { CreatePersonDto } from '../person/dto'
 import { Person } from '../person/entities/person.entity'
 import * as bcrypt from 'bcrypt'
-import { I18nService } from 'nestjs-i18n'
+import { I18nContext, I18nService } from 'nestjs-i18n'
 import { DefaultPagination } from 'src/common/constants/constants'
 import { UserFilter } from './filters'
 import { formatFilter } from 'src/utils/format-filter'
@@ -220,7 +220,7 @@ export class UserService {
         }
       } else {
         throw new HttpException(
-          await this.i18n.t('errors.password_mismatch'),
+          await this.i18n.t('errors.password_mismatch', { lang: I18nContext.current().lang }),
           HttpStatus.BAD_REQUEST,
         )
       }
@@ -280,7 +280,7 @@ export class UserService {
   //         return { status: false }
   //       }
   //     } else {
-  //       throw new HttpException(await this.i18n.t('errors.invalid_code'), HttpStatus.BAD_REQUEST)
+  //       throw new HttpException(await this.i18n.t('errors.invalid_code', { lang: I18nContext.current().lang }), HttpStatus.BAD_REQUEST)
   //     }
   //   } catch (error) {
   //     console.log(error)

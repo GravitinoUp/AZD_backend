@@ -23,7 +23,7 @@ import {
 } from '@nestjs/swagger'
 import { AllExceptionsFilter } from 'src/common/exception.filter'
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager'
-import { I18nService } from 'nestjs-i18n'
+import { I18nContext, I18nService } from 'nestjs-i18n'
 import { AppStrings } from 'src/common/constants/strings'
 import { ActiveGuard } from '../auth/guards/active.guard'
 import { JwtAuthGuard } from '../auth/guards/auth.guard'
@@ -69,20 +69,32 @@ export class PlanPositionController {
     if (plan.purchase_uuid) {
       const isPurchaseExists = await this.purchaseService.isExists(plan.purchase_uuid)
       if (!isPurchaseExists)
-        throw new HttpException(this.i18n.t('errors.purchase_not_found'), HttpStatus.NOT_FOUND)
+        throw new HttpException(
+          this.i18n.t('errors.purchase_not_found', { lang: I18nContext.current().lang }),
+          HttpStatus.NOT_FOUND,
+        )
     }
 
     const isPlanExists = await this.planService.isExists(plan.plan_uuid)
     if (!isPlanExists)
-      throw new HttpException(this.i18n.t('errors.plan_not_found'), HttpStatus.NOT_FOUND)
+      throw new HttpException(
+        this.i18n.t('errors.plan_not_found', { lang: I18nContext.current().lang }),
+        HttpStatus.NOT_FOUND,
+      )
 
     const isUserExists = await this.userService.isExists({ user_uuid: plan.user_uuid })
     if (!isUserExists)
-      throw new HttpException(this.i18n.t('errors.user_not_found'), HttpStatus.NOT_FOUND)
+      throw new HttpException(
+        this.i18n.t('errors.user_not_found', { lang: I18nContext.current().lang }),
+        HttpStatus.NOT_FOUND,
+      )
 
     const isWayExists = await this.wayService.isExists(plan.way_id)
     if (!isWayExists)
-      throw new HttpException(this.i18n.t('errors.way_not_found'), HttpStatus.NOT_FOUND)
+      throw new HttpException(
+        this.i18n.t('errors.way_not_found', { lang: I18nContext.current().lang }),
+        HttpStatus.NOT_FOUND,
+      )
 
     const result = await this.planService.create(plan)
     await this.clearCache()
@@ -146,30 +158,45 @@ export class PlanPositionController {
   async update(@Body() plan: UpdatePlanPositionDto, @Req() request) {
     const isPlanPositionExists = await this.planService.isExists(plan.plan_uuid)
     if (!isPlanPositionExists)
-      throw new HttpException(this.i18n.t('errors.plan_position_not_found'), HttpStatus.NOT_FOUND)
+      throw new HttpException(
+        this.i18n.t('errors.plan_position_not_found', { lang: I18nContext.current().lang }),
+        HttpStatus.NOT_FOUND,
+      )
 
     if (plan.purchase_uuid) {
       const isPurchaseExists = await this.purchaseService.isExists(plan.purchase_uuid)
       if (!isPurchaseExists)
-        throw new HttpException(this.i18n.t('errors.purchase_not_found'), HttpStatus.NOT_FOUND)
+        throw new HttpException(
+          this.i18n.t('errors.purchase_not_found', { lang: I18nContext.current().lang }),
+          HttpStatus.NOT_FOUND,
+        )
     }
 
     if (plan.plan_uuid) {
       const isPlanExists = await this.planService.isExists(plan.plan_uuid)
       if (!isPlanExists)
-        throw new HttpException(this.i18n.t('errors.plan_not_found'), HttpStatus.NOT_FOUND)
+        throw new HttpException(
+          this.i18n.t('errors.plan_not_found', { lang: I18nContext.current().lang }),
+          HttpStatus.NOT_FOUND,
+        )
     }
 
     if (plan.user_uuid) {
       const isUserExists = await this.userService.isExists({ user_uuid: plan.user_uuid })
       if (!isUserExists)
-        throw new HttpException(this.i18n.t('errors.user_not_found'), HttpStatus.NOT_FOUND)
+        throw new HttpException(
+          this.i18n.t('errors.user_not_found', { lang: I18nContext.current().lang }),
+          HttpStatus.NOT_FOUND,
+        )
     }
 
     if (plan.way_id) {
       const isWayExists = await this.wayService.isExists(plan.way_id)
       if (!isWayExists)
-        throw new HttpException(this.i18n.t('errors.way_not_found'), HttpStatus.NOT_FOUND)
+        throw new HttpException(
+          this.i18n.t('errors.way_not_found', { lang: I18nContext.current().lang }),
+          HttpStatus.NOT_FOUND,
+        )
     }
 
     const result = await this.planService.update(plan, request.user.user_uuid)
@@ -188,7 +215,10 @@ export class PlanPositionController {
   async delete(@Param('uuid') id: string) {
     const isExists = await this.planService.isExists(id)
     if (!isExists) {
-      throw new HttpException(this.i18n.t('errors.plan_position_not_found'), HttpStatus.NOT_FOUND)
+      throw new HttpException(
+        this.i18n.t('errors.plan_position_not_found', { lang: I18nContext.current().lang }),
+        HttpStatus.NOT_FOUND,
+      )
     }
 
     const result = await this.planService.delete(id)

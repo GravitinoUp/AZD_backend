@@ -22,7 +22,7 @@ import {
 } from '@nestjs/swagger'
 import { AllExceptionsFilter } from 'src/common/exception.filter'
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager'
-import { I18nService } from 'nestjs-i18n'
+import { I18nContext, I18nService } from 'nestjs-i18n'
 import { AppStrings } from 'src/common/constants/strings'
 import { ActiveGuard } from '../auth/guards/active.guard'
 import { JwtAuthGuard } from '../auth/guards/auth.guard'
@@ -56,13 +56,16 @@ export class CommercialOfferController {
   @Post()
   async create(@Body() commercialOffer: CreateCommercialOfferDto) {
     const isPurchaseService = await this.purchaseService.isExists(commercialOffer.purchase_uuid)
-    if (!isPurchaseService) throw new NotFoundException(this.i18n.t('errors.purchase_not_found'))
+    if (!isPurchaseService)
+      throw new NotFoundException(
+        this.i18n.t('errors.purchase_not_found', { lang: I18nContext.current().lang }),
+      )
 
     for (const organization of commercialOffer.organizations) {
       const isOrganizationExists = await this.organizationService.isExists(organization)
       if (!isOrganizationExists)
         throw new NotFoundException(
-          `${this.i18n.t('errors.organization_not_found')} (${organization})`,
+          `${this.i18n.t('errors.organization_not_found', { lang: I18nContext.current().lang })} (${organization})`,
         )
     }
 
@@ -109,7 +112,7 @@ export class CommercialOfferController {
       const isExists = await this.commercialOfferService.isExists(offer.commercial_offer_uuid)
       if (!isExists)
         throw new NotFoundException(
-          `${this.i18n.t('errors.commercial_offer_not_found')} (${offer.commercial_offer_uuid})`,
+          `${this.i18n.t('errors.commercial_offer_not_found', { lang: I18nContext.current().lang })} (${offer.commercial_offer_uuid})`,
         )
     }
 

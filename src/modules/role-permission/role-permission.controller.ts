@@ -27,7 +27,7 @@ import {
 } from './response'
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager'
 import { CreateRolesPermissionDto, UpdateRolePermissionDto, UpdateRolePermissionsDto } from './dto'
-import { I18nService } from 'nestjs-i18n'
+import { I18nContext, I18nService } from 'nestjs-i18n'
 import { RoleService } from '../role/role.service'
 import { UserService } from '../user/user.service'
 import { PermissionService } from '../permission/permission.service'
@@ -58,10 +58,13 @@ export class RolePermissionController {
   @Post('create')
   async create(@Body() rolePermission: CreateRolesPermissionDto) {
     if (!rolePermission.role_id && !rolePermission.user_uuid) {
-      throw new HttpException(this.i18n.t('errors.role_or_user_null'), HttpStatus.BAD_REQUEST)
+      throw new HttpException(
+        this.i18n.t('errors.role_or_user_null', { lang: I18nContext.current().lang }),
+        HttpStatus.BAD_REQUEST,
+      )
     } else if (rolePermission.role_id && !rolePermission.user_uuid) {
       throw new HttpException(
-        this.i18n.t('errors.role_and_user_permissions'),
+        this.i18n.t('errors.role_and_user_permissions', { lang: I18nContext.current().lang }),
         HttpStatus.BAD_REQUEST,
       )
     }
@@ -69,7 +72,9 @@ export class RolePermissionController {
     if (rolePermission.role_id) {
       const isRoleExists = await this.roleService.isExists(rolePermission.role_id)
       if (!isRoleExists) {
-        throw new NotFoundException(this.i18n.t('errors.role_not_found'))
+        throw new NotFoundException(
+          this.i18n.t('errors.role_not_found', { lang: I18nContext.current().lang }),
+        )
       }
     }
 
@@ -78,7 +83,10 @@ export class RolePermissionController {
         user_uuid: rolePermission.user_uuid,
       })
       if (!isUserExists) {
-        throw new HttpException(this.i18n.t('errors.user_not_found'), HttpStatus.NOT_FOUND)
+        throw new HttpException(
+          this.i18n.t('errors.user_not_found', { lang: I18nContext.current().lang }),
+          HttpStatus.NOT_FOUND,
+        )
       }
     }
 
@@ -86,7 +94,7 @@ export class RolePermissionController {
       const isPermissionExists = await this.permissionService.isExists(id)
       if (!isPermissionExists) {
         throw new HttpException(
-          `${this.i18n.t('errors.permission_not_found')} (ID: ${id})`,
+          `${this.i18n.t('errors.permission_not_found', { lang: I18nContext.current().lang })} (ID: ${id})`,
           HttpStatus.NOT_FOUND,
         )
       }
@@ -107,10 +115,13 @@ export class RolePermissionController {
   @Patch('permissions')
   async updatePermissions(@Body() rolePermission: UpdateRolePermissionsDto) {
     if (!rolePermission.role_id && !rolePermission.user_uuid) {
-      throw new HttpException(this.i18n.t('errors.role_or_user_null'), HttpStatus.BAD_REQUEST)
+      throw new HttpException(
+        this.i18n.t('errors.role_or_user_null', { lang: I18nContext.current().lang }),
+        HttpStatus.BAD_REQUEST,
+      )
     } else if (rolePermission.role_id && !rolePermission.user_uuid) {
       throw new HttpException(
-        this.i18n.t('errors.role_and_user_permissions'),
+        this.i18n.t('errors.role_and_user_permissions', { lang: I18nContext.current().lang }),
         HttpStatus.BAD_REQUEST,
       )
     }
@@ -118,7 +129,9 @@ export class RolePermissionController {
     if (rolePermission.role_id) {
       const isRoleExists = await this.roleService.isExists(rolePermission.role_id)
       if (!isRoleExists) {
-        throw new NotFoundException(this.i18n.t('errors.role_not_found'))
+        throw new NotFoundException(
+          this.i18n.t('errors.role_not_found', { lang: I18nContext.current().lang }),
+        )
       }
     }
 
@@ -127,7 +140,10 @@ export class RolePermissionController {
         user_uuid: rolePermission.user_uuid,
       })
       if (!isUserExists) {
-        throw new HttpException(this.i18n.t('errors.user_not_found'), HttpStatus.NOT_FOUND)
+        throw new HttpException(
+          this.i18n.t('errors.user_not_found', { lang: I18nContext.current().lang }),
+          HttpStatus.NOT_FOUND,
+        )
       }
     }
 
@@ -135,7 +151,7 @@ export class RolePermissionController {
       const isPermissionExists = await this.permissionService.isExists(id)
       if (!isPermissionExists) {
         throw new HttpException(
-          `${this.i18n.t('errors.permission_not_found')} (ID: ${id})`,
+          `${this.i18n.t('errors.permission_not_found', { lang: I18nContext.current().lang })} (ID: ${id})`,
           HttpStatus.NOT_FOUND,
         )
       }
@@ -202,7 +218,10 @@ export class RolePermissionController {
     )
 
     if (!isRolePermissionExists) {
-      throw new HttpException(this.i18n.t('errors.role_permission_not_found'), HttpStatus.NOT_FOUND)
+      throw new HttpException(
+        this.i18n.t('errors.role_permission_not_found', { lang: I18nContext.current().lang }),
+        HttpStatus.NOT_FOUND,
+      )
     }
 
     const result = await this.rolePermissionService.update(updateRolesPermissionDto)
@@ -222,7 +241,10 @@ export class RolePermissionController {
     const isRolePermissionExists = await this.rolePermissionService.isExists(id)
 
     if (!isRolePermissionExists) {
-      throw new HttpException(this.i18n.t('errors.role_permission_not_found'), HttpStatus.NOT_FOUND)
+      throw new HttpException(
+        this.i18n.t('errors.role_permission_not_found', { lang: I18nContext.current().lang }),
+        HttpStatus.NOT_FOUND,
+      )
     }
     const result = await this.rolePermissionService.delete(id)
     await this.clearCache()

@@ -21,7 +21,7 @@ import {
   ApiOkResponse,
   ApiBody,
 } from '@nestjs/swagger'
-import { I18nService } from 'nestjs-i18n'
+import { I18nContext, I18nService } from 'nestjs-i18n'
 import { CacheRoutes } from 'src/common/constants/constants'
 import { AppStrings } from 'src/common/constants/strings'
 import { AllExceptionsFilter } from 'src/common/exception.filter'
@@ -61,17 +61,28 @@ export class RoleAgreementController {
     if (roleAgreement.parent_role_id) {
       const isParentRoleExists = await this.roleService.isExists(roleAgreement.role_id)
       if (!isParentRoleExists)
-        throw new NotFoundException(this.i18n.t('errors.parent_role_not_found'))
+        throw new NotFoundException(
+          this.i18n.t('errors.parent_role_not_found', { lang: I18nContext.current().lang }),
+        )
     }
 
     const isRoleExists = await this.roleService.isExists(roleAgreement.role_id)
-    if (!isRoleExists) throw new NotFoundException(this.i18n.t('errors.role_not_found'))
+    if (!isRoleExists)
+      throw new NotFoundException(
+        this.i18n.t('errors.role_not_found', { lang: I18nContext.current().lang }),
+      )
 
     const isPermissionExists = await this.permissionService.isExists(roleAgreement.permission_id)
-    if (!isPermissionExists) throw new NotFoundException(this.i18n.t('errors.permission_not_found'))
+    if (!isPermissionExists)
+      throw new NotFoundException(
+        this.i18n.t('errors.permission_not_found', { lang: I18nContext.current().lang }),
+      )
 
     const isEntityExists = await this.entityService.isExists(roleAgreement.entity_id)
-    if (!isEntityExists) throw new NotFoundException(this.i18n.t('errors.entity_not_found'))
+    if (!isEntityExists)
+      throw new NotFoundException(
+        this.i18n.t('errors.entity_not_found', { lang: I18nContext.current().lang }),
+      )
 
     const result = await this.roleAgreementService.create(roleAgreement)
     await this.clearCache()
@@ -157,28 +168,41 @@ export class RoleAgreementController {
   @Patch()
   async update(@Body() roleAgreement: UpdateRoleAgreementDto) {
     const isExists = await this.roleAgreementService.isExists(roleAgreement.role_agreement_uuid)
-    if (!isExists) throw new NotFoundException(this.i18n.t('errors.role_agreement_not_found'))
+    if (!isExists)
+      throw new NotFoundException(
+        this.i18n.t('errors.role_agreement_not_found', { lang: I18nContext.current().lang }),
+      )
 
     if (roleAgreement.parent_role_id) {
       const isParentRoleExists = await this.roleService.isExists(roleAgreement.role_id)
       if (!isParentRoleExists)
-        throw new NotFoundException(this.i18n.t('errors.parent_role_not_found'))
+        throw new NotFoundException(
+          this.i18n.t('errors.parent_role_not_found', { lang: I18nContext.current().lang }),
+        )
     }
 
     if (roleAgreement.role_id) {
       const isRoleExists = await this.roleService.isExists(roleAgreement.role_id)
-      if (!isRoleExists) throw new NotFoundException(this.i18n.t('errors.role_not_found'))
+      if (!isRoleExists)
+        throw new NotFoundException(
+          this.i18n.t('errors.role_not_found', { lang: I18nContext.current().lang }),
+        )
     }
 
     if (roleAgreement.permission_id) {
       const isPermissionExists = await this.permissionService.isExists(roleAgreement.permission_id)
       if (!isPermissionExists)
-        throw new NotFoundException(this.i18n.t('errors.permission_not_found'))
+        throw new NotFoundException(
+          this.i18n.t('errors.permission_not_found', { lang: I18nContext.current().lang }),
+        )
     }
 
     if (roleAgreement.entity_id) {
       const isEntityExists = await this.entityService.isExists(roleAgreement.entity_id)
-      if (!isEntityExists) throw new NotFoundException(this.i18n.t('errors.entity_not_found'))
+      if (!isEntityExists)
+        throw new NotFoundException(
+          this.i18n.t('errors.entity_not_found', { lang: I18nContext.current().lang }),
+        )
     }
 
     const result = await this.roleAgreementService.update(roleAgreement)
@@ -196,7 +220,10 @@ export class RoleAgreementController {
   @Delete(':uuid')
   async delete(@Param('uuid') role_agreement_uuid: string) {
     const isExists = await this.roleAgreementService.isExists(role_agreement_uuid)
-    if (!isExists) throw new NotFoundException(this.i18n.t('errors.role_agreement_not_found'))
+    if (!isExists)
+      throw new NotFoundException(
+        this.i18n.t('errors.role_agreement_not_found', { lang: I18nContext.current().lang }),
+      )
 
     const result = await this.roleAgreementService.delete(role_agreement_uuid)
     await this.clearCache()
