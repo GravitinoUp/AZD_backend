@@ -7,6 +7,7 @@ import {
   IsInt,
   ArrayMinSize,
   IsEmpty,
+  IsObject,
 } from 'class-validator'
 
 export class LimitValueDto {
@@ -30,6 +31,24 @@ export class LimitValueDto {
   currency_code?: string
 }
 
+export class KBKLimitDto {
+  @IsUUID()
+  @ApiProperty()
+  kbk_section_uuid: string
+
+  @IsUUID()
+  @ApiProperty()
+  kbk_subsection_uuid: string
+
+  @IsUUID()
+  @ApiProperty()
+  kbk_target_article_uuid: string
+
+  @IsUUID()
+  @ApiProperty()
+  kbk_expenses_type_uuid: string
+}
+
 export class CreateLimitDto {
   @IsString()
   @ApiProperty()
@@ -39,8 +58,11 @@ export class CreateLimitDto {
   @ApiProperty()
   line_code: string
 
-  @IsUUID()
+  @IsObject()
   @ApiProperty()
+  kbk: KBKLimitDto
+
+  @IsEmpty()
   kbk_uuid: string
 
   @IsUUID()

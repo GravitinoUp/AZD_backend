@@ -27,19 +27,19 @@ export class SeedLimits1718365222304 implements MigrationInterface {
       .insert()
       .values([
         {
-          kbk_type: '04',
+          kbk_type_id: 1,
           kbk_value: '04',
         },
         {
-          kbk_type: '12',
+          kbk_type_id: 2,
           kbk_value: '12',
         },
         {
-          kbk_type: '24 3 02 94009',
+          kbk_type_id: 3,
           kbk_value: '24 3 02 94009',
         },
         {
-          kbk_type: '414',
+          kbk_type_id: 4,
           kbk_value: '414',
         },
       ])
@@ -54,6 +54,7 @@ export class SeedLimits1718365222304 implements MigrationInterface {
         {
           kbk_name: 'TEST KBK',
           kbk_section_uuid: kbkValues.raw[0].kbk_value_uuid,
+          kbk_subsection_uuid: kbkValues.raw[1].kbk_value_uuid,
           kbk_target_article_uuid: kbkValues.raw[2].kbk_value_uuid,
           kbk_expenses_type_uuid: kbkValues.raw[3].kbk_value_uuid,
         },

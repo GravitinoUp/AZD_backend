@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsOptional, IsString, IsUUID } from 'class-validator'
+import { IsString, IsOptional, IsUUID } from 'class-validator'
 
 export class CreateBranchDto {
   @IsString()
