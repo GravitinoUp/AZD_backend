@@ -63,6 +63,9 @@ export const AppStrings = {
   KBK_ALL_RESPONSE: 'КБК получены',
   KBK_ALL_OPERATION: 'Получение списка кодов КБК',
 
+  KBK_VALUE_BY_TYPE_RESPONSE: 'Значение КБК по типу получены',
+  KBK_VALUE_BY_TYPE_OPERATION: 'Получение значений КБК по типу',
+
   KOSGU_ALL_RESPONSE: 'КОСГУ получены',
   KOSGU_ALL_OPERATION: 'Получение списка кодов КОСГУ',
 

@@ -8,7 +8,7 @@ export class KBKValueSorts {
   kbk_value_uuid?: 'ASC' | 'DESC'
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
-  kbk_type?: 'ASC' | 'DESC'
+  kbk_type_id?: 'ASC' | 'DESC'
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
   kbk_value?: 'ASC' | 'DESC'
@@ -19,7 +19,7 @@ export class KBKValueFilters {
   kbk_value_uuid?: string
 
   @ApiProperty({ required: false })
-  kbk_type?: string
+  kbk_type_id?: string
 
   @ApiProperty({ required: false })
   kbk_value?: string
@@ -48,6 +48,9 @@ export class KBKSorts {
   kbk_section?: KBKValueSorts
 
   @ApiProperty({ required: false })
+  kbk_subsection?: KBKValueSorts
+
+  @ApiProperty({ required: false })
   kbk_target_article?: KBKValueSorts
 
   @ApiProperty({ required: false })
@@ -63,6 +66,9 @@ export class KBKFilters {
 
   @ApiProperty({ required: false })
   kbk_section?: KBKValueFilters
+
+  @ApiProperty({ required: false })
+  kbk_subsection?: KBKValueFilters
 
   @ApiProperty({ required: false })
   kbk_target_article?: KBKValueFilters

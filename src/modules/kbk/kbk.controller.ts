@@ -1,4 +1,4 @@
-import { Body, Controller, Inject, Post, UseFilters } from '@nestjs/common'
+import { Body, Controller, Get, Inject, Param, Post, UseFilters } from '@nestjs/common'
 import { KbkService } from './kbk.service'
 import { ApiBearerAuth, ApiBody, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger'
 import { AllExceptionsFilter } from 'src/common/exception.filter'
@@ -7,7 +7,7 @@ import { I18nService } from 'nestjs-i18n'
 import { CacheRoutes } from 'src/common/constants/constants'
 import { AppStrings } from 'src/common/constants/strings'
 import { KBKFilter } from './filters'
-import { ArrayKBKResponse } from './response'
+import { ArrayKBKResponse, ArrayKBKValueResponse } from './response'
 
 @ApiBearerAuth()
 @ApiTags('KBK')
@@ -29,14 +29,33 @@ export class KbkController {
   @Post('all')
   async findAll(@Body() kbkFilter: KBKFilter) {
     const key = `${CacheRoutes.KBK}/all-${JSON.stringify(kbkFilter)}`
-    let currencies: ArrayKBKResponse = await this.cacheManager.get(key)
+    let kbk: ArrayKBKResponse = await this.cacheManager.get(key)
 
-    if (currencies) {
-      return currencies
+    if (kbk) {
+      return kbk
     } else {
-      currencies = await this.kbkService.findAllKBK(kbkFilter)
-      await this.cacheManager.set(key, currencies)
-      return currencies
+      kbk = await this.kbkService.findAllKBK(kbkFilter)
+      await this.cacheManager.set(key, kbk)
+      return kbk
+    }
+  }
+
+  @ApiOperation({ summary: AppStrings.KBK_VALUE_BY_TYPE_OPERATION })
+  @ApiOkResponse({
+    description: AppStrings.KBK_VALUE_BY_TYPE_RESPONSE,
+    type: ArrayKBKValueResponse,
+  })
+  @Get('values/type/:type_id')
+  async findValuesByType(@Param('type_id') type_id: number) {
+    const key = `${CacheRoutes.KBK}/values-type-${type_id}`
+    let values: ArrayKBKValueResponse = await this.cacheManager.get(key)
+
+    if (values) {
+      return values
+    } else {
+      values = await this.kbkService.findValuesByType(type_id)
+      await this.cacheManager.set(key, values)
+      return values
     }
   }
 }
