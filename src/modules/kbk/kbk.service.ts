@@ -6,7 +6,9 @@ import { KBKValue } from './entities/kbk-value.entity'
 import { DefaultPagination } from 'src/common/constants/constants'
 import { formatFilter } from 'src/utils/format-filter'
 import { KBKFilter } from './filters'
-import { ArrayKBKResponse, ArrayKBKValueResponse } from './response'
+import { ArrayKBKResponse, ArrayKBKValueResponse, StatusKBKValueResponse } from './response'
+import { CreateKBKValueDto } from './dto'
+import { KBKType } from './entities/kbk-type.entity'
 
 @Injectable()
 export class KbkService {
@@ -15,7 +17,26 @@ export class KbkService {
     private kbkRepository: Repository<KBK>,
     @InjectRepository(KBKValue)
     private kbkValueRepository: Repository<KBKValue>,
+    @InjectRepository(KBKType)
+    private kbkTypeRepository: Repository<KBKType>,
   ) {}
+
+  async createValue(value: CreateKBKValueDto): Promise<StatusKBKValueResponse> {
+    try {
+      const newValue = await this.kbkValueRepository
+        .createQueryBuilder()
+        .insert()
+        .values({
+          ...value,
+        })
+        .returning('*')
+        .execute()
+
+      return { status: true, data: newValue.raw[0] }
+    } catch (error) {
+      throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
 
   async findAllKBK(kbkFilter: KBKFilter): Promise<ArrayKBKResponse> {
     try {
@@ -65,6 +86,21 @@ export class KbkService {
         .createQueryBuilder()
         .select()
         .where({ kbk_uuid })
+        .getExists()
+
+      return isExists
+    } catch (error) {
+      console.log(error)
+      throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
+
+  async isTypeExists(kbk_type_id: number): Promise<boolean> {
+    try {
+      const isExists = await this.kbkTypeRepository
+        .createQueryBuilder()
+        .select()
+        .where({ kbk_type_id })
         .getExists()
 
       return isExists

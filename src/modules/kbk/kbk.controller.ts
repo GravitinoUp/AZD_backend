@@ -1,13 +1,35 @@
-import { Body, Controller, Get, Inject, Param, Post, UseFilters } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Get,
+  HttpException,
+  HttpStatus,
+  Inject,
+  Param,
+  Post,
+  UseFilters,
+  UseGuards,
+} from '@nestjs/common'
 import { KbkService } from './kbk.service'
-import { ApiBearerAuth, ApiBody, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger'
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger'
 import { AllExceptionsFilter } from 'src/common/exception.filter'
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager'
-import { I18nService } from 'nestjs-i18n'
+import { I18nContext, I18nService } from 'nestjs-i18n'
 import { CacheRoutes } from 'src/common/constants/constants'
 import { AppStrings } from 'src/common/constants/strings'
 import { KBKFilter } from './filters'
-import { ArrayKBKResponse, ArrayKBKValueResponse } from './response'
+import { ArrayKBKResponse, ArrayKBKValueResponse, StatusKBKValueResponse } from './response'
+import { ActiveGuard } from '../auth/guards/active.guard'
+import { JwtAuthGuard } from '../auth/guards/auth.guard'
+import { PermissionsGuard } from '../role-permission/guards/permission.guard'
+import { CreateKBKValueDto } from './dto'
 
 @ApiBearerAuth()
 @ApiTags('KBK')
@@ -19,6 +41,27 @@ export class KbkController {
     private readonly i18n: I18nService,
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
   ) {}
+
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.KBKValueCreate])
+  @ApiOperation({ summary: AppStrings.KBK_VALUE_CREATE_OPERATION })
+  @ApiCreatedResponse({
+    description: AppStrings.KBK_VALUE_CREATE_RESPONSE,
+    type: StatusKBKValueResponse,
+  })
+  @Post('value')
+  async create(@Body() value: CreateKBKValueDto): Promise<StatusKBKValueResponse> {
+    const isTypeExists = await this.kbkService.isTypeExists(value.kbk_type_id)
+    if (!isTypeExists)
+      throw new HttpException(
+        this.i18n.t('errors.kbk_type_not_found', { lang: I18nContext.current().lang }),
+        HttpStatus.NOT_FOUND,
+      )
+
+    const result = await this.kbkService.createValue(value)
+    await this.clearCache()
+    return result
+  }
 
   @ApiOperation({ summary: AppStrings.KBK_ALL_OPERATION })
   @ApiOkResponse({
@@ -56,6 +99,18 @@ export class KbkController {
       values = await this.kbkService.findValuesByType(type_id)
       await this.cacheManager.set(key, values)
       return values
+    }
+  }
+
+  async clearCache() {
+    const keys = await this.cacheManager.store.keys(`${CacheRoutes.KBK_VALUE}*`) // Удаление кэша
+    for (const key of keys) {
+      await this.cacheManager.del(key)
+    }
+
+    const eventsKeys = await this.cacheManager.store.keys(`${CacheRoutes.KBK}*`) // Удаление кэша КБК
+    for (const key of eventsKeys) {
+      await this.cacheManager.del(key)
     }
   }
 }

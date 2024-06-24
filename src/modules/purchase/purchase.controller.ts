@@ -68,12 +68,14 @@ export class PurchaseController {
         HttpStatus.NOT_FOUND,
       )
 
-    const isExecutorExists = await this.organizationService.isExists(purchase.executor_uuid)
-    if (!isExecutorExists)
-      throw new HttpException(
-        this.i18n.t('errors.executor_not_found', { lang: I18nContext.current().lang }),
-        HttpStatus.NOT_FOUND,
-      )
+    if (purchase.executor_uuid) {
+      const isExecutorExists = await this.organizationService.isExists(purchase.executor_uuid)
+      if (!isExecutorExists)
+        throw new HttpException(
+          this.i18n.t('errors.executor_not_found', { lang: I18nContext.current().lang }),
+          HttpStatus.NOT_FOUND,
+        )
+    }
 
     const result = await this.purchaseService.create(purchase, request.user.user_uuid)
     await this.clearCache()

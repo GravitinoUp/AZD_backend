@@ -52,6 +52,7 @@ export const CacheRoutes = {
   DOCUMENT_TYPE: 'document-type',
   DOCUMENT: 'document',
   ENTITY: 'entity',
+  KBK_VALUE: 'kbk_value',
   KBK: 'kbk',
   KOSGU: 'kosgu',
   LIMIT: 'limit',

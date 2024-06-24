@@ -2,8 +2,9 @@ import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { ConfigService } from '@nestjs/config'
 import { AppModule } from './modules/app/app.module'
-import { ValidationPipe } from '@nestjs/common'
 import { AppStrings } from './common/constants/strings'
+import { BadRequestException, ValidationPipe } from '@nestjs/common'
+import { ValidationError } from 'class-validator'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {})
@@ -44,6 +45,14 @@ async function bootstrap() {
 
   const port = configService.get('port')
 
+  app.useGlobalPipes(
+    new ValidationPipe({
+      exceptionFactory: (validationErrors: ValidationError[] = []) => {
+        return new BadRequestException(validationErrors.join(' '))
+      },
+    }),
+  )
+
   const document = SwaggerModule.createDocument(app, config)
   SwaggerModule.setup('api', app, document, {
     swaggerOptions: {
@@ -53,7 +62,6 @@ async function bootstrap() {
     customSiteTitle: AppStrings.APP_NAME,
   })
 
-  app.useGlobalPipes(new ValidationPipe())
   await app.listen(port)
 }
 bootstrap()
