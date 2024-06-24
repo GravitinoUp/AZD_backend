@@ -111,7 +111,6 @@ export class KbkService {
         .getOne()
 
       if (kbk) {
-        console.log(`FIND KBK ${kbk.kbk_uuid}`)
         return kbk
       } else {
         const newKbk = await this.kbkRepository
@@ -122,7 +121,6 @@ export class KbkService {
           .execute()
 
         if (newKbk.raw[0]) {
-          console.log(`CREATE KBK ${newKbk.raw[0].kbk_uuid}`)
           return newKbk.raw[0]
         } else {
           throw new InternalServerErrorException('ERROR CREATE KBK')
