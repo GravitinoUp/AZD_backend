@@ -130,8 +130,6 @@ export class AgreementService {
           .where({ entity_id: agreementData.entity_id, role_id: user.role_id })
           .getOne()
 
-        console.log(roleAgreement)
-
         if (roleAgreement) {
           if (roleAgreement.parent_role_id) {
             const parentRoleAgreement = await this.roleAgreementRepository
@@ -140,15 +138,11 @@ export class AgreementService {
               .where({ entity_id: agreementData.entity_id, role_id: roleAgreement.parent_role_id })
               .getOne()
 
-            console.log(parentRoleAgreement)
-
             const parentAgreement = await this.agreementRepository
               .createQueryBuilder('agreement')
               .select('agreement.agreement_status_id')
               .where({ role_agreement_uuid: parentRoleAgreement.role_agreement_uuid })
               .getOne()
-
-            console.log(parentAgreement)
 
             if (parentAgreement.agreement_status_id == AgreementStatusesEnum.APPROVED) {
               // TODO статус сущности entity_id

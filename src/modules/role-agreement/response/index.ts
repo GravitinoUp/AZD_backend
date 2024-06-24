@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { AppEntityResponse } from 'src/modules/entity/response'
-import { PermissionResponse } from 'src/modules/permission/response'
 import { RoleResponse } from 'src/modules/role/response'
 
 export class RoleAgreementResponse {
