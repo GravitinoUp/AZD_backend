@@ -28,6 +28,8 @@ export const PlanStatusesEnum = {
   POSTED: 8,
 }
 
+export const AgreementStatusesEnum = {}
+
 export const EntitiesEnum = {
   PLANS: 1,
   LIMITS: 2,

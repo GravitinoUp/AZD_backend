@@ -1,11 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsInt, IsOptional, IsUUID, IsBoolean } from 'class-validator'
 
-export class CreateAgreementDto {
-  @IsUUID()
-  @ApiProperty()
-  role_agreement_uuid: string
-
+export class CreateAgreementsDto {
   @IsInt()
   @ApiProperty()
   agreement_status_id: number
