@@ -38,5 +38,7 @@
   "cannot_change_field": "Вы не можете изменить данное поле",
   "role_or_permission_null": "Необходимо выбрать роль или пользователя",
   "role_and_user_permissions": "Необходимо выборать или роль или пользователя",
-  "document_name_length_limit": "Длина названия документа должны быть меньше 1000 символов"
+  "document_name_length_limit": "Длина названия документа должны быть меньше 1000 символов",
+  "parent_agreement_change_status_forbidden": "Согласование запрещено!",
+  "agreement_or_doc_not_found": "Согласование или документ не найдены!"
 }

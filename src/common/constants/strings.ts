@@ -8,6 +8,13 @@ export const AppStrings = {
 
   PROPERTY_VALUES: 'Дополнительные характеристики',
 
+  AGREEMENT_CREATED_RESPONSE: 'Согласовния созданы',
+  AGREEMENT_CREATE_OPERATION: 'Создание согласований',
+  AGREEMENT_BY_DOCUMENT_RESPONSE: 'Лист согласовния документа получен',
+  AGREEMENT_BY_DOCUMENT_OPERATION: 'Получение листа согласования',
+  AGREEMENT_UPDATE_RESPONSE: 'Статус согласования документа изменен',
+  AGREEMENT_UPDATE_OPERATION: 'Изменение статуса согласования документа',
+
   AGREEMENT_STATUS_CREATED_RESPONSE: 'Статус согласования создан',
   AGREEMENT_STATUS_CREATE_OPERATION: 'Создание статуса согласования',
   AGREEMENT_STATUS_ALL_RESPONSE: 'Список статусов получен',

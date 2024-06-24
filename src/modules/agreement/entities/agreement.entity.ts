@@ -2,14 +2,14 @@ import { ApiProperty } from '@nestjs/swagger'
 import BaseModel from 'src/common/model'
 import { AgreementStatus } from 'src/modules/agreement-status/entities/agreement-status.entity'
 import { AppEntity } from 'src/modules/entity/entities/app-entity.entity'
-import { RoleAgreement } from 'src/modules/role-agreement/entities/agreement-status.entity'
+import { RoleAgreement } from 'src/modules/role-agreement/entities/role-agreement.entity'
 import { Entity, Column, PrimaryColumn, JoinColumn, ManyToOne } from 'typeorm'
 
 @Entity({ name: 'Agreements' })
 export class Agreement extends BaseModel {
   @PrimaryColumn()
   @ApiProperty()
-  agreement_uuid: number
+  agreement_uuid: string
 
   @Column()
   @ApiProperty()
@@ -41,8 +41,4 @@ export class Agreement extends BaseModel {
   @JoinColumn({ name: 'entity_id', referencedColumnName: 'entity_id' })
   @ApiProperty()
   entity: AppEntity
-
-  @Column()
-  @ApiProperty()
-  is_verified: boolean
 }

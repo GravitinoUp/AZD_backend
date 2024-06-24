@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
 import BaseModel from 'src/common/model'
-import { RoleAgreement } from 'src/modules/role-agreement/entities/agreement-status.entity'
 import { RolePermission } from 'src/modules/role-permission/entities/role-permission.entity'
 import { Entity, Column, PrimaryColumn, OneToMany } from 'typeorm'
 
@@ -27,7 +26,4 @@ export class Permission extends BaseModel {
     eager: true,
   })
   role_permissions: RolePermission[]
-
-  @OneToMany(() => RoleAgreement, (roleAgreement) => roleAgreement.permission, { cascade: true })
-  role_agreements: RoleAgreement[]
 }

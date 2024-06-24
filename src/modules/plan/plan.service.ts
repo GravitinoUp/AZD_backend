@@ -1,24 +1,33 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { DefaultPagination, PlanStatusesEnum } from 'src/common/constants/constants'
+import { DefaultPagination, EntitiesEnum, PlanStatusesEnum } from 'src/common/constants/constants'
 import { formatFilter } from 'src/utils/format-filter'
-import { Repository } from 'typeorm'
+import { DataSource, Repository } from 'typeorm'
 import { CreatePlanDto } from './dto'
 import { Plan } from './entities/plan.entity'
 import { PlanFilter } from './filters'
 import { StatusPlanResponse, ArrayPlanResponse } from './response'
+import { AgreementService } from '../agreement/agreement.service'
+import { CreateAgreementsDto } from '../agreement/dto'
 
 @Injectable()
 export class PlanService {
   constructor(
     @InjectRepository(Plan)
     private planRepository: Repository<Plan>,
+    private dataSource: DataSource,
+    private readonly agreementService: AgreementService,
   ) {}
 
   async create(plan: CreatePlanDto): Promise<StatusPlanResponse> {
+    const queryRunner = this.dataSource.createQueryRunner()
+    await queryRunner.connect()
+    await queryRunner.startTransaction()
     try {
-      const newPlan = await this.planRepository
+      const newPlan = await queryRunner.manager
+        .getRepository(Plan)
         .createQueryBuilder()
+        .useTransaction(true)
         .insert()
         .values({
           plan_status_id: PlanStatusesEnum.IN_PREPARATION,
@@ -27,9 +36,23 @@ export class PlanService {
         .returning('*')
         .execute()
 
+      if (newPlan.raw[0]) {
+        const agreement = new CreateAgreementsDto()
+        agreement.document_uuid = newPlan.raw[0].plan_uuid
+        agreement.entity_id = EntitiesEnum.PLANS
+
+        await this.agreementService.create(agreement, queryRunner)
+      }
+
+      await queryRunner.commitTransaction()
       return { status: true, data: newPlan.raw[0] }
     } catch (error) {
+      console.log(error)
+
+      await queryRunner.rollbackTransaction()
       throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
+    } finally {
+      await queryRunner.release()
     }
   }
 

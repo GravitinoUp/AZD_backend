@@ -55,8 +55,8 @@ export class CommercialOfferController {
   })
   @Post()
   async create(@Body() commercialOffer: CreateCommercialOfferDto) {
-    const isPurchaseService = await this.purchaseService.isExists(commercialOffer.purchase_uuid)
-    if (!isPurchaseService)
+    const isPurchaseExists = await this.purchaseService.isExists(commercialOffer.purchase_uuid)
+    if (!isPurchaseExists)
       throw new NotFoundException(
         this.i18n.t('errors.purchase_not_found', { lang: I18nContext.current().lang }),
       )
