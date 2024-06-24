@@ -1,8 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import BaseModel from 'src/common/model'
-import { Agreement } from 'src/modules/agreement/entities/agreement-status.entity'
+import { Agreement } from 'src/modules/agreement/entities/agreement.entity'
 import { AppEntity } from 'src/modules/entity/entities/app-entity.entity'
-import { Permission } from 'src/modules/permission/entities/permission.entity'
 import { Role } from 'src/modules/role/entities/role.entity'
 import { Entity, Column, PrimaryColumn, JoinColumn, ManyToOne, OneToMany } from 'typeorm'
 
@@ -29,15 +28,6 @@ export class RoleAgreement extends BaseModel {
   @JoinColumn({ name: 'role_id', referencedColumnName: 'role_id' })
   @ApiProperty()
   role: Role
-
-  @Column()
-  @ApiProperty()
-  permission_id: string
-
-  @ManyToOne(() => Permission, (permission) => permission.role_agreements)
-  @JoinColumn({ name: 'permission_id', referencedColumnName: 'permission_id' })
-  @ApiProperty()
-  permission: Permission
 
   @Column()
   @ApiProperty()

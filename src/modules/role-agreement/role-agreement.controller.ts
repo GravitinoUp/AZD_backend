@@ -72,12 +72,6 @@ export class RoleAgreementController {
         this.i18n.t('errors.role_not_found', { lang: I18nContext.current().lang }),
       )
 
-    const isPermissionExists = await this.permissionService.isExists(roleAgreement.permission_id)
-    if (!isPermissionExists)
-      throw new NotFoundException(
-        this.i18n.t('errors.permission_not_found', { lang: I18nContext.current().lang }),
-      )
-
     const isEntityExists = await this.entityService.isExists(roleAgreement.entity_id)
     if (!isEntityExists)
       throw new NotFoundException(
@@ -186,14 +180,6 @@ export class RoleAgreementController {
       if (!isRoleExists)
         throw new NotFoundException(
           this.i18n.t('errors.role_not_found', { lang: I18nContext.current().lang }),
-        )
-    }
-
-    if (roleAgreement.permission_id) {
-      const isPermissionExists = await this.permissionService.isExists(roleAgreement.permission_id)
-      if (!isPermissionExists)
-        throw new NotFoundException(
-          this.i18n.t('errors.permission_not_found', { lang: I18nContext.current().lang }),
         )
     }
 

@@ -20,12 +20,6 @@ export class RoleAgreementResponse {
   role?: RoleResponse
 
   @ApiProperty()
-  permission_id?: string
-
-  @ApiProperty({ required: false })
-  permission?: PermissionResponse
-
-  @ApiProperty()
   entity_id: number
 
   @ApiProperty({ required: false })

@@ -6,9 +6,16 @@ import { Plan } from './entities/plan.entity'
 import { UserModule } from '../user/user.module'
 import { RolePermissionModule } from '../role-permission/role-permission.module'
 import { BranchModule } from '../branch/branch.module'
+import { AgreementModule } from '../agreement/agreement.module'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Plan]), UserModule, RolePermissionModule, BranchModule],
+  imports: [
+    TypeOrmModule.forFeature([Plan]),
+    UserModule,
+    RolePermissionModule,
+    BranchModule,
+    AgreementModule,
+  ],
   controllers: [PlanController],
   providers: [PlanService],
   exports: [PlanService],

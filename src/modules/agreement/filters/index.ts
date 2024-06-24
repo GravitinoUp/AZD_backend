@@ -29,9 +29,6 @@ export class AgreementSorts {
 
   @ApiProperty({ required: false })
   entity?: AppEntitySorts
-
-  @ApiProperty({ default: AppStrings.ASC, required: false })
-  is_verified?: 'ASC' | 'DESC'
 }
 
 export class AgreementFilters {
@@ -58,9 +55,6 @@ export class AgreementFilters {
 
   @ApiProperty({ required: false })
   entity?: AppEntityFilters
-
-  @ApiProperty({ required: false })
-  is_verified?: boolean
 }
 
 export class AgreementFilter {

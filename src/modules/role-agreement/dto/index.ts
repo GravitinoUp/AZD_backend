@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsString, IsInt, IsUUID, IsOptional } from 'class-validator'
+import { IsInt, IsUUID, IsOptional } from 'class-validator'
 
 export class CreateRoleAgreementDto {
   @IsInt()
@@ -10,10 +10,6 @@ export class CreateRoleAgreementDto {
   @IsInt()
   @ApiProperty()
   role_id: number
-
-  @IsString()
-  @ApiProperty()
-  permission_id: string
 
   @IsInt()
   @ApiProperty()
@@ -34,11 +30,6 @@ export class UpdateRoleAgreementDto {
   @IsOptional()
   @ApiProperty({ required: false })
   role_id?: number
-
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  permission_id?: string
 
   @IsInt()
   @IsOptional()

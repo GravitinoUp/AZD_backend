@@ -4,7 +4,7 @@ import { DefaultPagination } from 'src/common/constants/constants'
 import { formatFilter } from 'src/utils/format-filter'
 import { Repository } from 'typeorm'
 import { CreateRoleAgreementDto, UpdateRoleAgreementDto } from './dto'
-import { RoleAgreement } from './entities/agreement-status.entity'
+import { RoleAgreement } from './entities/role-agreement.entity'
 import { StatusRoleAgreementResponse, ArrayRoleAgreementResponse } from './response'
 import { RoleAgreementFilter } from './filters'
 

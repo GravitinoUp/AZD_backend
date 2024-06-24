@@ -28,7 +28,12 @@ export const PlanStatusesEnum = {
   POSTED: 8,
 }
 
-export const AgreementStatusesEnum = {}
+export const AgreementStatusesEnum = {
+  CREATED: 1,
+  ON_APPROVAL: 2,
+  APPROVED: 3,
+  DECLINED: 4,
+}
 
 export const EntitiesEnum = {
   PLANS: 1,

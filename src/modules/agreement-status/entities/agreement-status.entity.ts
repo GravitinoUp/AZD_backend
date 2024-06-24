@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import BaseModel from 'src/common/model'
-import { Agreement } from 'src/modules/agreement/entities/agreement-status.entity'
+import { Agreement } from 'src/modules/agreement/entities/agreement.entity'
 import { AppEntity } from 'src/modules/entity/entities/app-entity.entity'
 import { Entity, Column, PrimaryColumn, JoinColumn, ManyToOne, OneToMany } from 'typeorm'
 

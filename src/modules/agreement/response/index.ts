@@ -27,9 +27,6 @@ export class AgreementResponse {
 
   @ApiProperty({ required: false })
   entity?: AppEntityResponse
-
-  @ApiProperty({ required: false })
-  is_verified?: boolean
 }
 
 export class ArrayAgreementResponse {
@@ -46,4 +43,12 @@ export class StatusAgreementResponse {
 
   @ApiProperty({ required: false })
   data?: AgreementResponse
+}
+
+export class StatusArrayAgreementResponse {
+  @ApiProperty()
+  status: boolean
+
+  @ApiProperty({ required: false, type: AgreementResponse, isArray: true })
+  data?: AgreementResponse[]
 }

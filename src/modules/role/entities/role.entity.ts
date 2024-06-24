@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import BaseModel from 'src/common/model'
-import { RoleAgreement } from 'src/modules/role-agreement/entities/agreement-status.entity'
+import { RoleAgreement } from 'src/modules/role-agreement/entities/role-agreement.entity'
 import { RolePermission } from 'src/modules/role-permission/entities/role-permission.entity'
 import { User } from 'src/modules/user/entities/user.entity'
 import { Entity, Column, PrimaryColumn, OneToMany } from 'typeorm'

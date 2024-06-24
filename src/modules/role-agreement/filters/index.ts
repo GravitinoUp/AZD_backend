@@ -21,9 +21,6 @@ export class RoleAgreementSorts {
   role?: RoleSorts
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
-  permission_id?: 'ASC' | 'DESC'
-
-  @ApiProperty({ default: AppStrings.ASC, required: false })
   entity_id?: 'ASC' | 'DESC'
 
   @ApiProperty({ required: false })
@@ -45,9 +42,6 @@ export class RoleAgreementFilters {
 
   @ApiProperty({ required: false })
   role?: RoleFilters
-
-  @ApiProperty({ required: false })
-  permission_id?: string
 
   @ApiProperty({ required: false })
   entity_id?: number
