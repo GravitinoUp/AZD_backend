@@ -1,14 +1,20 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
+import { HttpException, HttpStatus, Injectable, InternalServerErrorException } from '@nestjs/common'
 import { KBK } from './entities/kbk.entity'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { DataSource, Repository } from 'typeorm'
 import { KBKValue } from './entities/kbk-value.entity'
 import { DefaultPagination } from 'src/common/constants/constants'
 import { formatFilter } from 'src/utils/format-filter'
 import { KBKFilter } from './filters'
-import { ArrayKBKResponse, ArrayKBKValueResponse, StatusKBKValueResponse } from './response'
+import {
+  ArrayKBKResponse,
+  ArrayKBKValueResponse,
+  KBKResponse,
+  StatusKBKValueResponse,
+} from './response'
 import { CreateKBKValueDto } from './dto'
 import { KBKType } from './entities/kbk-type.entity'
+import { KBKLimitDto } from '../limit/dto'
 
 @Injectable()
 export class KbkService {
@@ -19,6 +25,7 @@ export class KbkService {
     private kbkValueRepository: Repository<KBKValue>,
     @InjectRepository(KBKType)
     private kbkTypeRepository: Repository<KBKType>,
+    private readonly dataSource: DataSource,
   ) {}
 
   async createValue(value: CreateKBKValueDto): Promise<StatusKBKValueResponse> {
@@ -89,6 +96,38 @@ export class KbkService {
         .getExists()
 
       return isExists
+    } catch (error) {
+      console.log(error)
+      throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
+
+  async findOrCreateKBK(kbkValues: KBKLimitDto): Promise<KBKResponse> {
+    try {
+      const kbk = await this.kbkRepository
+        .createQueryBuilder()
+        .select()
+        .where({ ...kbkValues })
+        .getOne()
+
+      if (kbk) {
+        console.log(`FIND KBK ${kbk.kbk_uuid}`)
+        return kbk
+      } else {
+        const newKbk = await this.kbkRepository
+          .createQueryBuilder()
+          .insert()
+          .values({ ...kbkValues, kbk_name: 'TODO' }) // TODO
+          .returning('*')
+          .execute()
+
+        if (newKbk.raw[0]) {
+          console.log(`CREATE KBK ${newKbk.raw[0].kbk_uuid}`)
+          return newKbk.raw[0]
+        } else {
+          throw new InternalServerErrorException('ERROR CREATE KBK')
+        }
+      }
     } catch (error) {
       console.log(error)
       throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
