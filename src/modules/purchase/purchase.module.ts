@@ -7,6 +7,7 @@ import { UserModule } from '../user/user.module'
 import { PurchaseTypeModule } from '../purchase-type/purchase-type.module'
 import { OrganizationModule } from '../organization/organization.module'
 import { RolePermissionModule } from '../role-permission/role-permission.module'
+import { CurrencyModule } from '../currency/currency.module'
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { RolePermissionModule } from '../role-permission/role-permission.module'
     PurchaseTypeModule,
     OrganizationModule,
     RolePermissionModule,
+    CurrencyModule,
   ],
   controllers: [PurchaseController],
   providers: [PurchaseService],
