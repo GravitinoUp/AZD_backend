@@ -43,6 +43,14 @@ export const EntitiesEnum = {
   DOCUMENTS: 5,
 }
 
+export const KbkValueTypesEnum = {
+  kbk_section: 1,
+  kbk_subsection: 2,
+  kbk_target_article: 3,
+  kbk_expenses_type: 4,
+  kbk_name: 5,
+}
+
 export const CacheRoutes = {
   AGREEMENT: 'agreement',
   AGREEMENT_STATUS: 'agreement-status',

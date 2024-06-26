@@ -12,7 +12,12 @@ export class KBK extends BaseModel {
 
   @Column()
   @ApiProperty()
-  kbk_name: string
+  kbk_name_uuid: string
+
+  @ManyToOne(() => KBKValue, (value) => value.kbk_names)
+  @JoinColumn({ name: 'kbk_name_uuid', referencedColumnName: 'kbk_value_uuid' })
+  @ApiProperty()
+  kbk_name: KBKValue
 
   @Column()
   @ApiProperty()

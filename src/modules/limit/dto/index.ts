@@ -32,20 +32,32 @@ export class LimitValueDto {
 }
 
 export class KBKLimitDto {
-  @IsUUID()
+  @IsString()
   @ApiProperty()
+  kbk_name: string
+
+  @IsString()
+  @ApiProperty()
+  kbk_section: string
+
+  @IsString()
+  @ApiProperty()
+  kbk_subsection: string
+
+  @IsString()
+  @ApiProperty()
+  kbk_target_article: string
+
+  @IsString()
+  @ApiProperty()
+  kbk_expenses_type: string
+}
+
+export class KBKValuesDto {
+  kbk_name_uuid: string
   kbk_section_uuid: string
-
-  @IsUUID()
-  @ApiProperty()
   kbk_subsection_uuid: string
-
-  @IsUUID()
-  @ApiProperty()
   kbk_target_article_uuid: string
-
-  @IsUUID()
-  @ApiProperty()
   kbk_expenses_type_uuid: string
 }
 
@@ -60,7 +72,7 @@ export class CreateLimitDto {
 
   @IsObject()
   @ApiProperty()
-  kbk: KBKLimitDto
+  kbk_values?: KBKLimitDto
 
   @IsEmpty()
   kbk_uuid: string

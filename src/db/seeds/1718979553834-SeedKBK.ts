@@ -26,6 +26,10 @@ export class SeedKBK1718979553834 implements MigrationInterface {
           kbk_type_id: 4,
           kbk_value: '110',
         },
+        {
+          kbk_type_id: 5,
+          kbk_value: 'TEST KBK',
+        },
       ])
       .returning('*')
       .execute()
@@ -36,7 +40,7 @@ export class SeedKBK1718979553834 implements MigrationInterface {
       .insert()
       .values([
         {
-          kbk_name: 'TEST KBK 1',
+          kbk_name_uuid: kbkValues.raw[4].kbk_value_uuid,
           kbk_section_uuid: kbkValues.raw[0].kbk_value_uuid,
           kbk_subsection_uuid: kbkValues.raw[1].kbk_value_uuid,
           kbk_target_article_uuid: kbkValues.raw[2].kbk_value_uuid,
@@ -67,6 +71,10 @@ export class SeedKBK1718979553834 implements MigrationInterface {
           kbk_type_id: 4,
           kbk_value: '111',
         },
+        {
+          kbk_type_id: 5,
+          kbk_value: 'TEST KBK 1',
+        },
       ])
       .returning('*')
       .execute()
@@ -77,7 +85,7 @@ export class SeedKBK1718979553834 implements MigrationInterface {
       .insert()
       .values([
         {
-          kbk_name: 'TEST KBK 2',
+          kbk_name_uuid: kbkValues1.raw[4].kbk_value_uuid,
           kbk_section_uuid: kbkValues1.raw[0].kbk_value_uuid,
           kbk_subsection_uuid: kbkValues1.raw[1].kbk_value_uuid,
           kbk_target_article_uuid: kbkValues1.raw[2].kbk_value_uuid,
@@ -108,6 +116,10 @@ export class SeedKBK1718979553834 implements MigrationInterface {
           kbk_type_id: 4,
           kbk_value: '113',
         },
+        {
+          kbk_type_id: 5,
+          kbk_value: 'TEST KBK 2',
+        },
       ])
       .returning('*')
       .execute()
@@ -118,7 +130,7 @@ export class SeedKBK1718979553834 implements MigrationInterface {
       .insert()
       .values([
         {
-          kbk_name: 'TEST KBK 3',
+          kbk_name_uuid: kbkValues2.raw[4].kbk_value_uuid,
           kbk_section_uuid: kbkValues2.raw[0].kbk_value_uuid,
           kbk_subsection_uuid: kbkValues2.raw[1].kbk_value_uuid,
           kbk_target_article_uuid: kbkValues2.raw[2].kbk_value_uuid,
