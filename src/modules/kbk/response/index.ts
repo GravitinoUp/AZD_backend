@@ -62,7 +62,10 @@ export class KBKResponse {
   kbk_uuid: string
 
   @ApiProperty()
-  kbk_name: string
+  kbk_name_uuid: string
+
+  @ApiProperty({ required: false })
+  kbk_name?: KBKValueResponse
 
   @ApiProperty()
   kbk_section_uuid: string

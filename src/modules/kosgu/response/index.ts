@@ -6,9 +6,6 @@ export class KosguResponse {
 
   @ApiProperty()
   kosgu_code: string
-
-  @ApiProperty()
-  kosgu_name: string
 }
 
 export class ArrayKosguResponse {

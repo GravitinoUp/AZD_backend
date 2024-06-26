@@ -1,9 +1,9 @@
 import { HttpException, HttpStatus, Injectable, InternalServerErrorException } from '@nestjs/common'
 import { KBK } from './entities/kbk.entity'
 import { InjectRepository } from '@nestjs/typeorm'
-import { DataSource, Repository } from 'typeorm'
+import { DataSource, QueryRunner, Repository } from 'typeorm'
 import { KBKValue } from './entities/kbk-value.entity'
-import { DefaultPagination } from 'src/common/constants/constants'
+import { DefaultPagination, KbkValueTypesEnum } from 'src/common/constants/constants'
 import { formatFilter } from 'src/utils/format-filter'
 import { KBKFilter } from './filters'
 import {
@@ -14,7 +14,7 @@ import {
 } from './response'
 import { CreateKBKValueDto } from './dto'
 import { KBKType } from './entities/kbk-type.entity'
-import { KBKLimitDto } from '../limit/dto'
+import { KBKLimitDto, KBKValuesDto } from '../limit/dto'
 
 @Injectable()
 export class KbkService {
@@ -102,25 +102,68 @@ export class KbkService {
     }
   }
 
-  async findOrCreateKBK(kbkValues: KBKLimitDto): Promise<KBKResponse> {
+  async findOrCreateKBK(kbkValues: KBKLimitDto, qRunner: QueryRunner): Promise<KBKResponse> {
+    const queryRunner = qRunner ?? this.dataSource.createQueryRunner()
+    if (!qRunner) {
+      await queryRunner.connect()
+      await queryRunner.startTransaction()
+    }
+
     try {
-      const kbk = await this.kbkRepository
+      const kbkValueUuids = new KBKValuesDto()
+      for (const key of Object.keys(kbkValues)) {
+        const value: string = kbkValues[key]
+
+        const kbkValue = await queryRunner.manager
+          .getRepository(KBKValue)
+          .createQueryBuilder('value')
+          .useTransaction(true)
+          .select('value.kbk_value_uuid')
+          .where({ kbk_value: value, kbk_type_id: KbkValueTypesEnum[key] })
+          .getOne()
+
+        if (kbkValue) {
+          kbkValueUuids[`${key}_uuid`] = kbkValue.kbk_value_uuid
+        } else {
+          const newKbkValue = await queryRunner.manager
+            .getRepository(KBKValue)
+            .createQueryBuilder()
+            .useTransaction(true)
+            .insert()
+            .values({ kbk_value: value, kbk_type_id: KbkValueTypesEnum[key] })
+            .returning('*')
+            .execute()
+
+          if (newKbkValue) {
+            kbkValueUuids[`${key}_uuid`] = newKbkValue.raw[0].kbk_value_uuid
+          } else {
+            throw new InternalServerErrorException(newKbkValue)
+          }
+        }
+      }
+
+      const kbk = await queryRunner.manager
+        .getRepository(KBK)
         .createQueryBuilder()
+        .useTransaction(true)
         .select()
-        .where({ ...kbkValues })
+        .where({ ...kbkValueUuids })
         .getOne()
 
       if (kbk) {
         return kbk
       } else {
-        const newKbk = await this.kbkRepository
+        const newKbk = await queryRunner.manager
+          .getRepository(KBK)
           .createQueryBuilder()
+          .useTransaction(true)
           .insert()
-          .values({ ...kbkValues, kbk_name: 'TODO' }) // TODO
+          .values({ ...kbkValueUuids })
           .returning('*')
           .execute()
 
         if (newKbk.raw[0]) {
+          if (!qRunner) await queryRunner.commitTransaction()
           return newKbk.raw[0]
         } else {
           throw new InternalServerErrorException('ERROR CREATE KBK')
@@ -128,7 +171,10 @@ export class KbkService {
       }
     } catch (error) {
       console.log(error)
+      if (!qRunner) await queryRunner.rollbackTransaction()
       throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
+    } finally {
+      if (!qRunner) await queryRunner.release()
     }
   }
 

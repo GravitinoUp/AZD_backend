@@ -34,4 +34,7 @@ export class KBKValue extends BaseModel {
 
   @OneToMany(() => KBK, (kbk) => kbk.kbk_expenses_type, { cascade: true })
   kbk_expenses_types: KBK[]
+
+  @OneToMany(() => KBK, (kbk) => kbk.kbk_name, { cascade: true })
+  kbk_names: KBK[]
 }

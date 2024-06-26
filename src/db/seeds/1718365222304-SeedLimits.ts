@@ -15,7 +15,6 @@ export class SeedLimits1718365222304 implements MigrationInterface {
       .values([
         {
           kosgu_code: '112',
-          kosgu_name: 'Госпошлины и другие сборы',
         },
       ])
       .returning('*')
@@ -42,6 +41,10 @@ export class SeedLimits1718365222304 implements MigrationInterface {
           kbk_type_id: 4,
           kbk_value: '414',
         },
+        {
+          kbk_type_id: 5,
+          kbk_value: 'TEST KBK 3',
+        },
       ])
       .returning('*')
       .execute()
@@ -52,7 +55,7 @@ export class SeedLimits1718365222304 implements MigrationInterface {
       .insert()
       .values([
         {
-          kbk_name: 'TEST KBK',
+          kbk_name_uuid: kbkValues.raw[4].kbk_value_uuid,
           kbk_section_uuid: kbkValues.raw[0].kbk_value_uuid,
           kbk_subsection_uuid: kbkValues.raw[1].kbk_value_uuid,
           kbk_target_article_uuid: kbkValues.raw[2].kbk_value_uuid,

@@ -60,20 +60,6 @@ export class LimitController {
   })
   @Post()
   async create(@Body() limit: CreateLimitDto): Promise<StatusLimitResponse> {
-    const kbk = await this.kbkService.findOrCreateKBK(limit.kbk) //TODO ADD IF NOT EXISTS
-    // if (!isKBKExists)
-    //   throw new HttpException(
-    //     this.i18n.t('errors.kbk_not_found', { lang: I18nContext.current().lang }),
-    //     HttpStatus.NOT_FOUND,
-    //   )
-
-    const isKosguExists = await this.kosguService.isExists(limit.kosgu_uuid) //TODO ADD IF NOT EXISTS
-    if (!isKosguExists)
-      throw new HttpException(
-        this.i18n.t('errors.kosgu_not_found', { lang: I18nContext.current().lang }),
-        HttpStatus.NOT_FOUND,
-      )
-
     for (const year of limit.years) {
       if (year.currency_code) {
         const isCurrencyCodeExists = await this.currencyService.isExists(year.currency_code)
@@ -84,9 +70,6 @@ export class LimitController {
           )
       }
     }
-
-    delete limit['kbk']
-    limit.kbk_uuid = kbk.kbk_uuid
 
     const result = await this.limitService.create(limit)
     await this.clearCache()
