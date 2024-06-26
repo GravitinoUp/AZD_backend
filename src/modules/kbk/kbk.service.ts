@@ -1,13 +1,7 @@
-import {
-  HttpException,
-  HttpStatus,
-  Injectable,
-  InternalServerErrorException,
-  Logger,
-} from '@nestjs/common'
+import { HttpException, HttpStatus, Injectable, InternalServerErrorException } from '@nestjs/common'
 import { KBK } from './entities/kbk.entity'
 import { InjectRepository } from '@nestjs/typeorm'
-import { DataSource, Repository } from 'typeorm'
+import { DataSource, QueryRunner, Repository } from 'typeorm'
 import { KBKValue } from './entities/kbk-value.entity'
 import { DefaultPagination, KbkValueTypesEnum } from 'src/common/constants/constants'
 import { formatFilter } from 'src/utils/format-filter'
@@ -108,10 +102,13 @@ export class KbkService {
     }
   }
 
-  async findOrCreateKBK(kbkValues: KBKLimitDto): Promise<KBKResponse> {
-    const queryRunner = this.dataSource.createQueryRunner()
-    await queryRunner.connect()
-    await queryRunner.startTransaction()
+  async findOrCreateKBK(kbkValues: KBKLimitDto, qRunner: QueryRunner): Promise<KBKResponse> {
+    const queryRunner = qRunner ?? this.dataSource.createQueryRunner()
+    if (!qRunner) {
+      await queryRunner.connect()
+      await queryRunner.startTransaction()
+    }
+
     try {
       const kbkValueUuids = new KBKValuesDto()
       for (const key of Object.keys(kbkValues)) {
@@ -127,7 +124,6 @@ export class KbkService {
 
         if (kbkValue) {
           kbkValueUuids[`${key}_uuid`] = kbkValue.kbk_value_uuid
-          Logger.log(`VALUE EXISTS ${kbkValue.kbk_value_uuid}`)
         } else {
           const newKbkValue = await queryRunner.manager
             .getRepository(KBKValue)
@@ -140,7 +136,6 @@ export class KbkService {
 
           if (newKbkValue) {
             kbkValueUuids[`${key}_uuid`] = newKbkValue.raw[0].kbk_value_uuid
-            Logger.log(`VALUE CREATED ${newKbkValue.raw[0].kbk_value_uuid}`)
           } else {
             throw new InternalServerErrorException(newKbkValue)
           }
@@ -168,7 +163,7 @@ export class KbkService {
           .execute()
 
         if (newKbk.raw[0]) {
-          await queryRunner.commitTransaction()
+          if (!qRunner) await queryRunner.commitTransaction()
           return newKbk.raw[0]
         } else {
           throw new InternalServerErrorException('ERROR CREATE KBK')
@@ -176,10 +171,10 @@ export class KbkService {
       }
     } catch (error) {
       console.log(error)
-      await queryRunner.rollbackTransaction()
+      if (!qRunner) await queryRunner.rollbackTransaction()
       throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)
     } finally {
-      await queryRunner.release()
+      if (!qRunner) await queryRunner.release()
     }
   }
 

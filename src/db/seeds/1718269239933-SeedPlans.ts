@@ -75,7 +75,6 @@ export class SeedPlans1718269239933 implements MigrationInterface {
       .values([
         {
           kosgu_code: '111',
-          kosgu_name: 'Налоги',
         },
       ])
       .returning('*')

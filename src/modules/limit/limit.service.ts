@@ -11,12 +11,16 @@ import { formatFilter } from 'src/utils/format-filter'
 import { CreateLimitEventDto } from '../limit-event/dto'
 import { LimitEvent } from '../limit-event/entities/limit-event.entity'
 import { LimitValue } from './entities/limit-value.entity'
+import { KbkService } from '../kbk/kbk.service'
+import { KosguService } from '../kosgu/kosgu.service'
 
 @Injectable()
 export class LimitService {
   constructor(
     @InjectRepository(Limit)
     private limitRepository: Repository<Limit>,
+    private readonly kbkService: KbkService,
+    private readonly kosguService: KosguService,
     private readonly dataSource: DataSource,
     private readonly i18n: I18nService,
   ) {}
@@ -26,6 +30,14 @@ export class LimitService {
     await queryRunner.connect()
     await queryRunner.startTransaction()
     try {
+      const kbk = await this.kbkService.findOrCreateKBK(limit.kbk_values, queryRunner) // ADD KBK IF NOT EXISTS
+      delete limit['kbk_values']
+      limit.kbk_uuid = kbk.kbk_uuid
+
+      const kosgu = await this.kosguService.findOrCreateKosgu(limit.kosgu_code, queryRunner) // ADD KOSGU IF NOT EXISTS
+      delete limit['kosgu_code']
+      limit.kosgu_uuid = kosgu.kosgu_uuid
+
       const newLimit = await queryRunner.manager
         .getRepository(Limit)
         .createQueryBuilder()

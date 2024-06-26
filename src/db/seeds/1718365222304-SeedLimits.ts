@@ -15,7 +15,6 @@ export class SeedLimits1718365222304 implements MigrationInterface {
       .values([
         {
           kosgu_code: '112',
-          kosgu_name: 'Госпошлины и другие сборы',
         },
       ])
       .returning('*')

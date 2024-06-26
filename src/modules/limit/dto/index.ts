@@ -77,8 +77,11 @@ export class CreateLimitDto {
   @IsEmpty()
   kbk_uuid: string
 
-  @IsUUID()
+  @IsString()
   @ApiProperty()
+  kosgu_code: string
+
+  @IsEmpty()
   kosgu_uuid: string
 
   @ArrayMinSize(3)

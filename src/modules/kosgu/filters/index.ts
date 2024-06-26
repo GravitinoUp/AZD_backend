@@ -8,9 +8,6 @@ export class KosguSorts {
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
   kosgu_code?: 'ASC' | 'DESC'
-
-  @ApiProperty({ default: AppStrings.ASC, required: false })
-  kosgu_name?: 'ASC' | 'DESC'
 }
 
 export class KosguFilters {
@@ -19,9 +16,6 @@ export class KosguFilters {
 
   @ApiProperty({ required: false })
   kosgu_code?: string
-
-  @ApiProperty({ required: false })
-  kosgu_name?: string
 }
 
 export class KosguFilter {

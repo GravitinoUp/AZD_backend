@@ -13,10 +13,6 @@ export class Kosgu extends BaseModel {
   @ApiProperty()
   kosgu_code: string
 
-  @Column()
-  @ApiProperty()
-  kosgu_name: string
-
   @OneToMany(() => Limit, (limit) => limit.kosgu, { cascade: true })
   limits: Limit[]
 }
