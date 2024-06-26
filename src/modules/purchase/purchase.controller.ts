@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Inject,
   Param,
+  Patch,
   Post,
   Query,
   Req,
@@ -30,13 +31,14 @@ import { AppStrings } from 'src/common/constants/strings'
 import { ActiveGuard } from '../auth/guards/active.guard'
 import { JwtAuthGuard } from '../auth/guards/auth.guard'
 import { ArrayPurchaseResponse, PurchaseResponse, StatusPurchaseResponse } from './response'
-import { CreatePurchaseDto } from './dto'
+import { CreatePurchaseDto, UpdatePurchaseDto } from './dto'
 import { PurchaseFilter } from './filter'
 import { AllExceptionsFilter } from 'src/common/exception.filter'
 import { PurchaseTypeService } from '../purchase-type/purchase-type.service'
 import { UserService } from '../user/user.service'
 import { OrganizationService } from '../organization/organization.service'
 import { PermissionsGuard } from '../role-permission/guards/permission.guard'
+import { CurrencyService } from '../currency/currency.service'
 
 @ApiBearerAuth()
 @ApiTags('Purchases')
@@ -47,6 +49,7 @@ export class PurchaseController {
     private readonly purchaseService: PurchaseService,
     private readonly purchaseTypeService: PurchaseTypeService,
     private readonly userService: UserService,
+    private readonly currencyService: CurrencyService,
     private readonly organizationService: OrganizationService,
     private readonly i18n: I18nService,
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
@@ -68,6 +71,15 @@ export class PurchaseController {
       if (!isPurchaseTypeExists)
         throw new HttpException(
           this.i18n.t('errors.purchase_type_not_found', { lang: I18nContext.current().lang }),
+          HttpStatus.NOT_FOUND,
+        )
+    }
+
+    if (purchase.currency_code) {
+      const isCurrencyExists = await this.currencyService.isExists(purchase.currency_code)
+      if (!isCurrencyExists)
+        throw new HttpException(
+          this.i18n.t('errors.currency_not_found', { lang: I18nContext.current().lang }),
           HttpStatus.NOT_FOUND,
         )
     }
@@ -130,6 +142,56 @@ export class PurchaseController {
       await this.cacheManager.set(key, result)
       return result
     }
+  }
+
+  @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
+  // @HasPermissions([PermissionEnum.PurchaseUpdate])
+  @ApiOperation({ summary: AppStrings.PURCHASE_UPDATE_OPERATION })
+  @ApiOkResponse({
+    description: AppStrings.PURCHASE_UPDATE_RESPONSE,
+    type: StatusPurchaseResponse,
+  })
+  @Patch()
+  async update(@Body() purchase: UpdatePurchaseDto, @Req() request) {
+    const isPurchaseExists = await this.purchaseService.isExists(purchase.purchase_uuid)
+    if (!isPurchaseExists)
+      throw new HttpException(
+        this.i18n.t('errors.purchase_not_found', { lang: I18nContext.current().lang }),
+        HttpStatus.NOT_FOUND,
+      )
+
+    if (purchase.purchase_type_id) {
+      const isPurchaseTypeExists = await this.purchaseTypeService.isExists(
+        purchase.purchase_type_id,
+      )
+      if (!isPurchaseTypeExists)
+        throw new HttpException(
+          this.i18n.t('errors.purchase_type_not_found', { lang: I18nContext.current().lang }),
+          HttpStatus.NOT_FOUND,
+        )
+    }
+
+    if (purchase.currency_code) {
+      const isCurrencyExists = await this.currencyService.isExists(purchase.currency_code)
+      if (!isCurrencyExists)
+        throw new HttpException(
+          this.i18n.t('errors.currency_not_found', { lang: I18nContext.current().lang }),
+          HttpStatus.NOT_FOUND,
+        )
+    }
+
+    if (purchase.executor_uuid) {
+      const isExecutorExists = await this.organizationService.isExists(purchase.executor_uuid)
+      if (!isExecutorExists)
+        throw new HttpException(
+          this.i18n.t('errors.executor_not_found', { lang: I18nContext.current().lang }),
+          HttpStatus.NOT_FOUND,
+        )
+    }
+
+    const result = await this.purchaseService.update(purchase, request.user.user_uuid)
+    await this.clearCache()
+    return result
   }
 
   @UseGuards(JwtAuthGuard, ActiveGuard, PermissionsGuard)
