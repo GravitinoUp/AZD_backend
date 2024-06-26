@@ -11,12 +11,14 @@ import {
 
 export class CreatePurchaseDto {
   @IsString()
-  @ApiProperty()
-  purchase_name: string
+  @IsOptional()
+  @ApiProperty({ required: false })
+  purchase_name?: string
 
   @IsInt()
-  @ApiProperty()
-  purchase_type_id: number
+  @IsOptional()
+  @ApiProperty({ required: false })
+  purchase_type_id?: number
 
   @IsUUID()
   @IsOptional()
@@ -49,8 +51,9 @@ export class CreatePurchaseDto {
   executor_date?: Date
 
   @IsDateString()
-  @ApiProperty()
-  end_date: Date
+  @IsOptional()
+  @ApiProperty({ required: false })
+  end_date?: Date
 
   @IsDecimal()
   @IsOptional()
@@ -63,16 +66,19 @@ export class CreatePurchaseDto {
   end_price?: number
 
   @IsString()
-  @ApiProperty()
-  currency_code: string
+  @IsOptional()
+  @ApiProperty({ required: false })
+  currency_code?: string
 
   @IsString()
-  @ApiProperty()
-  delivery_address: string
+  @IsOptional()
+  @ApiProperty({ required: false })
+  delivery_address?: string
 
   @IsBoolean()
-  @ApiProperty()
-  is_organization_fund: boolean
+  @IsOptional()
+  @ApiProperty({ required: false })
+  is_organization_fund?: boolean
 
   @IsDecimal()
   @IsOptional()
@@ -80,8 +86,9 @@ export class CreatePurchaseDto {
   application_enforcement?: number
 
   @IsBoolean()
-  @ApiProperty()
-  is_unilateral_refusal: boolean
+  @IsOptional()
+  @ApiProperty({ required: false })
+  is_unilateral_refusal?: boolean
 
   @IsDecimal()
   @IsOptional()
@@ -89,8 +96,9 @@ export class CreatePurchaseDto {
   contract_enforcement?: number
 
   @IsInt()
-  @ApiProperty()
-  quality_guarantee_period: number
+  @IsOptional()
+  @ApiProperty({ required: false })
+  quality_guarantee_period?: number
 
   @IsInt()
   @IsOptional()

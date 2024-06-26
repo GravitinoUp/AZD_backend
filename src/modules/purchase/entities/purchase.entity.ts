@@ -19,27 +19,27 @@ export class Purchase extends BaseModel {
   @ApiProperty()
   purchase_uuid: string
 
-  @Column()
-  @ApiProperty()
-  purchase_name: string
+  @Column({ nullable: true })
+  @ApiProperty({ required: false })
+  purchase_name?: string
 
-  @Column()
-  @ApiProperty()
-  purchase_type_id: number
+  @Column({ nullable: true })
+  @ApiProperty({ required: false })
+  purchase_type_id?: number
 
   @ManyToOne(() => PurchaseType, (type) => type.purchases)
   @JoinColumn({ name: 'purchase_type_id', referencedColumnName: 'purchase_type_id' })
-  @ApiProperty()
-  purchase_type: PurchaseType
+  @ApiProperty({ required: false })
+  purchase_type?: PurchaseType
 
-  @Column()
-  @ApiProperty()
-  initiator_uuid: string
+  @Column({ nullable: true })
+  @ApiProperty({ required: false })
+  initiator_uuid?: string
 
   @ManyToOne(() => User, (user) => user.purchases)
   @JoinColumn({ name: 'initiator_uuid', referencedColumnName: 'user_uuid' })
-  @ApiProperty()
-  initiator: User
+  @ApiProperty({ required: false })
+  initiator?: User
 
   @Column({ nullable: true })
   @ApiProperty({ required: false })
@@ -70,9 +70,9 @@ export class Purchase extends BaseModel {
   @ApiProperty({ required: false })
   executor_date?: Date
 
-  @Column()
-  @ApiProperty()
-  end_date: Date
+  @Column({ nullable: true })
+  @ApiProperty({ required: false })
+  end_date?: Date
 
   @Column({ type: 'decimal', nullable: true })
   @ApiProperty({ required: false })
@@ -82,59 +82,59 @@ export class Purchase extends BaseModel {
   @ApiProperty({ required: false })
   end_price?: number
 
-  @Column()
-  @ApiProperty()
-  currency_code: string
+  @Column({ nullable: true })
+  @ApiProperty({ required: false })
+  currency_code?: string
 
   @ManyToOne(() => Currency, (currency) => currency.purchases)
   @JoinColumn({ name: 'currency_code', referencedColumnName: 'currency_code' })
-  @ApiProperty()
-  currency: Currency
-
-  @Column()
-  @ApiProperty()
-  purchase_step_id: number
-
-  @ManyToOne(() => PurchaseStep, (step) => step.purchases)
-  @JoinColumn({ name: 'purchase_step_id', referencedColumnName: 'purchase_step_id' })
-  @ApiProperty()
-  purchase_step: PurchaseStep
-
-  @Column()
-  @ApiProperty()
-  delivery_address: string
-
-  @Column()
-  @ApiProperty()
-  is_organization_fund: boolean
-
-  @Column({ type: 'decimal' })
-  @ApiProperty()
-  application_enforcement: number
-
-  @Column()
-  @ApiProperty()
-  is_unilateral_refusal: boolean
-
-  @Column({ type: 'decimal', nullable: true })
   @ApiProperty({ required: false })
-  contract_enforcement: number
-
-  @Column()
-  @ApiProperty()
-  quality_guarantee_period: number // months
+  currency?: Currency
 
   @Column({ nullable: true })
   @ApiProperty({ required: false })
-  manufacturer_guarantee: number // months
+  purchase_step_id?: number
+
+  @ManyToOne(() => PurchaseStep, (step) => step.purchases)
+  @JoinColumn({ name: 'purchase_step_id', referencedColumnName: 'purchase_step_id' })
+  @ApiProperty({ required: false })
+  purchase_step?: PurchaseStep
+
+  @Column({ nullable: true })
+  @ApiProperty({ required: false })
+  delivery_address?: string
+
+  @Column({ nullable: true })
+  @ApiProperty({ required: false })
+  is_organization_fund?: boolean
 
   @Column({ type: 'decimal', nullable: true })
   @ApiProperty({ required: false })
-  warranty_obligations_enforcement: number
+  application_enforcement?: number
+
+  @Column({ nullable: true })
+  @ApiProperty({ required: false })
+  is_unilateral_refusal?: boolean
+
+  @Column({ type: 'decimal', nullable: true })
+  @ApiProperty({ required: false })
+  contract_enforcement?: number
+
+  @Column({ nullable: true })
+  @ApiProperty({ required: false })
+  quality_guarantee_period?: number // months
+
+  @Column({ nullable: true })
+  @ApiProperty({ required: false })
+  manufacturer_guarantee?: number // months
+
+  @Column({ type: 'decimal', nullable: true })
+  @ApiProperty({ required: false })
+  warranty_obligations_enforcement?: number
 
   @Column({ type: 'text', nullable: true })
   @ApiProperty({ required: false })
-  additional_info: string
+  additional_info?: string
 
   @OneToMany(() => PurchaseEvent, (purchaseEvent) => purchaseEvent.purchase, { cascade: true })
   purchase_events: PurchaseEvent[]

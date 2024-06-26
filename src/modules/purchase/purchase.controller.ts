@@ -61,12 +61,16 @@ export class PurchaseController {
   })
   @Post()
   async create(@Body() purchase: CreatePurchaseDto, @Req() request) {
-    const isPurchaseTypeExists = await this.purchaseTypeService.isExists(purchase.purchase_type_id)
-    if (!isPurchaseTypeExists)
-      throw new HttpException(
-        this.i18n.t('errors.purchase_type_not_found', { lang: I18nContext.current().lang }),
-        HttpStatus.NOT_FOUND,
+    if (purchase.purchase_type_id) {
+      const isPurchaseTypeExists = await this.purchaseTypeService.isExists(
+        purchase.purchase_type_id,
       )
+      if (!isPurchaseTypeExists)
+        throw new HttpException(
+          this.i18n.t('errors.purchase_type_not_found', { lang: I18nContext.current().lang }),
+          HttpStatus.NOT_FOUND,
+        )
+    }
 
     if (purchase.executor_uuid) {
       const isExecutorExists = await this.organizationService.isExists(purchase.executor_uuid)

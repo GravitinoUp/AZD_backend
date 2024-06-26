@@ -65,6 +65,7 @@ export class SeedLimits1718365222304 implements MigrationInterface {
     const branch = await queryRunner.manager
       .getRepository(Branch)
       .createQueryBuilder()
+      .useTransaction(true)
       .select()
       .getOne()
 

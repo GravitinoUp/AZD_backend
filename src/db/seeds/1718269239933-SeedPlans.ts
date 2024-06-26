@@ -12,6 +12,7 @@ export class SeedPlans1718269239933 implements MigrationInterface {
     const branches = await queryRunner.manager
       .getRepository(Branch)
       .createQueryBuilder()
+      .useTransaction(true)
       .insert()
       .values([
         {
