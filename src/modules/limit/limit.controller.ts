@@ -138,22 +138,22 @@ export class LimitController {
         HttpStatus.NOT_FOUND,
       )
 
-    if (limit.kbk_uuid) {
-      const isKBKExists = await this.kbkService.isExists(limit.kbk_uuid) // ADD IF NOT EXISTS
-      if (!isKBKExists)
-        throw new HttpException(
-          this.i18n.t('errors.kbk_not_found', { lang: I18nContext.current().lang }),
-          HttpStatus.NOT_FOUND,
-        )
-    }
-    if (limit.kosgu_uuid) {
-      const isKosguExists = await this.kosguService.isExists(limit.kosgu_uuid) // ADD IF NOT EXISTS
-      if (!isKosguExists)
-        throw new HttpException(
-          this.i18n.t('errors.kosgu_not_found', { lang: I18nContext.current().lang }),
-          HttpStatus.NOT_FOUND,
-        )
-    }
+    // if (limit.kbk_uuid) {
+    //   const isKBKExists = await this.kbkService.isExists(limit.kbk_uuid) // ADD IF NOT EXISTS
+    //   if (!isKBKExists)
+    //     throw new HttpException(
+    //       this.i18n.t('errors.kbk_not_found', { lang: I18nContext.current().lang }),
+    //       HttpStatus.NOT_FOUND,
+    //     )
+    // }
+    // if (limit.kosgu_uuid) {
+    //   const isKosguExists = await this.kosguService.isExists(limit.kosgu_uuid) // ADD IF NOT EXISTS
+    //   if (!isKosguExists)
+    //     throw new HttpException(
+    //       this.i18n.t('errors.kosgu_not_found', { lang: I18nContext.current().lang }),
+    //       HttpStatus.NOT_FOUND,
+    //     )
+    // }
 
     if (limit?.years) {
       for (const year of limit.years) {

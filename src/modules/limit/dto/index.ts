@@ -103,14 +103,20 @@ export class UpdateLimitDto {
   @ApiProperty({ required: false })
   limit_name?: string
 
-  @IsUUID()
+  @IsObject()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @ApiProperty()
+  kbk_values?: KBKLimitDto
+
+  @IsEmpty()
   kbk_uuid?: string
 
-  @IsUUID()
+  @IsString()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @ApiProperty()
+  kosgu_code?: string
+
+  @IsEmpty()
   kosgu_uuid?: string
 
   @ArrayMinSize(3)

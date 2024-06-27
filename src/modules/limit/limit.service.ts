@@ -122,6 +122,18 @@ export class LimitService {
     await queryRunner.startTransaction()
 
     try {
+      if (limit.kbk_values) {
+        const kbk = await this.kbkService.findOrCreateKBK(limit.kbk_values, queryRunner) // ADD KBK IF NOT EXISTS
+        delete limit['kbk_values']
+        limit.kbk_uuid = kbk.kbk_uuid
+      }
+
+      if (limit.kosgu_code) {
+        const kosgu = await this.kosguService.findOrCreateKosgu(limit.kosgu_code, queryRunner) // ADD KOSGU IF NOT EXISTS
+        delete limit['kosgu_code']
+        limit.kosgu_uuid = kosgu.kosgu_uuid
+      }
+
       const limitYears = limit.years
       delete limit['years']
       const keys = Object.keys(limit).map((key) => `"${key}"`)
