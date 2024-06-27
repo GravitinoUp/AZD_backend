@@ -10,12 +10,15 @@ import { formatFilter } from 'src/utils/format-filter'
 import { PurchaseFilter } from './filter'
 import { PurchaseEvent } from '../purchase-event/entities/purchase-event.entity'
 import { CreatePurchaseEventDto } from '../purchase-event/dto'
+import { RuleService } from '../rule/rule.service'
+import checkRule from 'src/utils/check-rules'
 
 @Injectable()
 export class PurchaseService {
   constructor(
     @InjectRepository(Purchase)
     private purchaseRepository: Repository<Purchase>,
+    private readonly ruleService: RuleService,
     private readonly dataSource: DataSource,
     private readonly i18n: I18nService,
   ) {}
@@ -123,6 +126,8 @@ export class PurchaseService {
         }
       }
 
+      const rules = await this.ruleService.findAll({})
+
       const updatePurchase = await queryRunner.manager
         .getRepository(Purchase)
         .createQueryBuilder()
@@ -132,7 +137,29 @@ export class PurchaseService {
         .set({
           ...purchase,
         })
+        .returning('*')
         .execute()
+
+      for (const rule of rules.data) {
+        const fieldValue = updatePurchase.raw[0][rule.rule_field_on]
+
+        const check = await checkRule(
+          Number(fieldValue),
+          rule.rule_operator,
+          Number(rule.rule_condition_value),
+        )
+
+        console.log(
+          rule.rule_name,
+          Number(fieldValue),
+          rule.rule_operator,
+          Number(rule.rule_condition_value),
+        )
+
+        if (!check) {
+          throw new BadRequestException(`Нарушено ограничение: ${rule.rule_name}`)
+        }
+      }
 
       await queryRunner.commitTransaction()
       return { status: updatePurchase.affected !== 0 }

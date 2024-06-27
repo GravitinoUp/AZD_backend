@@ -47,6 +47,7 @@ import { AgreementStatusModule } from '../agreement-status/agreement-status.modu
 import { RoleAgreementModule } from '../role-agreement/role-agreement.module'
 import { AgreementModule } from '../agreement/agreement.module'
 import { CommercialOfferModule } from '../commercial-offer/commercial-offer.module'
+import { RuleModule } from '../rule/rule.module'
 
 @Module({
   imports: [
@@ -155,6 +156,7 @@ import { CommercialOfferModule } from '../commercial-offer/commercial-offer.modu
     RoleModule,
     RoleAgreementModule,
     RolePermissionModule,
+    RuleModule,
     TechnicalTaskModule,
     UserModule,
   ],
