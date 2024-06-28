@@ -12,6 +12,8 @@ export default async function checkRule(
 
   if (fieldForValue != null && fieldForOperator != null && fieldForConditionValue != null) {
     if (isFieldOnCorrect) {
+      return true
+    } else {
       const isFieldForCorrect = !isFieldCorrect(
         fieldForValue,
         fieldForOperator,
@@ -19,8 +21,6 @@ export default async function checkRule(
       )
 
       return isFieldForCorrect
-    } else {
-      return false
     }
   } else {
     const isFieldOnCorrect = isFieldCorrect(fieldOnValue, fieldOnOperator, fieldOnConditionValue)
