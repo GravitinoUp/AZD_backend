@@ -7,12 +7,14 @@ import { ArrayOrganizationResponse, StatusOrganizationResponse } from './respons
 import { OrganizationFilter } from './filters'
 import { DefaultPagination } from 'src/common/constants/constants'
 import { formatFilter } from 'src/utils/format-filter'
+import { PropertiesService } from '../properties/properties.service'
 
 @Injectable()
 export class OrganizationService {
   constructor(
     @InjectRepository(Organization)
     private organizationRepository: Repository<Organization>,
+    private readonly propertyService: PropertiesService,
   ) {}
 
   async create(organization: CreateOrganizationDto): Promise<StatusOrganizationResponse> {
@@ -32,7 +34,10 @@ export class OrganizationService {
     }
   }
 
-  async findAll(organizationFilter: OrganizationFilter): Promise<ArrayOrganizationResponse> {
+  async findAll(
+    organizationFilter: OrganizationFilter,
+    includeProperties: boolean = true,
+  ): Promise<ArrayOrganizationResponse> {
     try {
       const count = organizationFilter?.offset?.count ?? DefaultPagination.COUNT
       const page = organizationFilter?.offset?.page ?? DefaultPagination.PAGE
@@ -45,6 +50,15 @@ export class OrganizationService {
         skip: count * (page - 1),
         take: count,
       })
+
+      if (includeProperties == true) {
+        for (const organization of organizations[0]) {
+          if (organization.property_values.length > 0) {
+            const properties = await this.propertyService.findByIds(organization.property_values)
+            organization['properties'] = properties
+          }
+        }
+      }
 
       return { count: organizations[1], data: organizations[0] }
     } catch (error) {

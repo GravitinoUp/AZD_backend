@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import {
+  IsArray,
   IsBoolean,
   IsDateString,
   IsDecimal,
@@ -114,6 +115,11 @@ export class CreatePurchaseDto {
   @IsOptional()
   @ApiProperty({ required: false })
   additional_info?: string
+
+  @IsArray()
+  @IsOptional()
+  @ApiProperty({ required: false, default: [] })
+  property_values?: string[]
 }
 
 export class UpdatePurchaseDto {
@@ -225,4 +231,9 @@ export class UpdatePurchaseDto {
   @IsOptional()
   @ApiProperty({ required: false })
   additional_info?: string
+
+  @IsArray()
+  @IsOptional()
+  @ApiProperty({ required: false, default: [] })
+  property_values?: string[]
 }

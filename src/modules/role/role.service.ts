@@ -10,12 +10,14 @@ import { formatFilter } from 'src/utils/format-filter'
 import { RolePermissionService } from '../role-permission/role-permission.service'
 import { UpdateRolePermissionsDto } from '../role-permission/dto'
 import { RolePermission } from '../role-permission/entities/role-permission.entity'
+import { PropertiesService } from '../properties/properties.service'
 
 @Injectable()
 export class RoleService {
   constructor(
     @InjectRepository(Role)
     private roleRepository: Repository<Role>,
+    private readonly propertyService: PropertiesService,
     private readonly rolePermissionService: RolePermissionService,
     private dataSource: DataSource,
   ) {}
@@ -56,7 +58,10 @@ export class RoleService {
     }
   }
 
-  async findAll(roleFilter: RoleFilter): Promise<ArrayRoleResponse> {
+  async findAll(
+    roleFilter: RoleFilter,
+    includeProperties: boolean = true,
+  ): Promise<ArrayRoleResponse> {
     try {
       const count = roleFilter?.offset?.count ?? DefaultPagination.COUNT
       const page = roleFilter?.offset?.page ?? DefaultPagination.PAGE
@@ -70,6 +75,14 @@ export class RoleService {
         take: count,
       })
 
+      if (includeProperties == true) {
+        for (const role of roles[0]) {
+          if (role.property_values.length > 0) {
+            const properties = await this.propertyService.findByIds(role.property_values)
+            role['properties'] = properties
+          }
+        }
+      }
       return { count: roles[1], data: roles[0] }
     } catch (error) {
       console.log(error)

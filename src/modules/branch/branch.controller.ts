@@ -8,6 +8,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseFilters,
   UseGuards,
 } from '@nestjs/common'
@@ -18,6 +19,7 @@ import {
   ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
+  ApiQuery,
   ApiTags,
 } from '@nestjs/swagger'
 import { AllExceptionsFilter } from 'src/common/exception.filter'
@@ -65,15 +67,19 @@ export class BranchController {
     type: ArrayBranchResponse,
   })
   @ApiBody({ required: false, type: BranchFilter })
+  @ApiQuery({ required: false, type: Boolean, name: 'include_properties' })
   @Post('all')
-  async findAll(@Body() branchFilter: BranchFilter) {
+  async findAll(
+    @Body() branchFilter: BranchFilter,
+    @Query('include_properties') includeProperties?: boolean,
+  ) {
     const key = `${CacheRoutes.BRANCH}/all-${JSON.stringify(branchFilter)}`
     let branchs: ArrayBranchResponse = await this.cacheManager.get(key)
 
     if (branchs) {
       return branchs
     } else {
-      branchs = await this.branchService.findAll(branchFilter)
+      branchs = await this.branchService.findAll(branchFilter, includeProperties)
       await this.cacheManager.set(key, branchs)
       return branchs
     }
@@ -86,15 +92,16 @@ export class BranchController {
     description: AppStrings.BRANCH_ALL_RESPONSE,
     type: ArrayBranchResponse,
   })
+  @ApiQuery({ required: false, type: Boolean, name: 'include_properties' })
   @Get('all')
-  async getAll() {
+  async getAll(@Query('include_properties') includeProperties?: boolean) {
     const key = `${CacheRoutes.BRANCH}/all-{}`
     let branchs: ArrayBranchResponse = await this.cacheManager.get(key)
 
     if (branchs) {
       return branchs
     } else {
-      branchs = await this.branchService.findAll({})
+      branchs = await this.branchService.findAll({}, includeProperties)
       await this.cacheManager.set(key, branchs)
       return branchs
     }

@@ -12,6 +12,7 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from 
 import { PurchaseProduct } from './purchase-products.entity'
 import { Document } from 'src/modules/document/entities/document.entity'
 import { CommercialOffer } from 'src/modules/commercial-offer/entities/commercial-offer.entity'
+import { AppStrings } from 'src/common/constants/strings'
 
 @Entity({ name: 'Purchases' })
 export class Purchase extends BaseModel {
@@ -135,6 +136,10 @@ export class Purchase extends BaseModel {
   @Column({ type: 'text', nullable: true })
   @ApiProperty({ required: false })
   additional_info?: string
+
+  @Column({ type: 'uuid', array: true })
+  @ApiProperty({ description: AppStrings.PROPERTY_VALUES })
+  property_values: string[]
 
   @OneToMany(() => PurchaseEvent, (purchaseEvent) => purchaseEvent.purchase, { cascade: true })
   purchase_events: PurchaseEvent[]

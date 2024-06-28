@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
+import { AppStrings } from 'src/common/constants/strings'
 import { Currency } from 'src/modules/currency/entities/currency.entity'
 import { Organization } from 'src/modules/organization/entities/organization.entity'
 import { PurchaseStep } from 'src/modules/purchase-step/entities/purchase-step.entity'
@@ -92,6 +93,9 @@ export class PurchaseResponse {
 
   @ApiProperty({ required: false })
   additional_info?: string
+
+  @ApiProperty({ description: AppStrings.PROPERTY_VALUES })
+  property_values: string[]
 }
 
 export class ArrayPurchaseResponse {

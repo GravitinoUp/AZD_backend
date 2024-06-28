@@ -12,12 +12,14 @@ import { PurchaseEvent } from '../purchase-event/entities/purchase-event.entity'
 import { CreatePurchaseEventDto } from '../purchase-event/dto'
 import { RuleService } from '../rule/rule.service'
 import checkRule from 'src/utils/check-rules'
+import { PropertiesService } from '../properties/properties.service'
 
 @Injectable()
 export class PurchaseService {
   constructor(
     @InjectRepository(Purchase)
     private purchaseRepository: Repository<Purchase>,
+    private readonly propertyService: PropertiesService,
     private readonly ruleService: RuleService,
     private readonly dataSource: DataSource,
     private readonly i18n: I18nService,
@@ -45,7 +47,10 @@ export class PurchaseService {
     }
   }
 
-  async findAll(purchaseFilter: PurchaseFilter): Promise<ArrayPurchaseResponse> {
+  async findAll(
+    purchaseFilter: PurchaseFilter,
+    includeProperties: boolean = true,
+  ): Promise<ArrayPurchaseResponse> {
     try {
       const count = purchaseFilter?.offset?.count ?? DefaultPagination.COUNT
       const page = purchaseFilter?.offset?.page ?? DefaultPagination.PAGE
@@ -66,6 +71,15 @@ export class PurchaseService {
         skip: count * (page - 1),
         take: count,
       })
+
+      if (includeProperties == true) {
+        for (const purchase of purchases[0]) {
+          if (purchase.property_values.length > 0) {
+            const properties = await this.propertyService.findByIds(purchase.property_values)
+            purchase['properties'] = properties
+          }
+        }
+      }
 
       return { count: purchases[1], data: purchases[0] }
     } catch (error) {

@@ -7,12 +7,14 @@ import { CreateBranchDto, UpdateBranchDto } from './dto'
 import { Branch } from './entities/branch.entity'
 import { BranchFilter } from './filters'
 import { StatusBranchResponse, ArrayBranchResponse } from './response'
+import { PropertiesService } from '../properties/properties.service'
 
 @Injectable()
 export class BranchService {
   constructor(
     @InjectRepository(Branch)
     private branchRepository: Repository<Branch>,
+    private readonly propertyService: PropertiesService,
   ) {}
 
   async create(branch: CreateBranchDto): Promise<StatusBranchResponse> {
@@ -32,13 +34,16 @@ export class BranchService {
     }
   }
 
-  async findAll(branchFilter: BranchFilter): Promise<ArrayBranchResponse> {
+  async findAll(
+    branchFilter: BranchFilter,
+    includeProperties: boolean = true,
+  ): Promise<ArrayBranchResponse> {
     try {
       const count = branchFilter?.offset?.count ?? DefaultPagination.COUNT
       const page = branchFilter?.offset?.page ?? DefaultPagination.PAGE
       const filters = formatFilter(branchFilter?.filter ?? {})
 
-      const branchs = await this.branchRepository.findAndCount({
+      const branches = await this.branchRepository.findAndCount({
         relations: {},
         where: filters,
         order: branchFilter.sorts,
@@ -46,7 +51,16 @@ export class BranchService {
         take: count,
       })
 
-      return { count: branchs[1], data: branchs[0] }
+      if (includeProperties == true) {
+        for (const branch of branches[0]) {
+          if (branch.property_values.length > 0) {
+            const properties = await this.propertyService.findByIds(branch.property_values)
+            branch['properties'] = properties
+          }
+        }
+      }
+
+      return { count: branches[1], data: branches[0] }
     } catch (error) {
       console.log(error)
       throw new HttpException(error.message, error.status ?? HttpStatus.INTERNAL_SERVER_ERROR)

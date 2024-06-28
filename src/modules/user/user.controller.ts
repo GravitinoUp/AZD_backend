@@ -10,6 +10,7 @@ import {
   UseGuards,
   Patch,
   Inject,
+  Query,
 } from '@nestjs/common'
 import { UserService } from './user.service'
 import {
@@ -19,7 +20,14 @@ import {
   UpdateUserPasswordDto,
   UpdateUserStatusDto,
 } from './dto'
-import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiOperation,
+  ApiQuery,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger'
 import { AllExceptionsFilter } from 'src/common/exception.filter'
 import { I18nContext, I18nService } from 'nestjs-i18n'
 import { ArrayUserResponse, StatusUserResponse } from './response'
@@ -105,15 +113,19 @@ export class UserController {
   })
   @ApiBody({ required: false, type: UserFilter })
   @UseGuards(JwtAuthGuard, ActiveGuard)
+  @ApiQuery({ required: false, type: Boolean, name: 'include_properties' })
   @Post('all')
-  async findAll(@Body() filter: UserFilter) {
+  async findAll(
+    @Body() filter: UserFilter,
+    @Query('include_properties') includeProperties?: boolean,
+  ) {
     const key = `${CacheRoutes.USER}/all-${JSON.stringify(filter)}`
     let users: ArrayUserResponse = await this.cacheManager.get(key)
 
     if (users) {
       return users
     } else {
-      users = await this.userService.findAll(filter)
+      users = await this.userService.findAll(filter, includeProperties)
       await this.cacheManager.set(key, users)
       return users
     }

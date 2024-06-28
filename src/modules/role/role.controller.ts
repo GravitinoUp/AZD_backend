@@ -8,6 +8,7 @@ import {
   NotFoundException,
   Patch,
   Post,
+  Query,
   UseFilters,
   UseGuards,
 } from '@nestjs/common'
@@ -17,6 +18,7 @@ import {
   ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
+  ApiQuery,
   ApiTags,
 } from '@nestjs/swagger'
 import { AllExceptionsFilter } from 'src/common/exception.filter'
@@ -77,15 +79,19 @@ export class RoleController {
     type: ArrayRoleResponse,
   })
   @ApiBody({ required: false, type: RoleFilter })
+  @ApiQuery({ required: false, type: Boolean, name: 'include_properties' })
   @Post('all')
-  async findAll(@Body() roleFilter: RoleFilter) {
-    const key = `${CacheRoutes.ROLE}/all-${JSON.stringify(roleFilter)}`
+  async findAll(
+    @Body() roleFilter: RoleFilter,
+    @Query('include_properties') includeProperties?: boolean,
+  ) {
+    const key = `${CacheRoutes.ROLE}/all-${JSON.stringify(roleFilter)}-${includeProperties}`
     let roles: ArrayRoleResponse = await this.cacheManager.get(key)
 
     if (roles) {
       return roles
     } else {
-      roles = await this.roleService.findAll(roleFilter)
+      roles = await this.roleService.findAll(roleFilter, includeProperties)
       await this.cacheManager.set(key, roles)
       return roles
     }

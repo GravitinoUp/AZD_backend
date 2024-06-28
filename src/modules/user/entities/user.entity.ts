@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
+import { AppStrings } from 'src/common/constants/strings'
 import BaseModel from 'src/common/model'
 import { Auth } from 'src/modules/auth/entities/auth.entity'
 import { LimitEvent } from 'src/modules/limit-event/entities/limit-event.entity'
@@ -50,6 +51,10 @@ export class User extends BaseModel {
   @Column({ select: false })
   @ApiProperty()
   password: string
+
+  @Column({ type: 'uuid', array: true })
+  @ApiProperty({ description: AppStrings.PROPERTY_VALUES })
+  property_values: string[]
 
   @OneToMany(() => Auth, (auth) => auth.user, { cascade: true })
   auths: Auth[]
