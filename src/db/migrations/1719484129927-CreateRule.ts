@@ -22,16 +22,27 @@ export class CreateRule1719484129927 implements MigrationInterface {
             type: 'varchar',
           },
           {
+            name: 'rule_on_operator',
+            type: 'varchar',
+          },
+          {
+            name: 'rule_on_condition_value',
+            type: 'varchar',
+          },
+          {
             name: 'rule_field_for',
             type: 'varchar',
+            isNullable: true,
           },
           {
-            name: 'rule_operator',
+            name: 'rule_for_operator',
             type: 'varchar',
+            isNullable: true,
           },
           {
-            name: 'rule_condition_value',
+            name: 'rule_for_condition_value',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'created_at',

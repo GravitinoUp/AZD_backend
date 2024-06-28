@@ -11,13 +11,19 @@ export class RuleResponse {
   rule_field_on: string
 
   @ApiProperty()
-  rule_field_for: string
+  rule_on_operator: string
 
   @ApiProperty()
-  rule_operator: string
+  rule_on_condition_value: string
 
-  @ApiProperty()
-  rule_condition_value: string
+  @ApiProperty({ required: false })
+  rule_field_for?: string
+
+  @ApiProperty({ required: false })
+  rule_for_operator?: string
+
+  @ApiProperty({ required: false })
+  rule_for_condition_value?: string
 }
 
 export class ArrayRuleResponse {

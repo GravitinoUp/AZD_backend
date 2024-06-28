@@ -12,15 +12,26 @@ export class CreateRuleDto {
 
   @IsString()
   @ApiProperty()
-  rule_field_for: string
+  rule_on_operator: string
 
   @IsString()
   @ApiProperty()
-  rule_operator: string
+  rule_on_condition_value: string
 
   @IsString()
+  @IsOptional()
   @ApiProperty()
-  rule_condition_value: string
+  rule_field_for?: string
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  rule_for_operator?: string
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  rule_for_condition_value?: string
 }
 
 export class UpdateRuleDto {
@@ -35,11 +46,21 @@ export class UpdateRuleDto {
 
   @IsString()
   @IsOptional()
-  @ApiProperty()
-  rule_operator?: string
+  @ApiProperty({ required: false })
+  rule_on_operator?: string
 
   @IsString()
   @IsOptional()
-  @ApiProperty()
-  rule_condition_value?: string
+  @ApiProperty({ required: false })
+  rule_on_condition_value?: string
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  rule_for_operator?: string
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  rule_for_condition_value?: string
 }

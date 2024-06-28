@@ -13,13 +13,19 @@ export class RuleSorts {
   rule_field_on?: 'ASC' | 'DESC'
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
+  rule_on_operator?: 'ASC' | 'DESC'
+
+  @ApiProperty({ default: AppStrings.ASC, required: false })
+  rule_on_condition_value?: 'ASC' | 'DESC'
+
+  @ApiProperty({ default: AppStrings.ASC, required: false })
   rule_field_for?: 'ASC' | 'DESC'
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
-  rule_operator?: 'ASC' | 'DESC'
+  rule_for_operator?: 'ASC' | 'DESC'
 
   @ApiProperty({ default: AppStrings.ASC, required: false })
-  rule_condition_value?: 'ASC' | 'DESC'
+  rule_for_condition_value?: 'ASC' | 'DESC'
 }
 
 export class RuleFilters {
@@ -33,13 +39,19 @@ export class RuleFilters {
   rule_field_on?: string
 
   @ApiProperty({ required: false })
+  rule_on_operator?: string
+
+  @ApiProperty({ required: false })
+  rule_on_condition_value?: string
+
+  @ApiProperty({ required: false })
   rule_field_for?: string
 
   @ApiProperty({ required: false })
-  rule_operator?: string
+  rule_for_operator?: string
 
   @ApiProperty({ required: false })
-  rule_condition_value?: string
+  rule_for_condition_value?: string
 }
 
 export class RuleFilter {
