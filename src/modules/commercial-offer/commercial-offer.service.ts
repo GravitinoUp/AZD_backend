@@ -17,6 +17,7 @@ import { I18nService } from 'nestjs-i18n'
 import { MailService } from '../mail/mail.service'
 import { Organization } from '../organization/entities/organization.entity'
 import { PurchaseService } from '../purchase/purchase.service'
+import { Purchase } from '../purchase/entities/purchase.entity'
 
 @Injectable()
 export class CommercialOfferService {
@@ -41,6 +42,7 @@ export class CommercialOfferService {
           .insert()
           .values({
             purchase_uuid: commercialOffer.purchase_uuid,
+            commercial_offer_text: commercialOffer.commercial_offer_text,
             organization_uuid: organization_uuid,
           })
           .returning('*')
@@ -54,10 +56,18 @@ export class CommercialOfferService {
             .where({ organization_uuid })
             .getOne()
 
+          const purchase = await queryRunner.manager
+            .getRepository(Purchase)
+            .createQueryBuilder('purchase')
+            .select(['purchase.purchase_name'])
+            .where({ purchase_uuid: commercialOffer.purchase_uuid })
+            .getOne()
+
           if (organization?.email) {
             const commercialOfferMail = new SendCommercialOfferDto()
             commercialOfferMail.email = organization.email
-            commercialOfferMail.purchase_name = commercialOffer.purchase_uuid
+            commercialOfferMail.purchase_name = purchase.purchase_name
+            commercialOfferMail.commercial_offer_text = commercialOffer.commercial_offer_text
 
             await this.mailService.sendCommercialOfferMessage(commercialOfferMail)
           }

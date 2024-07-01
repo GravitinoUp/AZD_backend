@@ -6,6 +6,10 @@ export class CreateCommercialOfferDto {
   @ApiProperty()
   purchase_uuid: string
 
+  @IsString()
+  @ApiProperty()
+  commercial_offer_text: string
+
   @ArrayMinSize(1) // TODO
   @IsArray()
   @ApiProperty()
@@ -37,4 +41,8 @@ export class SendCommercialOfferDto {
   @IsString()
   @ApiProperty()
   purchase_name: string
+
+  @IsString()
+  @ApiProperty()
+  commercial_offer_text: string
 }

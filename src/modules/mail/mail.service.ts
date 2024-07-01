@@ -9,10 +9,11 @@ export class MailService {
   async sendCommercialOfferMessage(dtoEmail: SendCommercialOfferDto): Promise<void> {
     await this.mailerService.sendMail({
       to: dtoEmail.email,
-      subject: 'TEST', // TODO
+      subject: `Коммерческое предложение "${dtoEmail.purchase_name}"`,
       template: './commercial-offer',
       context: {
         purchase_name: dtoEmail.purchase_name,
+        commercial_offer_text: dtoEmail.commercial_offer_text,
       },
     })
   }

@@ -19,6 +19,10 @@ export class CommercialOffer extends BaseModel {
   @ApiProperty({ required: false })
   purchase?: Purchase
 
+  @Column({ type: 'text' })
+  @ApiProperty()
+  commercial_offer_text: string
+
   @Column()
   @ApiProperty()
   organization_uuid: string

@@ -8,6 +8,9 @@ export class CommercialOfferSorts {
   @ApiProperty({ default: AppStrings.ASC, required: false })
   commercial_offer_uuid?: 'ASC' | 'DESC'
 
+  @ApiProperty({ default: AppStrings.ASC, required: false })
+  commercial_offer_text?: 'ASC' | 'DESC'
+
   @ApiProperty({ required: false })
   purchase?: PurchaseSorts
 
@@ -21,6 +24,9 @@ export class CommercialOfferSorts {
 export class CommercialOfferFilters {
   @ApiProperty({ required: false })
   commercial_offer_uuid?: string
+
+  @ApiProperty({ required: false })
+  commercial_offer_text?: string
 
   @ApiProperty({ required: false })
   purchase?: PurchaseFilters

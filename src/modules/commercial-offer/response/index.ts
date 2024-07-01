@@ -13,6 +13,9 @@ export class CommercialOfferResponse {
   purchase?: PurchaseResponse
 
   @ApiProperty({ required: false })
+  commercial_offer_text: string
+
+  @ApiProperty({ required: false })
   organization_uuid: string
 
   @ApiProperty({ required: false })
