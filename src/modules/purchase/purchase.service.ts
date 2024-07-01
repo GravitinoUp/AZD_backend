@@ -30,6 +30,25 @@ export class PurchaseService {
     initiatorUuid: string,
   ): Promise<StatusPurchaseResponse> {
     try {
+      const rules = await this.ruleService.findAll({})
+      for (const rule of rules.data) {
+        const fieldOnValue = purchase[rule.rule_field_on]
+        const fieldForValue = purchase[rule.rule_field_for]
+
+        const check = await checkRule(
+          Number(fieldOnValue),
+          rule.rule_on_operator,
+          Number(rule.rule_on_condition_value),
+          fieldForValue ? Number(fieldForValue) : null,
+          rule.rule_for_operator,
+          rule.rule_for_condition_value ? Number(rule.rule_for_condition_value) : null,
+        )
+
+        if (!check) {
+          throw new BadRequestException(`Нарушено ограничение: ${rule.rule_name}`)
+        }
+      }
+
       const newPurchase = await this.purchaseRepository
         .createQueryBuilder()
         .insert()
