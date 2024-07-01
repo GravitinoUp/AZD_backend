@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsString, IsOptional, IsUUID } from 'class-validator'
+import { IsString, IsOptional, IsUUID, IsArray } from 'class-validator'
 
 export class CreateBranchDto {
   @IsString()
@@ -10,6 +10,11 @@ export class CreateBranchDto {
   @IsOptional()
   @ApiProperty({ required: false })
   branch_address?: string
+
+  @IsArray()
+  @IsOptional()
+  @ApiProperty({ required: false, default: [] })
+  property_values?: string[]
 }
 
 export class UpdateBranchDto {
@@ -26,4 +31,9 @@ export class UpdateBranchDto {
   @IsOptional()
   @ApiProperty({ required: false })
   branch_address?: string
+
+  @IsArray()
+  @IsOptional()
+  @ApiProperty({ required: false, default: [] })
+  property_values?: string[]
 }

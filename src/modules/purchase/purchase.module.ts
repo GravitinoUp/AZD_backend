@@ -8,6 +8,8 @@ import { PurchaseTypeModule } from '../purchase-type/purchase-type.module'
 import { OrganizationModule } from '../organization/organization.module'
 import { RolePermissionModule } from '../role-permission/role-permission.module'
 import { CurrencyModule } from '../currency/currency.module'
+import { RuleModule } from '../rule/rule.module'
+import { PropertiesModule } from '../properties/properties.module'
 
 @Module({
   imports: [
@@ -17,6 +19,8 @@ import { CurrencyModule } from '../currency/currency.module'
     OrganizationModule,
     RolePermissionModule,
     CurrencyModule,
+    RuleModule,
+    PropertiesModule,
   ],
   controllers: [PurchaseController],
   providers: [PurchaseService],

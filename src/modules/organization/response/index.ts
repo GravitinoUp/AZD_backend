@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
+import { AppStrings } from 'src/common/constants/strings'
 import { OrganizationType } from 'src/modules/organization-type/entities/organization-type.entity'
 import { Person } from 'src/modules/person/entities/person.entity'
 
@@ -65,6 +66,9 @@ export class OrganizationResponse {
 
   @ApiProperty({ required: false })
   web_site?: string
+
+  @ApiProperty({ description: AppStrings.PROPERTY_VALUES })
+  property_values: string[]
 }
 
 export class ArrayOrganizationResponse {

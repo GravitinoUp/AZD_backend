@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
+import { AppStrings } from 'src/common/constants/strings'
 
 export class BranchResponse {
   @ApiProperty()
@@ -9,6 +10,9 @@ export class BranchResponse {
 
   @ApiProperty({ required: false })
   branch_address?: string
+
+  @ApiProperty({ description: AppStrings.PROPERTY_VALUES })
+  property_values: string[]
 }
 
 export class ArrayBranchResponse {

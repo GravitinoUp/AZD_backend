@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
+import { AppStrings } from 'src/common/constants/strings'
 import BaseModel from 'src/common/model'
 import { CommercialOffer } from 'src/modules/commercial-offer/entities/commercial-offer.entity'
 import { Document } from 'src/modules/document/entities/document.entity'
@@ -94,6 +95,10 @@ export class Organization extends BaseModel {
   @Column({ nullable: true })
   @ApiProperty({ required: false })
   web_site?: string
+
+  @Column({ type: 'uuid', array: true })
+  @ApiProperty({ description: AppStrings.PROPERTY_VALUES })
+  property_values: string[]
 
   @OneToMany(() => Purchase, (purchase) => purchase.executor, { cascade: true })
   purchases: Purchase[]

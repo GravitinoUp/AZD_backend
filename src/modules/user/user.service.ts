@@ -11,12 +11,14 @@ import { I18nContext, I18nService } from 'nestjs-i18n'
 import { DefaultPagination } from 'src/common/constants/constants'
 import { UserFilter } from './filters'
 import { formatFilter } from 'src/utils/format-filter'
+import { PropertiesService } from '../properties/properties.service'
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    private readonly propertyService: PropertiesService,
     private readonly i18n: I18nService,
     private dataSource: DataSource,
   ) {}
@@ -86,7 +88,10 @@ export class UserService {
     }
   }
 
-  async findAll(userFilter: UserFilter): Promise<ArrayUserResponse> {
+  async findAll(
+    userFilter: UserFilter,
+    includeProperties: boolean = true,
+  ): Promise<ArrayUserResponse> {
     try {
       const count = userFilter?.offset?.count ?? DefaultPagination.COUNT
       const page = userFilter?.offset?.page ?? DefaultPagination.PAGE
@@ -99,6 +104,15 @@ export class UserService {
         skip: count * (page - 1),
         take: count,
       })
+
+      if (includeProperties == true) {
+        for (const user of users[0]) {
+          if (user.property_values.length > 0) {
+            const properties = await this.propertyService.findByIds(user.property_values)
+            user['properties'] = properties
+          }
+        }
+      }
 
       return { count: users[1], data: users[0] }
     } catch (error) {

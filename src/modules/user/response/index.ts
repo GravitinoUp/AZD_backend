@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
+import { AppStrings } from 'src/common/constants/strings'
 
 export class UserResponse {
   @ApiProperty()
@@ -21,6 +22,9 @@ export class UserResponse {
 
   @ApiProperty()
   password: string
+
+  @ApiProperty({ description: AppStrings.PROPERTY_VALUES })
+  property_values: string[]
 }
 
 export class ArrayUserResponse {

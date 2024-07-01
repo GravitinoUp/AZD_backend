@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
+import { AppStrings } from 'src/common/constants/strings'
 
 export class RoleResponse {
   @ApiProperty()
@@ -6,6 +7,9 @@ export class RoleResponse {
 
   @ApiProperty()
   role_name: string
+
+  @ApiProperty({ description: AppStrings.PROPERTY_VALUES })
+  property_values: string[]
 }
 
 export class ArrayRoleResponse {

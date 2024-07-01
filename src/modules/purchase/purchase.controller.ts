@@ -106,15 +106,19 @@ export class PurchaseController {
     type: ArrayPurchaseResponse,
   })
   @ApiBody({ required: false, type: PurchaseFilter })
+  @ApiQuery({ required: false, type: Boolean, name: 'include_properties' })
   @Post('all')
-  async findAll(@Body() purchaseFilter: PurchaseFilter) {
+  async findAll(
+    @Body() purchaseFilter: PurchaseFilter,
+    @Query('include_properties') includeProperties?: boolean,
+  ) {
     const key = `${CacheRoutes.PURCHASE}/all-${JSON.stringify(purchaseFilter)}`
     let result: ArrayPurchaseResponse = await this.cacheManager.get(key)
 
     if (result) {
       return result
     } else {
-      result = await this.purchaseService.findAll(purchaseFilter)
+      result = await this.purchaseService.findAll(purchaseFilter, includeProperties)
       await this.cacheManager.set(key, result)
       return result
     }
@@ -127,8 +131,12 @@ export class PurchaseController {
     description: AppStrings.PURCHASE_ONE_RESPONSE,
     type: PurchaseResponse,
   })
+  @ApiQuery({ required: false, type: Boolean, name: 'include_properties' })
   @Get(':uuid')
-  async findOne(@Param('uuid') purchaseUuid: string) {
+  async findOne(
+    @Param('uuid') purchaseUuid: string,
+    @Query('include_properties') includeProperties?: boolean,
+  ) {
     const purchaseFilter = new PurchaseFilter()
     purchaseFilter.filter = { purchase_uuid: purchaseUuid }
 
@@ -138,7 +146,7 @@ export class PurchaseController {
     if (result) {
       return result
     } else {
-      result = (await this.purchaseService.findAll(purchaseFilter)).data[0]
+      result = (await this.purchaseService.findAll(purchaseFilter, includeProperties)).data[0]
       await this.cacheManager.set(key, result)
       return result
     }

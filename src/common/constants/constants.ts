@@ -86,6 +86,7 @@ export const CacheRoutes = {
   ROLE: 'role',
   ROLE_AGREEMENT: 'role-agreement',
   ROLE_PERMISSION: 'role-permission',
+  RULE: 'rule',
   TECHNICAL_TASK: 'technical-task',
   USER: 'user',
 }

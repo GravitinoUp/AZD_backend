@@ -8,6 +8,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseFilters,
   UseGuards,
 } from '@nestjs/common'
@@ -20,6 +21,7 @@ import {
   ApiTags,
   ApiBody,
   ApiOkResponse,
+  ApiQuery,
 } from '@nestjs/swagger'
 import { I18nContext, I18nService } from 'nestjs-i18n'
 import { AppStrings } from 'src/common/constants/strings'
@@ -83,15 +85,19 @@ export class OrganizationController {
     type: ArrayOrganizationResponse,
   })
   @ApiBody({ required: false, type: OrganizationFilter })
+  @ApiQuery({ required: false, type: Boolean, name: 'include_properties' })
   @Post('all')
-  async findAll(@Body() organizationFilter: OrganizationFilter) {
+  async findAll(
+    @Body() organizationFilter: OrganizationFilter,
+    @Query('include_properties') includeProperties?: boolean,
+  ) {
     const key = `${CacheRoutes.ORGANIZATION}/all-${JSON.stringify(organizationFilter)}`
     let organizations: ArrayOrganizationResponse = await this.cacheManager.get(key)
 
     if (organizations) {
       return organizations
     } else {
-      organizations = await this.organizationService.findAll(organizationFilter)
+      organizations = await this.organizationService.findAll(organizationFilter, includeProperties)
       await this.cacheManager.set(key, organizations)
       return organizations
     }
@@ -105,10 +111,12 @@ export class OrganizationController {
     type: ArrayOrganizationResponse,
   })
   @ApiBody({ required: false, type: OrganizationFilter })
+  @ApiQuery({ required: false, type: Boolean, name: 'include_properties' })
   @Post('all/type/:type_id')
   async findAllByType(
     @Body() organizationFilter: OrganizationFilter,
     @Param('type_id') typeId: number,
+    @Query('include_properties') includeProperties?: boolean,
   ) {
     if (organizationFilter.filter) {
       organizationFilter.filter.organization_type_id = Number(typeId)
@@ -122,7 +130,7 @@ export class OrganizationController {
     if (organizations) {
       return organizations
     } else {
-      organizations = await this.organizationService.findAll(organizationFilter)
+      organizations = await this.organizationService.findAll(organizationFilter, includeProperties)
       await this.cacheManager.set(key, organizations)
       return organizations
     }
@@ -135,15 +143,16 @@ export class OrganizationController {
     description: AppStrings.ORGANIZATION_ALL_RESPONSE,
     type: ArrayOrganizationResponse,
   })
+  @ApiQuery({ required: false, type: Boolean, name: 'include_properties' })
   @Get('all')
-  async getAll() {
+  async getAll(@Query('include_properties') includeProperties?: boolean) {
     const key = `${CacheRoutes.ORGANIZATION}/all-{}`
     let organizations: ArrayOrganizationResponse = await this.cacheManager.get(key)
 
     if (organizations) {
       return organizations
     } else {
-      organizations = await this.organizationService.findAll({})
+      organizations = await this.organizationService.findAll({}, includeProperties)
       await this.cacheManager.set(key, organizations)
       return organizations
     }

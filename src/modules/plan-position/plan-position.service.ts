@@ -50,8 +50,6 @@ export class PlanPositionService {
       const page = planFilter?.offset?.page ?? DefaultPagination.PAGE
       const filters = formatFilter(planFilter?.filter ?? {})
 
-      console.log(filters)
-
       const planPositions = await this.planPositionRepository.findAndCount({
         relations: { purchase: true, plan: true, user: { person: true }, okpd: true },
         where: filters,

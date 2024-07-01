@@ -224,6 +224,15 @@ export const AppStrings = {
   ROLE_PERMISSION_DELETE_RESPONSE: 'Разрешение удалено',
   ROLE_PERMISSION_DELETE_OPERATION: 'Удаление разрешения',
 
+  RULE_CREATE_RESPONSE: 'Правило создано',
+  RULE_CREATE_OPERATION: 'Создание правила',
+  RULE_ALL_RESPONSE: 'Список правил получен',
+  RULE_ALL_OPERATION: 'Получение списка всех правил',
+  RULE_UPDATE_RESPONSE: 'Правило изменено',
+  RULE_UPDATE_OPERATION: 'Изменение правила',
+  RULE_DELETE_RESPONSE: 'Правило удалено',
+  RULE_DELETE_OPERATION: 'Удаление правила',
+
   TECHNICAL_TASK_CREATE_RESPONSE: 'Техническое задание создано',
   TECHNICAL_TASK_CREATE_OPERATION: 'Создание технического задания',
   TECHNICAL_TASK_ALL_RESPONSE: 'Список технических заданий получен',

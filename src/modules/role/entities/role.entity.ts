@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
+import { AppStrings } from 'src/common/constants/strings'
 import BaseModel from 'src/common/model'
 import { RoleAgreement } from 'src/modules/role-agreement/entities/role-agreement.entity'
 import { RolePermission } from 'src/modules/role-permission/entities/role-permission.entity'
@@ -14,6 +15,10 @@ export class Role extends BaseModel {
   @Column()
   @ApiProperty()
   role_name: string
+
+  @Column({ type: 'uuid', array: true })
+  @ApiProperty({ description: AppStrings.PROPERTY_VALUES })
+  property_values: string[]
 
   @OneToMany(() => User, (user) => user.role, { cascade: true })
   users: User[]

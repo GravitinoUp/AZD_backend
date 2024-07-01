@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsString, IsInt, IsOptional, IsUUID } from 'class-validator'
+import { IsString, IsInt, IsOptional, IsUUID, IsArray } from 'class-validator'
 
 export class CreateOrganizationDto {
   @IsInt()
@@ -77,6 +77,11 @@ export class CreateOrganizationDto {
   @IsOptional()
   @ApiProperty({ required: false })
   web_site?: string
+
+  @IsArray()
+  @IsOptional()
+  @ApiProperty({ required: false, default: [] })
+  property_values?: string[]
 }
 
 export class UpdateOrganizationDto {
@@ -173,4 +178,9 @@ export class UpdateOrganizationDto {
   @IsOptional()
   @ApiProperty({ required: false })
   web_site?: string
+
+  @IsArray()
+  @IsOptional()
+  @ApiProperty({ required: false, default: [] })
+  property_values?: string[]
 }

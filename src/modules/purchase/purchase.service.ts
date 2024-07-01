@@ -10,12 +10,17 @@ import { formatFilter } from 'src/utils/format-filter'
 import { PurchaseFilter } from './filter'
 import { PurchaseEvent } from '../purchase-event/entities/purchase-event.entity'
 import { CreatePurchaseEventDto } from '../purchase-event/dto'
+import { RuleService } from '../rule/rule.service'
+import checkRule from 'src/utils/check-rules'
+import { PropertiesService } from '../properties/properties.service'
 
 @Injectable()
 export class PurchaseService {
   constructor(
     @InjectRepository(Purchase)
     private purchaseRepository: Repository<Purchase>,
+    private readonly propertyService: PropertiesService,
+    private readonly ruleService: RuleService,
     private readonly dataSource: DataSource,
     private readonly i18n: I18nService,
   ) {}
@@ -25,6 +30,25 @@ export class PurchaseService {
     initiatorUuid: string,
   ): Promise<StatusPurchaseResponse> {
     try {
+      const rules = await this.ruleService.findAll({})
+      for (const rule of rules.data) {
+        const fieldOnValue = purchase[rule.rule_field_on]
+        const fieldForValue = purchase[rule.rule_field_for]
+
+        const check = await checkRule(
+          Number(fieldOnValue),
+          rule.rule_on_operator,
+          Number(rule.rule_on_condition_value),
+          fieldForValue ? Number(fieldForValue) : null,
+          rule.rule_for_operator,
+          rule.rule_for_condition_value ? Number(rule.rule_for_condition_value) : null,
+        )
+
+        if (!check) {
+          throw new BadRequestException(`Нарушено ограничение: ${rule.rule_name}`)
+        }
+      }
+
       const newPurchase = await this.purchaseRepository
         .createQueryBuilder()
         .insert()
@@ -42,7 +66,10 @@ export class PurchaseService {
     }
   }
 
-  async findAll(purchaseFilter: PurchaseFilter): Promise<ArrayPurchaseResponse> {
+  async findAll(
+    purchaseFilter: PurchaseFilter,
+    includeProperties: boolean = true,
+  ): Promise<ArrayPurchaseResponse> {
     try {
       const count = purchaseFilter?.offset?.count ?? DefaultPagination.COUNT
       const page = purchaseFilter?.offset?.page ?? DefaultPagination.PAGE
@@ -63,6 +90,15 @@ export class PurchaseService {
         skip: count * (page - 1),
         take: count,
       })
+
+      if (includeProperties == true) {
+        for (const purchase of purchases[0]) {
+          if (purchase.property_values.length > 0) {
+            const properties = await this.propertyService.findByIds(purchase.property_values)
+            purchase['properties'] = properties
+          }
+        }
+      }
 
       return { count: purchases[1], data: purchases[0] }
     } catch (error) {
@@ -123,6 +159,8 @@ export class PurchaseService {
         }
       }
 
+      const rules = await this.ruleService.findAll({})
+
       const updatePurchase = await queryRunner.manager
         .getRepository(Purchase)
         .createQueryBuilder()
@@ -132,7 +170,26 @@ export class PurchaseService {
         .set({
           ...purchase,
         })
+        .returning('*')
         .execute()
+
+      for (const rule of rules.data) {
+        const fieldOnValue = updatePurchase.raw[0][rule.rule_field_on]
+        const fieldForValue = updatePurchase.raw[0][rule.rule_field_for]
+
+        const check = await checkRule(
+          Number(fieldOnValue),
+          rule.rule_on_operator,
+          Number(rule.rule_on_condition_value),
+          fieldForValue ? Number(fieldForValue) : null,
+          rule.rule_for_operator,
+          rule.rule_for_condition_value ? Number(rule.rule_for_condition_value) : null,
+        )
+
+        if (!check) {
+          throw new BadRequestException(`Нарушено ограничение: ${rule.rule_name}`)
+        }
+      }
 
       await queryRunner.commitTransaction()
       return { status: updatePurchase.affected !== 0 }
